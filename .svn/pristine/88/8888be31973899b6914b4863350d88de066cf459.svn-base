@@ -1,0 +1,144 @@
+<!--index.wxml-->
+<view class="container">
+  <scroll-view scroll-y="true" style="height: {{windowHeight}}px;" scroll-with-animation="true" scroll-into-view="{{toView}}">
+    <!-- 轮播图 -->
+    <view class='banner-wrap' wx:if="{{bannerData.length}}">
+      <swiper class='banner' indicator-dots="{{true}}" autoplay="{{true}}" interval="5000" circular='{{true}}' catchtap="onSwiperTap">
+        <block wx:for="{{bannerData}}" wx:key='index'>
+          <!-- 外部跳转 -->
+          <navigator wx:if="{{item[5] == 1 && item[7] !=''}}" target="miniProgram" open-type="navigate" path='{{item[4]}}' app-id='{{item[7]}}'>
+            <swiper-item>
+              <image class="banner-img" src="{{item[3]}}"></image>
+            </swiper-item>
+          </navigator>
+          <!-- 内部跳转 -->
+          <navigator wx:elif="{{item[5] == 1 && item[7] ==''}}" open-type="switchTab" url='{{item[4]}}'>
+            <swiper-item>
+              <image class="banner-img" src="{{item[3]}}"></image>
+            </swiper-item>
+          </navigator>
+        </block>
+      </swiper>
+    </view>
+    <!-- 菜单导航 -->
+    <view class="menu-wrap">
+      <view class='bubble-tips-wrap' wx:if='{{isTaskTips && !isInvitation}}' >
+        <view class="bubble-tips">
+          <view class="bubble-icon-wrap">
+            <image class='xs_icon bubble-icon' src="/images/bookMark_active.png"></image>
+          </view>
+        </view>
+        <view class='caret'></view>
+        <text class="bubble-tips-text" style=''>做任务赚书签</text>
+        <view class="close" bindtap="hideTaskTips" style=''></view>
+      </view>
+      <view class='bubble-tips-wrap' wx:if='{{isReAwardTips && isInvitation}}' >
+        <view class="bubble-tips">
+          <view class="bubble-icon-wrap">
+            <image class='xs_icon bubble-icon' src="/images/bookMark_active.png"></image>
+          </view>
+        </view>
+        <view class='caret'></view>
+        <text class="bubble-tips-text" style=''>有奖励可领取</text>
+        <view class="close" bindtap="hideReAwardTips" style=''></view>
+      </view>
+      <!-- hideReAwardTips -->
+      <view class='menu'>
+        <view class='menu-item' bindtap="toDailyTask">
+          <image class='icon' src="/images/calendar-icon.png"></image>
+          <text class="menu-item-text">每日任务</text>
+        </view>
+        <view class='menu-item' bindtap="toShopMall">
+          <image class='icon' src="/images/mall-icon.png"></image>
+          <text class="menu-item-text">换购商城</text>
+        </view>
+        <view class='menu-item' bindtap="toWheel">
+          <image class='icon' src="/images/wheel-icon.png"></image>
+          <text class="menu-item-text">幸运转盘</text>
+        </view>
+      </view>
+    </view>
+    <view class='row-board'></view>
+    <!-- 内容 -->
+    <!-- 标题横向滑动 -->
+    <scroll-view id="awardId" scroll-x="true" class="nav" scroll-left="{{navScrollLeft}}" scroll-with-animation="{{true}}">
+      <block wx:for="{{contentGroupList}}" wx:for-index="idx" wx:for-item="navItem" wx:key="idx">
+        <view class="nav-item {{currentTab == idx?'active':''}}" data-current="{{idx}}" data-postgroupid="{{navItem[0]}}" bindtap="switchNav">
+          {{navItem[1]}}
+          <view class="slider-wrap" wx:if="{{currentTab == idx}}">
+            <view class="navbar_slider"></view>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+    <view class='tab-content'>
+      <block wx:for="{{contentList}}" wx:for-index="index" wx:key="index">
+        <view class="media-item-wrap">
+          <view class='media-item' data-url="{{item[8]}}" data-id="{{item[0]}}" data-ruleid="{{item[11]}}" catch:tap="clickArticle">
+            <image class='item-img' src="{{item[2]}}"></image>
+            <view class='item-infos'>
+              <text class='infos-title'>{{item[1]}}</text>
+              <view class='row'>
+                <text>阅读{{item[9]}}</text>
+                <view class='oper-container'>
+                  <view class='icon-wrap share' data-shareurl="{{item[8]}}" data-shareArtid="{{item[0]}}" catchtap="showShareBoard">
+                    <!-- <button open-type='share' catch:tap="preventBubble" data-shareurl="{{item[8]}}" data-className="item-share"></button> -->
+                    <text>分享</text>
+                    <image class='xs_icon' src="/images/share-icon.png"></image>
+                  </view>
+                  <view class='icon-wrap' data-id="{{item[0]}}" data-iscollected="{{item[10]}}" catchtap='{{isDeal?"preventBubble":"toggleCollect"}}'>
+                    <block wx:if="{{item[10] == 0}}">
+                      <text>收藏</text>
+                      <image class='xs_icon' src="/images/star-icon.png"></image>
+                    </block>
+                    <block wx:else>
+                      <text>取消收藏</text>
+                      <image class='xs_icon' src="/images/star-icon-collected.png"></image>
+                    </block>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+</view>
+
+<!-- 签到面板 -->
+<signinmodal modal-hidden="{{isSignedModal}}" bindsignIn="signIn" bindgetUserInfo="getUserInfofromCom" modal-msg="{{signInfo}}" sign-days="{{signDays}}" auth-level="{{authLevel}}" is-signed="{{isSigned}}" />
+
+<!-- 弹窗 -->
+<!-- 签到成功 -->
+<popup modal-hidden="{{tipsModal}}" modal-title="恭喜" award="{{signAward}}" modal-type="1" bindtoView="toAwardView"></popup>
+
+<!-- 奖励成功 -->
+<popup modal-hidden="{{showAwardPass}}" modal-title="恭喜" award="{{passAward}}" is-checked="{{passTipschecked}}" bindtoView="toAwardView"></popup>
+<!-- 奖励失败 -->
+<popup modal-hidden="{{showAwardFail}}" modal-title="提示" tips="{{failAward}}" is-checked="{{failTipschecked}}" btn-type="2" record-read="{{recordRead}}" bindtoView="toAwardView"></popup>
+
+<!-- 专属海报 -->
+<share-poster modal-hidden="{{isPosterModal}}" img-url="{{shareImgUrl}}"></share-poster>
+<!-- 分享面板 -->
+<share-board modal-hidden="{{isShareBoard}}" putshareurl="{{putshareurl}}" putshareartid="{{putshareartid}}" bindshowPosterModal="showPosterModal"></share-board>
+
+<!-- 首次提醒阅读 -->
+<view class="modal-mask" bindtap="hideReadTips" catchtouchmove="preventTouchMove" wx:if="{{readTips}}"></view>
+<view class='modal modal-read-tips' catchtouchmove="preventTouchMove" wx:if="{{readTips}}">
+  <view class='modal-title'>需知</view>
+  <view class='modal-content'>
+    <text>1.每阅读一篇文章, 停留8秒以上, 即可获1个书签, 每日最多可通过阅读文章获得10个书签</text>
+  </view>
+  <view class='btn-know' bindtap='hideReadTips'>知道了</view>
+</view>
+
+<!-- 气泡 -->
+<!-- <view class='bubble-tips-wrap' hidden='{{istoptips}}'>
+  <view class="bubble-tips">
+    <image class='xs_icon bubble-icon' src="/images/bookMark_active.png"></image>
+  </view>
+  <view class='caret'></view>
+  <text class="bubble-tips-text" style=''>做任务赚书签</text>
+  <view class="close" style=''></view>
+</view> -->

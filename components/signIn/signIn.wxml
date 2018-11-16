@@ -1,0 +1,49 @@
+<view class="modal-mask" catchtouchmove="preventTouchMove" catchtap='closeModal' wx:if="{{modalHidden}}"></view>
+<view class='modal' wx:if="{{modalHidden}}" catchtouchmove="preventTouchMove">
+  <!-- <view class='modal_close' bindtap='closeModal'>
+    <image class='img' src='/images/close-circle.png'></image>
+  </view> -->
+  <view class='modal-wrap'>
+    <view class="modal_bcg">
+      <image src='/images/signbcg.png'></image>
+    </view>
+    <view class='modal_content'>
+      <view class='sign-lists'>
+        <block wx:for="{{modalMsg}}" wx:key="item">
+          <view class='sign-item step-item step-vertical {{item.issign == 1?"active":"disabled"}}'>
+            <view class='step-item-icon '>
+              <view class='step-icon '>
+                <image class="xs_icon" src='/images/gou.png'></image>
+              </view>
+              <view class="step-line" wx:if="{{index != (modalMsg.length-1)}}"></view>
+            </view>
+            <view class='step-item-main'>
+              <view class='step-item-title'>
+                第{{index+1}}天
+              </view>
+              <!-- 金币 -->
+              <view class='step-item-content' wx:if="{{item.type==1}}">
+                <text>{{item.number}}个书签</text>
+                <image class='xs_icon' wx:if="{{item.issign == 1}}" src='/images/bookMark_active.png'></image>
+                <image class='xs_icon' wx:else src='/images/bookMark.png'></image>
+              </view>
+              <!-- 红包 -->
+              <view class='step-item-content' wx:else>
+                <text>{{item.number}}元</text>
+                <image class='xs_icon' wx:if="{{item.issign == 1}}" src='/images/hongbao-icon-active.png'></image>
+                <image class='xs_icon' wx:else src='/images/hongbao-icon-disabled.png'></image>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <!-- <view class='desc'>已连续签到{{signDays}}天</view> -->
+      <form class="" bindsubmit='signIn' report-submit="true" wx:if="{{authLevel == 2}}">
+        <button class='sign-btn {{isSigned?"":"disabled"}}' form-type="submit">{{isSigned?"签到":"已签到"}}</button>
+      </form>
+      <view class='btn-wrap' wx:if="{{authLevel == 1}}">
+        <button class="sign-btn" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo">签到</button>
+      </view>
+    </view>
+  </view>
+</view>

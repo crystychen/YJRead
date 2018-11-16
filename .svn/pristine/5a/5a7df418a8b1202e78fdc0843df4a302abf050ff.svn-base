@@ -1,0 +1,16 @@
+<!-- 分享海报转发到朋友圈 -->
+<view class="modal-mask" bindtap="closeModal" catchtouchmove="preventTouchMove" wx:if="{{modalHidden}}"></view>
+<view class='sss' catchtouchmove="preventTouchMove" wx:if="{{modalHidden}}" >
+  <view class='modal-view'>
+    <view class="modal-dialog">
+      <view class='share_content'>
+        <image src='{{imgUrl}}' data-src="{{imgUrl}}" mode="aspectFit" bindtap='previewImage'></image>
+        <text>保存后分享至朋友圈</text>
+        <button catchtap='saveImg' data-shareimg='{{imgUrl}}'>保存图片</button>
+      </view>
+    </view>
+  </view>
+</view>
+<loading hidden="{{loadingImgHidden}}">
+  图片下载中...
+</loading>

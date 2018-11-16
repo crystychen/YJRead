@@ -1,0 +1,30 @@
+<!-- components/popup/popup.wxml -->
+<view class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closeModal" hidden="{{!modalHidden}}"></view>
+<view class='modal' catchtouchmove="preventTouchMove" hidden="{{!modalHidden}}">
+  <image class="bcgImg" src="/images/popupAddrbcg.png"></image>
+  <view class='modal-content'>
+    <text class='title'>{{modalTitle}}</text>
+    <view class='address_atAddr value' catchtap='chooseAddress' wx:if="{{atAddrObj.atAddr}}">
+      <view class="name">{{atAddrObj.name}}{{atAddrObj.tel}}</view>
+      <view class='atAddr'>{{atAddrObj.atAddr}}</view>
+      <view class='caret'></view>
+    </view>
+    <text class="desc" wx:else>{{tips}}</text>
+    <view class='btn-container'>
+      <!-- 拒绝授权 -->
+      <block wx:if="{{isauth}}">
+        <button class="btn active" style="display:block" open-type="openSetting" bindopensetting="authHandler">
+          填写收件地址
+        </button>
+      </block>
+      <block wx:else>
+        <block wx:if="{{atAddrObj.atAddr}}">
+          <button class='btn sm-btn border' bindtap="cancel">返回</button>
+          <button class='btn sm-btn active' style='margin-right: 30rpx;' bindtap="saveAddr">确认</button>
+          <view></view>
+        </block>
+        <button wx:else class='btn active' bindtap="chooseAddress">填写收件地址</button>
+      </block>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "popup": "../../components/popup/popup",
+    "popupAddr": "../../components/popupAddr/popupAddr"
+    
+  },
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
+}

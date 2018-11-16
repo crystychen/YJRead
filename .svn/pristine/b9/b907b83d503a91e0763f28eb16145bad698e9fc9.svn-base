@@ -1,0 +1,70 @@
+<!--pages/order_detail/order_detail.wxml-->
+<view class='container' style="height: {{windowHeight}}px">
+  <view class="status-wrap">
+    <image class='statusImg' wx:if="{{orderInfo.orderState == 2}}" src="/images/todoStatus.png"></image>
+    <image class='statusImg' wx:if="{{orderInfo.orderState == 4 || orderInfo.orderState == 3 }}" src="/images/doingStatus.png"></image>
+    <image class='statusImg' wx:if="{{orderInfo.orderState >= 5}}" src="/images/doneStatus.png"></image>
+    <view class='text-wrap'>
+      <!-- orderState == 2 -->
+      <text class='text left'>待发货</text>
+      <text class='text center {{orderInfo.orderState >= 3?"active":""}}'>待收货</text>
+      <text class='text right {{orderInfo.orderState == 5?"active":""}}'>完成</text>
+    </view>
+  </view>
+  <view class="card">
+    <view class="card-body">
+      <view class="goodsinfo-wrap">
+        <image class="img" src="{{orderInfo.thumbImg}}" mode='scaleToFill' />
+        <view class="goodsinfo">
+          <text class="goodsname">{{orderInfo.productName}}</text>
+          <view class='row'>
+            <image class="sm_icon" src='/images/bookMark_active.png'></image>
+            <text class="orderPrice">书签所需<text class="pricenum">{{orderInfo.goldPrice}}</text>张</text>
+          </view>
+          <view class='row between'>
+            <text class='ordercode'>订单号: {{orderInfo.orderNo}}</text>
+            <view class='copy-btn' data-code="{{orderInfo.orderNo}}" bindtap="copyOrder">复制</view>
+          </view>
+        </view>
+      </view>
+      <view class="address-wrap">
+        <view class='address-title'>收货信息</view>
+        <view class='address-info'>
+          <text>{{orderInfo.receiverName}}　</text>
+          <text>{{orderInfo.receiverMobile}}</text>
+          <view class="atAddr">{{orderInfo.receiverAddress}} </view>
+        </view>
+      </view>
+      <!-- 待评价 wx:if="{{orderInfo.orderState == 5}}" -->
+      <view class='comment-wrap' wx:if="{{orderInfo.orderState == 5}}">
+        <view class='row'>
+          <text>物流服务</text>
+          <i-rate bind:change="onChangeShippingRate" value="{{logisticsRate}}">
+          </i-rate>
+        </view>
+        <view class='row'>
+          <text>商品质量</text>
+          <i-rate bind:change="onChangeQualityRate" value="{{qualityRate}}">
+          </i-rate>
+        </view>
+      </view>
+      <!-- 已评价 -->
+      <view class='comment-wrap' wx:if="{{orderInfo.orderState == 13}}">
+        <view class='row'>
+          <text>物流服务</text>
+          <i-rate bind:change="" value="{{orderInfo.logisticsRate}}">
+          </i-rate>
+        </view>
+        <view class='row'>
+          <text>商品质量</text>
+          <i-rate bind:change="" value="{{orderInfo.qualityRate}}">
+          </i-rate>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='btn-container'>
+    <button class='btn' wx:if="{{orderInfo.orderState == 4 || orderInfo.orderState == 3}}" data-orderid='{{orderInfo.orderNo}}' bindtap="confirmReceive">确认收件</button>
+    <button class='btn' wx:if="{{orderInfo.orderState == 5}}" data-orderid='{{orderInfo.orderNo}}' bindtap="confirmComment">确认</button>
+  </view>
+</view>
