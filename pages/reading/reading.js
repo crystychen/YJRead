@@ -103,15 +103,7 @@ Page({
                         authLevel: wx.getStorageSync("authLevel"),
                         userInfo: wx.getStorageSync('userInfo')
                     })
-                    that.getSignInfo(function(res) {
-                        console.log("是否需要签到, res为false不需要，true需要签到") // res为false不需要，true需要签到
-                        console.log(res)
-                        if (res && wx.getStorageSync("authLevel") == 1) {
-                            that.setData({
-                                isSignedModal: true // 未签到弹出签到层
-                            })
-                        }
-                    });
+
                     if (wx.getStorageSync("authLevel") == 2) {
                         // app.getAccount(); // 获取账户信息
                         // that.getTodayIsLottery(); //今天是否抽奖          
