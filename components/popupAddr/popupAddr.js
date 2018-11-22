@@ -57,8 +57,6 @@ Component({
     // 授权微信地址
     chooseAddress: function() {
       var that = this;
-      let pages = getCurrentPages();
-      let currPage = pages[pages.length - 1];
       if (!that.checkAdressAuthorize()) {
         wx.authorize({
           scope: 'scope.address',
@@ -70,33 +68,17 @@ Component({
             wx.chooseAddress({
               success: res => {
                 console.log("res................", res);
-                // currPage.setData({
-                //   weXinAdd: res // 先存起微信地址
-                // })
-                // that.setData({
-                //   atAddrObj: {
-                //     atAddr: `${res.provinceName}${res.cityName}${res.countyName}${res.detailInfo}`,
-                //     tel: res.telNumber,
-                //     name: res.userName,
-                //     addrId: 1
-                //   },
-
-                //   // modalTitle: "确认信息正确无误"
-                // })
                 that.setData({
-                  modalHidden: false
+                  weXinAdd: res // 先存起微信地址
                 })
-                currPage.setData({
+                that.setData({
                   atAddrObj: {
                     atAddr: `${res.provinceName}${res.cityName}${res.countyName}${res.detailInfo}`,
                     tel: res.telNumber,
                     name: res.userName,
-                    addrId: 1
+                    // addrId: 1
                   },
-                  noaddressModal: false,
-                  isaddressModal: true,
-                  addressTitle: "确认信息正确无误",
-                  weXinAdd: res // 先存起微信地址
+                  modalTitle: "确认信息正确无误"
                 })
               },
               fail() {}
@@ -137,9 +119,8 @@ Component({
       let that = this
       let pages = getCurrentPages();
       let currPage = pages[pages.length - 1];
-      let res = currPage.data.weXinAdd
-      console.log("确认",res)
-      if (res) {
+      let res = that.data.weXinAdd
+      if (!!res) {
         postAjax({
           url: 'interfaceAction',
           data: {
@@ -194,9 +175,9 @@ Component({
         modalHidden: false,
         // modalTitle: "还没填写收件信息",
         // tips: "马上填写收件地址\n即可获得书本",
-        // atAddrObj: {}
+        atAddrObj: {}
       })
-      // this.getAddList(); 
+      this.getAddList(); 
     },
     // 获取我的地址
     getAddList: function() {

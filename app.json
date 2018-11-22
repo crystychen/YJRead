@@ -6,7 +6,7 @@
     "pages/my/my",
     "pages/my-collect/my-collect",
     "pages/wheel/wheel",
-    "pages/shopMall/shopMall",     
+    "pages/shopMall/shopMall",
     "pages/orderlist/orderlist",
     "pages/order_detail/order_detail",
     "pages/logs/logs"
@@ -19,11 +19,17 @@
   },
   "tabBar": {
     "color": "#9FA0A5",
-    "selectedColor": "#493328",
+    "selectedColor": "#cf9e73",
     "list": [
       {
         "pagePath": "pages/index/index",
         "text": "首页",
+        "iconPath": "images/index.png",
+        "selectedIconPath": "images/index_active.png"
+      },
+      {
+        "pagePath": "pages/shopMall/shopMall",
+        "text": "书城",
         "iconPath": "images/index.png",
         "selectedIconPath": "images/index_active.png"
       },

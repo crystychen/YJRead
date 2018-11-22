@@ -36,31 +36,31 @@
         </view>
       </view>
       <!-- 待评价 wx:if="{{orderInfo.orderState == 5}}" -->
-      <view class='comment-wrap' wx:if="{{orderInfo.orderState == 5}}">
+      <view class='comment-wrap' >
         <view class='row'>
           <text>物流服务</text>
-          <i-rate bind:change="onChangeShippingRate" value="{{logisticsRate}}">
+          <i-rate controlled  font-size="32" bind:change="onChangeShippingRate" value="{{logisticsRate}}">
           </i-rate>
         </view>
         <view class='row'>
           <text>商品质量</text>
-          <i-rate bind:change="onChangeQualityRate" value="{{qualityRate}}">
+          <i-rate controlled  font-size="32" bind:change="onChangeQualityRate" value="{{qualityRate}}">
           </i-rate>
         </view>
       </view>
       <!-- 已评价 -->
-      <view class='comment-wrap' wx:if="{{orderInfo.orderState == 13}}">
+      <!-- <view class='comment-wrap' wx:if="{{orderInfo.orderState == 13}}">
         <view class='row'>
           <text>物流服务</text>
-          <i-rate bind:change="" value="{{orderInfo.logisticsRate}}">
+          <i-rate bind:change="" controlled slot="footer" value="{{orderInfo.logisticsRate}}">
           </i-rate>
         </view>
         <view class='row'>
           <text>商品质量</text>
-          <i-rate bind:change="" value="{{orderInfo.qualityRate}}">
+          <i-rate bind:change="" controlled slot="footer" value="{{orderInfo.qualityRate}}">
           </i-rate>
         </view>
-      </view>
+      </view> -->
     </view>
   </view>
   <view class='btn-container'>

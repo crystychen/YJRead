@@ -1,9 +1,13 @@
 {
-  "usingComponents": {
-    "popup": "../../components/popup/popup",
-    "popupAddr": "../../components/popupAddr/popupAddr",
-    "popupSinProdt": "../../components/popupSinProdt/popupSinProdt"
-  },
-  "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark"
+    "usingComponents": {
+        "popup": "../../components/popup/popup",
+        "popupAddr": "../../components/popupAddr/popupAddr",
+        "popupSinProdt": "../../components/popupSinProdt/popupSinProdt",
+        "ui-card": "../../components/card/index",
+        "wux-cell": "../../components/dist/cell/index",
+        "wux-media": "../../components/dist/media/index",
+        "wux-cell-group": "../../components/dist/cell-group/index"
+    },
+    "enablePullDownRefresh": true,
+    "backgroundTextStyle": "dark"
 }
