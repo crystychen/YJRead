@@ -1,1 +1,8 @@
-{}
+{
+    "usingComponents": {
+        "wux-media": "../../components/dist/media/index",
+        "wux-cell-group": "../../components/dist/cell-group/index",
+        "wux-badge": "../../components/dist/badge/index"
+
+    }
+}

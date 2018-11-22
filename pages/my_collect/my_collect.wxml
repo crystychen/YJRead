@@ -1,4 +1,3 @@
-<!--pages/my-collect/my-collect.wxml-->
 <view class="container" style="height: {{windowHeight}}px;">
     <view class='tab-content' wx:if="{{contentList.length}}">
       <block wx:for="{{contentList}}" wx:for-index="index" wx:key="index">

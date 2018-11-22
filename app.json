@@ -1,48 +1,54 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/article_detail/article_detail",
-    "pages/daily_task/daily_task",
-    "pages/my/my",
-    "pages/my-collect/my-collect",
-    "pages/wheel/wheel",
-    "pages/shopMall/shopMall",
-    "pages/orderlist/orderlist",
-    "pages/order_detail/order_detail",
-    "pages/logs/logs"
-  ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "汗牛书屋",
-    "navigationBarTextStyle": "black"
-  },
-  "tabBar": {
-    "color": "#9FA0A5",
-    "selectedColor": "#cf9e73",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "images/index.png",
-        "selectedIconPath": "images/index_active.png"
-      },
-      {
-        "pagePath": "pages/shopMall/shopMall",
-        "text": "书城",
-        "iconPath": "images/index.png",
-        "selectedIconPath": "images/index_active.png"
-      },
-      {
-        "pagePath": "pages/my/my",
-        "text": "我的",
-        "iconPath": "images/my.png",
-        "selectedIconPath": "images/my_active.png"
-      }
+    "pages": [
+        "pages/index/index",
+        "pages/article_detail/article_detail",
+        "pages/daily_task/daily_task",
+        "pages/my/my",
+        "pages/my_collect/my_collect",
+        "pages/wheel/wheel",
+        "pages/shopMall/shopMall",
+        "pages/reading/reading",
+        "pages/orderlist/orderlist",
+        "pages/order_detail/order_detail",
+        "pages/logs/logs"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "汗牛书屋",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "color": "#9FA0A5",
+        "selectedColor": "#cf9e73",
+        "list": [{
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "images/index.png",
+                "selectedIconPath": "images/index_active.png"
+            },
+            {
+                "pagePath": "pages/shopMall/shopMall",
+                "text": "书城",
+                "iconPath": "images/index.png",
+                "selectedIconPath": "images/index_active.png"
+            },
+            {
+                "pagePath": "pages/reading/reading",
+                "text": "阅读",
+                "iconPath": "images/index.png",
+                "selectedIconPath": "images/index_active.png"
+            },
+            {
+                "pagePath": "pages/my/my",
+                "text": "我的",
+                "iconPath": "images/my.png",
+                "selectedIconPath": "images/my_active.png"
+            }
+        ]
+    },
+    "navigateToMiniProgramAppIdList": [
+        "wx9ddb22fc5fee2755",
+        "wxeb50022be9f0bc35"
     ]
-  },
-  "navigateToMiniProgramAppIdList": [
-    "wx9ddb22fc5fee2755",
-    "wxeb50022be9f0bc35"
-  ]
 }

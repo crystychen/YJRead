@@ -10,11 +10,22 @@
     margin-bottom: 10rpx;
 }
 
+.sm-btn {
+    width: 130rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    border-radius: 30rpx;
+    font-size: 30rpx;
+    color: #fff;
+    padding: 0 10rpx;
+    background: linear-gradient(to right, #e2c597, #cf9f73);
+}
+
 .container {
     width: 100%;
     height: 100%;
     background: #fff;
-    padding-top: 30rpx;
+    padding-top: 10rpx;
 }
 
 ::-webkit-scrollbar {
@@ -330,18 +341,9 @@
 }
 
 .item-btn {
-    width: 130rpx;
-    height: 60rpx;
-    line-height: 60rpx;
-    border-radius: 30rpx;
-    font-size: 30rpx;
-    color: #fff;
-    padding: 0 10rpx;
-    background: linear-gradient(to right, #e2c597, #cf9f73);
     position: absolute;
     right: 0;
     bottom: -10rpx;
-    /* transform: translateY(-50%); */
 }
 
 .border {
@@ -427,33 +429,11 @@
     align-items: center;
 }
 
-.img-wrap {
-    width: 80rpx;
-    height: 80rpx;
-    position: relative;
-}
-
-.img-num {
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: block;
-    color: #ffffff;
-    text-align: center;
-}
-
-.img-wrap>image {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #ccc;
-    border-radius: 50%;
-}
-
 .time {
     color: rgb(136, 136, 136);
     font-size: 24rpx;
     margin-top: 10rpx;
 }
+
+
+/* 列表媒体对象end */

@@ -5,13 +5,9 @@
     <!-- <wux-cell></wux-cell> -->
     <wux-cell-group wux-class="noborder card-bgc" >
       <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
-        <wux-media thumb="https://soure.chudianad.com/static/advert/iconUrl/201810251836509322.jpg" thumb-style="border-radius: 50%" title="本周分享免费书单" label="每周五12:00更新">
+        <wux-media thumb="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg" thumb-style="" title="本周分享免费书单" label="每周五12:00更新">
           <view class="btn-wrap center-right" data-appid="{{item.appid}}" data-path="{{item.path}}" slot hover-class="none" hover-stop-propagation="false" bind:tap="navigateToMini">
-            <view class="img-wrap" hover-class="none" hover-stop-propagation="false">
-              <image src="" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-              <text class="img-num">{{item.num}}</text>
-            </view>
-            <text class="">查看</text>
+            <view class="sm-btn btn" bindtap="viewBookList">查看</view>
           </view>
           <view class="time">{{item.createTime}}</view>
         </wux-media>
@@ -53,7 +49,7 @@
                     </view>
                   </view>
                   <form report-submit='true' data-id="{{item.id}}" data-protype="{{item.welfareProductType}}" data-needgold="{{item.gold}}" bindsubmit='{{item.welfareProductType == 4?"":"postOrderSubmit"}}'>
-                    <button formType="submit" class='item-btn'>兑换</button>
+                    <button formType="submit" class='item-btn sm-btn'>兑换</button>
                   </form>
                 </view>
               </view>
