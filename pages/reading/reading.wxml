@@ -40,8 +40,8 @@
                   </block>
                   <block wx:else>
                     <image class='xs_icon' src="/images/star-icon-collected.png"></image>
-                    <text >17</text>
-                 </block>
+                    <text>17</text>
+                  </block>
                 </view>
               </view>
               <!-- <view class="share">阅读{{item[9]}}</view> -->
@@ -56,17 +56,14 @@
     </block>
   </view>
 </view>
-
 <!-- 奖励成功 -->
 <popup modal-hidden="{{showAwardPass}}" modal-title="恭喜" award="{{passAward}}" is-checked="{{passTipschecked}}" bindtoView="toAwardView"></popup>
 <!-- 奖励失败 -->
 <popup modal-hidden="{{showAwardFail}}" modal-title="提示" tips="{{failAward}}" is-checked="{{failTipschecked}}" btn-type="2" record-read="{{recordRead}}" bindtoView="toAwardView"></popup>
-
 <!-- 专属海报 -->
 <share-poster modal-hidden="{{isPosterModal}}" img-url="{{shareImgUrl}}"></share-poster>
 <!-- 分享面板 -->
 <share-board modal-hidden="{{isShareBoard}}" putshareurl="{{putshareurl}}" putshareartid="{{putshareartid}}" bindshowPosterModal="showPosterModal"></share-board>
-
 <!-- 首次提醒阅读 -->
 <view class="modal-mask" bindtap="hideReadTips" catchtouchmove="preventTouchMove" wx:if="{{readTips}}"></view>
 <view class='modal modal-read-tips' catchtouchmove="preventTouchMove" wx:if="{{readTips}}">
