@@ -13,7 +13,28 @@ Page({
         listShow: false,
         timer: '',
         currentPosition: 0,
-        duration: 0
+        duration: 0,
+        chapters: [{
+            title: "为什么要听这本书？",
+            id: 1,
+            free: true,
+            duration: "05:10"
+        }, {
+            title: "什么是厌女症？",
+            id: 2,
+            free: false,
+            duration: "09:10"
+        }, {
+            title: "世上存在没有厌女症的男人吗？",
+            id: 3,
+            free: false,
+            duration: "04:10"
+        }, {
+            title: "为什么说女人也有厌女症？",
+            id: 4,
+            free: false,
+            duration: "05:10"
+        }]
     },
 
     /**
@@ -198,4 +219,11 @@ Page({
         }
         return t;
     },
+    // 点击章节
+    onClickCell(e) {
+        console.log(e)
+    },
+    bindMore() {
+        console.log("更多作者信息")
+    }
 })

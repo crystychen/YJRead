@@ -8,7 +8,7 @@
     <!-- 灰色蒙层 -->
     <!-- <view class="bcg-gray"></view> -->
     <!-- play层 -->
-    <view class="audio-infosaudio-infos">
+    <view class="audio-infos">
       <!-- 旋转图 -->
       <view class="rotate-disk-container">
         <view class="rotate-disk ">
@@ -25,12 +25,90 @@
         <slider value="{{sliderValue}}" bindchange="bindSliderchange" activeColor="#1393FC" backgroundColor="#E2E2E2" style="width: 64%;margin: 0;" block-size="8" block-color="#fff" />
         <text class="slider-time">{{duration === 0 ? '04:26' : duration}}</text>
       </view>
-      <view class="operation-container" >
-          <button class="btn" bindtap="bindTapPrev">上一首</button>
-          <button class="btn" bindtap="bindTapPlay">{{pauseStatus === false ? '暂停' : '播放'}}</button>
-          <button class="btn" bindtap="bindTapNext">下一首</button>
+      <view class="operation-container">
+        <view class="" bindtap="bindTapPrev">
+          <image class="md_icon" src="/images/prev.png"></image>
+        </view>
+        <view class="play-icon" bindtap="bindTapPlay">
+          <!-- {{pauseStatus === false ? '暂停' : '播放'}} -->
+          <view class="icon-wrap">
+            <block wx:if="{{pauseStatus === false}}">
+              <image class="icon" src="/images/play.png"></image>
+            </block>
+            <block wx:else>
+              <image class="icon" src="/images/pause.png"></image>
+            </block>
+          </view>
+        </view>
+        <view class="" bindtap="bindTapNext">
+          <image class="md_icon" src="/images/next.png"></image>
+        </view>
       </view>
-      
+      <view class="desc">后宫没有斗争，没有胜利者，只有前赴后继的可怜女人</view>
     </view>
+  </view>
+  <view class="chapter cell-group">
+    <!-- <wux-cell-group title="章节">
+      <block wx:for="{{chapters}}" wx:key="key">
+        <wux-cell bindclick="onClickCell">
+            <view class="" slot="header" hover-class="none" hover-stop-propagation="false">
+              {{index + 1}}: {{item.title}}
+            </view>
+            <view class="" slot hover-class="none" hover-stop-propagation="false">
+              rt,lum5m56kuo65l
+            </view>
+        </wux-cell>
+      </block>
+    </wux-cell-group> -->
+    <view class="cell-group_hd">章节</view>
+    <view class="cell-group_bd">
+      <block wx:for="{{chapters}}" wx:key="key">
+        <view class="cell">
+          <view class="cell_hd">
+            <block wx:if="{{ thumb }}">
+              <image class="cell_thumb" src="{{ thumb }}" />
+            </block>
+          </view>
+          <view class="cell_bd">{{index+1}}: {{item.title}}</view>
+          <view class="cell_desc">
+            <view class="cell-lock">
+              <block wx:if="{{item.free}}">
+                <!-- <wux-tag color="#1193FE"></wux-tag> -->
+                <view class="tag">试听</view>
+              </block>
+              <block wx:else>
+                <image class="xs_icon" src="/images/lock.png"></image>
+              </block>
+            </view>
+            <view class="clock-wrap">
+              <image class="xs_icon" src="/images/clock.png"></image>
+              <text class="clock">{{item.duration}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view class="card-wrap">
+    <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
+      <wux-media thumb="https://soure.chudianad.com/static/advert/iconUrl/201810251836509322.jpg" thumb-style="border-radius: 300rpx" title="朱涛" label="专业播音·中国大陆">
+        <view class="btn-wrap center-right" data-appid="{{item.appid}}" data-path="{{item.path}}" slot>
+          <view class="sm-btn btn" bindtap="bindMore">更多</view>
+        </view>
+      </wux-media>
+    </view>
+  </view>
+  <view class="accordion-group-wrap">
+    <wux-accordion-group title="" default-current="{{ ['0'] }}">
+      <wux-accordion title="关于本书" content="微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp"></wux-accordion>
+    </wux-accordion-group>
+  </view>
+  <view class="accordion-group-wrap">
+    <wux-accordion-group title="">
+      <wux-accordion title="本书金句" content="微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp"></wux-accordion>
+    </wux-accordion-group>
+  </view>
+  <view class="btn-container fixed bottom">
+    <view class="btn lg-btn active">19书签兑换</view>
   </view>
 </view>

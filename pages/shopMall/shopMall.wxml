@@ -1,19 +1,13 @@
 <!-- pages/index/index.wxml -->
 <view class='container'>
-  <!-- <view class=''> -->
-    <!-- <image class='img' src='{{ruleDesc[3]}}'></image> -->
-    <!-- <wux-cell></wux-cell> -->
-    <wux-cell-group wux-class="noborder card-bgc" >
-      <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
-        <wux-media thumb="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg" thumb-style="" title="本周分享免费书单" label="每周五12:00更新">
-          <view class="btn-wrap center-right" data-appid="{{item.appid}}" data-path="{{item.path}}" slot hover-class="none" hover-stop-propagation="false" bind:tap="navigateToMini">
-            <view class="sm-btn btn" bindtap="viewBookList">查看</view>
-          </view>
-          <view class="time">{{item.createTime}}</view>
-        </wux-media>
+  <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
+    <wux-media thumb="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg" thumb-style="" title="本周分享免费书单" label="每周五12:00更新">
+      <view class="btn-wrap center-right" data-appid="{{item.appid}}" data-path="{{item.path}}" slot hover-class="none" hover-stop-propagation="false" bind:tap="navigateToMini">
+        <view class="sm-btn btn" bindtap="viewBookList">查看</view>
       </view>
-    </wux-cell-group>
-  <!-- </view> -->
+      <view class="time">{{item.createTime}}</view>
+    </wux-media>
+  </view>
   <view style="">
     <!-- 福利 -->
     <view style='position: relative;'>

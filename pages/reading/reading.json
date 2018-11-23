@@ -3,8 +3,7 @@
         "popup": "../../components/popup/popup",
         "share-poster": "../../components/share-poster/share-poster",
         "share-board": "../../components/share-board/share-board",
-        "wux-media": "../../components/dist/media/index",
-        "wux-cell-group": "../../components/dist/cell-group/index"
+        "wux-media": "../../components/dist/media/index"
     },
     "enablePullDownRefresh": true,
     "backgroundTextStyle": "dark"

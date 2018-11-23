@@ -1,12 +1,22 @@
 /* pages/audio_detail/index.wxss */
 
+.container {
+    background: #F6F6F6;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding-bottom: 100rpx;
+}
+
 
 /* 播放器样式start */
 
 .audio-wrap {
     width: 100%;
-    height: 700rpx;
+    /* height: 700rpx; */
     position: relative;
+    background: #ffffff;
+    padding: 30rpx 0;
 }
 
 
@@ -38,7 +48,7 @@
 /* 旋转图 */
 
 .rotate-disk-container {
-    height: 360rpx;
+    height: 340rpx;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -94,15 +104,22 @@
     justify-content: center;
     align-items: center;
 }
-.title-container .title {
-  color: #000000;
-  font-weight: bold;
-  font-size: 34rpx;
-}
-.title-container .author {
-  color: #A6A09F;
-  margin: 10rpx 0;
 
+.title-container .title {
+    color: #000000;
+    font-weight: bold;
+    font-size: 34rpx;
+}
+
+.title-container .author {
+    color: #A6A09F;
+    margin: 10rpx 0;
+}
+
+.audio-infos .desc {
+    color: #A6A09F;
+    text-align: center;
+    margin: 10rpx 0;
 }
 
 .slider-container {
@@ -113,7 +130,7 @@
     flex-direction: row;
     justify-content: row;
     align-items: center;
-    margin:30rpx 0;
+    margin: 30rpx 0;
 }
 
 .slider-time {
@@ -128,22 +145,225 @@
 .operation-container {
     width: 100%;
     height: 100rpx;
-    /* position: absolute;
-    bottom: 0; */
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin:20rpx 0;
+    margin: 20rpx 0;
 }
 
-.btn {
+.play-icon {
+    width: 200rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-wrap {
     width: 120rpx;
+    background: #ffffff;
+    height: 120rpx;
+    border-radius: 50%;
+    /* box-shadow: 0px 0px 25rpx #dddee1; */
+    box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-wrap .icon {
+    width: 110rpx;
+    height: 110rpx;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* 章节 */
+
+.chapter {
+    margin: 30rpx 0;
+    background: #fff;
+}
+
+.cell-group_hd {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #000;
+    width: 100%;
+    height: 100rpx;
+    line-height: 100rpx;
+    border-bottom: 1rpx solid #E6E6E6;
+    margin: 0 30rpx;
+    box-sizing: border-box;
+}
+
+.cell-group_bd {
+    position: relative;
+    background-color: #fff
+}
+
+.cell-group_bd:after {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    transform: scale(.5);
+    transform-origin: 0 0;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.cell-group_ft {
+    padding: 18rpx 30rpx 30rpx;
+    font-size: 28rpx;
+    color: #888
+}
+
+.cell {
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    color: inherit;
+    background: 0 0;
+    font-size: inherit;
+    line-height: inherit;
+    text-align: inherit;
+    padding: 20rpx 30rpx;
+    position: relative;
+    background: #fff
+}
+
+.cell:after {
+    position: static;
+    top: auto;
+    left: auto;
+    width: auto;
+    height: auto;
+    border: none;
+    border-radius: 0;
+    transform: none;
+    transform-origin: 0 0
+}
+
+.cell:after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 2rpx;
+    border-bottom: 2rpx solid #E6E6E6;
+    color: #d9d9d9;
+    transform-origin: 0 100%;
+    transform: scaleY(.5);
+    left: 30rpx
+}
+
+.cell_thumb {
+    display: block;
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 10rpx
+}
+
+.cell_bd {
+    -ms-flex: 1;
+    flex: 1
+}
+
+.cell_desc {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 16rpx 0 0;
+}
+
+.cell-lock {
+    width: 100rpx;
+}
+
+.clock-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.clock {
+    margin: 0 10rpx;
+    color: #E5E5E2;
+}
+
+.tag {
+    font-family: Monospaced Number, Chinese Quote, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 28rpx;
+    line-height: 1.5;
+    color: #1193EE;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    line-height: 30rpx;
+    height: 34rpx;
+    padding: 0 12rpx;
+    border-radius: 8rpx;
+    border: 2rpx solid #E7F4FF;
+    background: #E7F4FF;
+    font-size: 26rpx;
+    margin-right: 16rpx;
+    cursor: pointer;
+    white-space: nowrap
+}
+
+
+/* 作者信息 */
+
+.sm-btn {
+    width: 130rpx;
     height: 60rpx;
     line-height: 60rpx;
-    color: #fff;
-    background: #cf9f73;
-    border-radius: 10rpx;
-    margin: 0 10rpx;
-    font-size: 28rpx;
+    border-radius: 30rpx;
+    font-size: 30rpx;
+    color: #1393FC;
+    padding: 0 10rpx;
+    background: #E7F4FF;
+}
+
+.media-wrap {
+    margin: 0rpx auto;
+    background: #ffffff;
+}
+
+
+/* 媒体对象自定义内容 */
+
+.center-right {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.btn-wrap {
+    padding-right: 30rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time {
+    color: rgb(136, 136, 136);
+    font-size: 24rpx;
+    margin-top: 10rpx;
+}
+
+
+/* 列表媒体对象end */
+
+.accordion-group-wrap {
+    margin: 30rpx 0;
 }

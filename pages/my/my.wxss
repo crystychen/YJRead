@@ -100,10 +100,6 @@
     padding: 0 30rpx;
 }
 
-.nobgc>view {
-    background: transparent !important;
-}
-
 .sm-btn {
     width: 130rpx;
     height: 60rpx;

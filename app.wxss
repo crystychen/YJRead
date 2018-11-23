@@ -24,8 +24,8 @@ view {
 /* 图片大小 */
 
 .xs_icon {
-    width: 24rpx;
-    height: 24rpx;
+    width: 26rpx;
+    height: 26rpx;
 }
 
 .sm_icon {
@@ -34,13 +34,13 @@ view {
 }
 
 .md_icon {
-    width: 75rpx;
-    height: 75rpx;
+    width: 50rpx;
+    height: 50rpx;
 }
 
 .lg_icon {
-    width: 100rpx;
-    height: 100rpx;
+    width: 130rpx;
+    height: 130rpx;
 }
 
 
@@ -131,6 +131,7 @@ button {
     width: 100%;
     height: 90rpx;
     line-height: 90rpx;
+    border-radius: 0;
 }
 
 .btn-container {
@@ -145,6 +146,14 @@ button {
 
 .btn-container.vertical .btn {
     margin: 20rpx auto;
+}
+
+.btn-container.fixed {
+    position: fixed;
+}
+
+.btn-container.bottom {
+    bottom: 0;
 }
 
 .row {

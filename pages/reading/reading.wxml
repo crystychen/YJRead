@@ -11,7 +11,6 @@
     </block>
   </scroll-view>
   <view class="card-wrap">
-    <wux-cell-group>
       <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
         <wux-media thumb="https://soure.chudianad.com/static/welfare/product/thumbImg/201811161207227287.jpg" thumb-style="" title="汗牛书屋7天畅听卡" label="全场书籍免费无限听">
           <view class="btn-wrap center-right" data-appid="{{item.appid}}" data-path="{{item.path}}" slot>
@@ -19,7 +18,6 @@
           </view>
         </wux-media>
       </view>
-    </wux-cell-group>
   </view>
   <view class='tab-content'>
     <block wx:for="{{contentList}}" wx:for-index="index" wx:key="index">
