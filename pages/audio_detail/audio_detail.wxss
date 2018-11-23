@@ -1,0 +1,149 @@
+/* pages/audio_detail/index.wxss */
+
+
+/* 播放器样式start */
+
+.audio-wrap {
+    width: 100%;
+    height: 700rpx;
+    position: relative;
+}
+
+
+/* 背景图高斯模糊 */
+
+.bcg {
+    width: 100%;
+    height: 100%;
+}
+
+.bcg>image {
+    width: 100%;
+    height: 100%;
+    filter: blur(50rpx);
+}
+
+
+/* 加上灰色蒙版 */
+
+.bcg-gray {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(54, 43, 41, 0.3);
+}
+
+
+/* 旋转图 */
+
+.rotate-disk-container {
+    height: 360rpx;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.rotate-disk {
+    width: 200rpx;
+    height: 300rpx;
+    position: relative;
+    /* top: -50rpx; */
+    /* border-radius: 50%; */
+    overflow: hidden;
+    /* border: 20rpx solid rgba(54, 43, 41, 0.2); */
+}
+
+.poster {
+    width: 200rpx;
+    height: 300rpx;
+}
+
+.rotate-360 {
+    animation: rotate 10s linear infinite;
+}
+
+.rotate-360-paused {
+    animation: rotate 10s linear infinite;
+    animation-play-state: paused;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* 操作 */
+
+.title-container {
+    position: relative;
+    height: 100rpx;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.title-container .title {
+  color: #000000;
+  font-weight: bold;
+  font-size: 34rpx;
+}
+.title-container .author {
+  color: #A6A09F;
+  margin: 10rpx 0;
+
+}
+
+.slider-container {
+    /* position: absolute;
+    bottom: 140rpx; */
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: row;
+    align-items: center;
+    margin:30rpx 0;
+}
+
+.slider-time {
+    font-size: 26rpx;
+    display: block;
+    width: 19%;
+    text-align: center;
+    line-height: 18px;
+    color: #E2E2E2;
+}
+
+.operation-container {
+    width: 100%;
+    height: 100rpx;
+    /* position: absolute;
+    bottom: 0; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin:20rpx 0;
+}
+
+.btn {
+    width: 120rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    color: #fff;
+    background: #cf9f73;
+    border-radius: 10rpx;
+    margin: 0 10rpx;
+    font-size: 28rpx;
+}

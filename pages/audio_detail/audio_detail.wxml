@@ -1,0 +1,36 @@
+<!-- pages/audio_detail/index.wxml -->
+<view class="container">
+  <view class="audio-wrap">
+    <!-- 背景图,高斯模糊 -->
+    <!-- <view class="bcg">
+      <image class="" src="/images/hebe.jpg" mode="scaleToFill" lazy-load="false" binderror="" bindload=""></image>
+    </view> -->
+    <!-- 灰色蒙层 -->
+    <!-- <view class="bcg-gray"></view> -->
+    <!-- play层 -->
+    <view class="audio-infosaudio-infos">
+      <!-- 旋转图 -->
+      <view class="rotate-disk-container">
+        <view class="rotate-disk ">
+          <image class="poster" mode="" src="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191552198110.jpg"></image>
+        </view>
+      </view>
+      <!-- 操作 -->
+      <view class="title-container">
+        <view class="title">如懿传</view>
+        <view class="author">吴雪岚</view>
+      </view>
+      <view class="slider-container">
+        <text class="slider-time">{{currentPosition === 0 ? '00:00' : currentPosition}}</text>
+        <slider value="{{sliderValue}}" bindchange="bindSliderchange" activeColor="#1393FC" backgroundColor="#E2E2E2" style="width: 64%;margin: 0;" block-size="8" block-color="#fff" />
+        <text class="slider-time">{{duration === 0 ? '04:26' : duration}}</text>
+      </view>
+      <view class="operation-container" >
+          <button class="btn" bindtap="bindTapPrev">上一首</button>
+          <button class="btn" bindtap="bindTapPlay">{{pauseStatus === false ? '暂停' : '播放'}}</button>
+          <button class="btn" bindtap="bindTapNext">下一首</button>
+      </view>
+      
+    </view>
+  </view>
+</view>

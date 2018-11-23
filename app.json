@@ -8,6 +8,7 @@
         "pages/wheel/wheel",
         "pages/shopMall/shopMall",
         "pages/reading/reading",
+        "pages/audio_detail/audio_detail",
         "pages/orderlist/orderlist",
         "pages/order_detail/order_detail",
         "pages/logs/logs"
@@ -24,20 +25,20 @@
         "list": [{
                 "pagePath": "pages/index/index",
                 "text": "首页",
-                "iconPath": "images/index.png",
-                "selectedIconPath": "images/index_active.png"
+                "iconPath": "images/welfare.png",
+                "selectedIconPath": "images/welfare_active.png"
             },
             {
                 "pagePath": "pages/shopMall/shopMall",
                 "text": "书城",
-                "iconPath": "images/index.png",
-                "selectedIconPath": "images/index_active.png"
+                "iconPath": "images/books.png",
+                "selectedIconPath": "images/books_active.png"
             },
             {
                 "pagePath": "pages/reading/reading",
                 "text": "阅读",
-                "iconPath": "images/index.png",
-                "selectedIconPath": "images/index_active.png"
+                "iconPath": "images/read.png",
+                "selectedIconPath": "images/read_active.png"
             },
             {
                 "pagePath": "pages/my/my",

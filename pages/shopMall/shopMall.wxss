@@ -1,9 +1,5 @@
 /* pages/index/index.wxss */
 
-.line-through {
-    text-decoration: line-through;
-}
-
 .origin-price {
     display: block;
     color: #ccc;

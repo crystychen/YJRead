@@ -36,7 +36,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 8,
+			"current": 9,
 			"list": [
 				{
 					"id": -1,
@@ -89,7 +89,13 @@
 				{
 					"id": -1,
 					"name": "阅读",
-					"pathName": "pages/reading/reading"
+					"pathName": "pages/reading/reading",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "音频详情",
+					"pathName": "pages/audio_detail/audio_detail"
 				}
 			]
 		}

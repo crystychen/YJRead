@@ -3,13 +3,22 @@
   <scroll-view scroll-y="true" style="height: {{windowHeight}}px;" scroll-with-animation="true" bindscrolltolower="loadMoreData" scroll-into-view="{{toView}}">
     <!-- 轮播图 -->
     <view class='banner-wrap' wx:if="{{bannerData.length}}">
-      <swiper class='banner' indicator-dots="{{false}}" autoplay="{{false}}" previous-margin="60rpx" next-margin="60rpx" circular='{{false}}' catchtap="onSwiperTap">
-        <swiper-item>
-          <view class="card-wrap">
-            <view class="card-title">本周分享免费听</view>
+      <swiper class='banner' indicator-dots="{{false}}" autoplay="{{false}}" previous-margin="60rpx" next-margin="60rpx" circular='{{false}}' bindchange="onSwiperChange" bindanimationfinish="onSwiperAnimationFinish">
+        <swiper-item wx:for="{{bannerData}}" wx:key="">
+          <view class="card-wrap" data-id="{{item[0]}}" bindtap="bindClickCard">
+            <view class="card-title">{{item[1]}}</view>
             <view class="card-body">
               <view class="list">
-                <view class="list-item">
+                <view class="list-item" wx:for="{{shareBooks}}" wx:key="key">
+                  <view class="img">
+                    <image class="" src="{{item.img}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+                    <view class="label-wrap">
+                      <view class="label-bcg"></view>
+                      <view class="label">原价: <text class="line-through">{{item.price}}书签</text></view>
+                    </view>
+                  </view>
+                </view>
+                <!-- <view class="list-item">
                   <view class="img">
                     <image class="" src="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
                     <view class="label-wrap">
@@ -35,16 +44,7 @@
                       <view class="label">原价: 18书签</view>
                     </view>
                   </view>
-                </view>
-                <view class="list-item">
-                  <view class="img">
-                    <image class="" src="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-                    <view class="label-wrap">
-                      <view class="label-bcg"></view>
-                      <view class="label">原价: 18书签</view>
-                    </view>
-                  </view>
-                </view>
+                </view> -->
               </view>
             </view>
             <view class="btn-container">
@@ -52,9 +52,8 @@
             </view>
           </view>
         </swiper-item>
-        <swiper-item>
+        <!-- <swiper-item>
           <view class="card-wrap">
-            <!-- <view class="card-title">本周分享免费听</view> -->
             <view class="card-body">
               <view class="card-infos">
                 <image class="img" src="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191552198110.jpg" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
@@ -70,10 +69,10 @@
               <view class="large-btn">点击兑换</view>
             </view>
           </view>
-        </swiper-item>
-        <swiper-item>
+        </swiper-item> -->
+        <!-- <swiper-item>
           <view class="card-wrap"></view>
-        </swiper-item>
+        </swiper-item> -->
       </swiper>
     </view>
   </scroll-view>
