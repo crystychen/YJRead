@@ -1,5 +1,8 @@
 // pages/audio_detail/index.js
 import audioList from './data.js'
+import {
+    postAjax
+} from '../../utils/ajax.js';
 
 Page({
 
@@ -41,7 +44,21 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-
+        let pid = options.pid // 商品id
+        let that = this
+        console.log(pid)
+            // 先通过pid获取商品详情拿到图书bookid,再获取图书明细 
+        this.proDetail(pid).then((res) => {
+            console.log(res)
+            let { bookId } = res.product
+            console.log(bookId)
+            that.bookDetail(bookId).then((res) => {
+                console.log("图书详情", res)
+                that.setData({
+                    book: res.book
+                })
+            })
+        })
     },
 
     /**
@@ -225,5 +242,53 @@ Page({
     },
     bindMore() {
         console.log("更多作者信息")
-    }
+    },
+    // 商品详情(单品详情)
+    proDetail(pid, callback) {
+        // var that = this;
+        return new Promise((resolve, reject) => {
+            postAjax({
+                url: 'interfaceAction',
+                data: {
+                    interId: '20111',
+                    version: 1,
+                    authKey: wx.getStorageSync('authKey'),
+                    method: 'p-detail',
+                    params: {
+                        productId: pid
+                    }
+                }
+            }).then((data) => {
+                if (data.data.status == '00') {
+                    resolve(data.data);
+                } else {
+                    reject(res.data.resultMsg)
+                }
+            })
+        })
+    },
+    // 商品详情(单品详情)
+    bookDetail(bid, callback) {
+        var that = this;
+        return new Promise((resolve, reject) => {
+            postAjax({
+                url: 'interSyncAction',
+                data: {
+                    interId: '20400',
+                    version: 1,
+                    authKey: wx.getStorageSync('authKey'),
+                    method: 'book-detail',
+                    params: {
+                        bookId: bid
+                    }
+                }
+            }).then((data) => {
+                if (data.data.status == '00') {
+                    resolve(data.data);
+                } else {
+                    reject(data.data.resultMsg)
+                }
+            })
+        })
+    },
 })

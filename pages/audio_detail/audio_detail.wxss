@@ -8,6 +8,11 @@
     padding-bottom: 100rpx;
 }
 
+.btn.active {
+    background: #1393FC;
+    font-weight: normal;
+}
+
 
 /* 播放器样式start */
 
@@ -178,6 +183,35 @@
     height: 110rpx;
     margin: 0;
     padding: 0;
+    background: #1264FE;
+    border-radius: 50%;
+    position: relative;
+}
+
+.cart {
+    width: 0rpx;
+    height: 0rpx;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-width: 30rpx 0 30rpx 36rpx;
+    border-style: solid;
+    border-radius: 10rpx;
+    border-color: transparent transparent transparent #fff;
+    /*透明 透明  灰*/
+    margin: 0 6rpx;
+}
+
+.suspend {
+    width: 16rpx;
+    height: 44rpx;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-left: 10rpx solid #fff;
+    border-right: 10rpx solid #fff;
 }
 
 

@@ -18,26 +18,6 @@ Page({
         isSignedModal: false,
         passTipschecked: true,
         // isShareBoard: false
-        shareBooks: [{
-                id: 1,
-                img: "https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg",
-                price: "18"
-            }, {
-                id: 2,
-                img: "https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg",
-                price: "19"
-            },
-            {
-                id: 3,
-                img: "https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg",
-                price: "20"
-            },
-            {
-                id: 4,
-                img: "https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg",
-                price: "21"
-            }
-        ]
     },
     onLoad: function(options) {
         let that = this
@@ -107,22 +87,14 @@ Page({
                     // })
 
                     app.getShareData(4); // 转发语
-                    // 轮播图
-                    app.getShareData(1, function(res) {
-                        that.setData({
-                            bannerData: res.data.infos
-                        }, function() {
-                            that.setData({
-                                bannerData: that.data.bannerData.concat(that.data.bannerData)
-                            })
-                        })
-                    });
+                    //
+                    that.pList();
 
                     // setTimeout(function() {
                     //   wx.hideLoading()
                     // }, 800)
                 }
-                that.getGroup(); // 文章分組
+
 
                 app.getUserInfo([wx.getStorageSync('authLevel'), wx.getStorageSync('userInfo')]).then(function(uinfo) {
                     that.setData({
@@ -139,8 +111,7 @@ Page({
                         }
                     });
                     if (wx.getStorageSync("authLevel") == 2) {
-                        // app.getAccount(); // 获取账户信息
-                        // that.getTodayIsLottery(); //今天是否抽奖          
+                        // app.getAccount(); // 获取账户信息      
                     }
                     app.globalData.openOnShow = true
 
@@ -187,52 +158,6 @@ Page({
                 })
             }
         });
-    },
-    // 获取任务列表并处理是否有待领取任务
-    getTasksList() {
-        let that = this
-        postAjax({
-            url: 'interfaceAction',
-            data: {
-                interId: '20102',
-                version: 1,
-                authKey: wx.getStorageSync('authKey'),
-                method: 'task-list'
-            }
-        }).then((res) => {
-            if (res.data.status == '00') {
-                let taskdata = res.data.infos;
-                let tasklistObj = {}
-                let arbitrarily = []
-                let given = []
-                let Invitation = []
-                let tmpCartData = taskdata.map(function(element, index, array) {
-                    // 类型处理
-                    switch (element[1]) {
-                        case 1:
-                            // arbitrarily.push(element)
-                            break;
-                        case 2:
-                            // given.push(element)
-                            break;
-                        case 3:
-                            if (element[4] >= element[3]) {
-                                Invitation.push(element)
-                            }
-                            break;
-                        default:
-                            console.log("default");
-                    }
-                    return element;
-                });
-                // tasklistObj.arbitrarily = arbitrarily
-                // tasklistObj.given = given
-                // tasklistObj.Invitation = Invitation
-                that.setData({
-                    isInvitation: Invitation.length
-                })
-            }
-        })
     },
     // 签到
     signIn: function(e) {
@@ -348,134 +273,11 @@ Page({
             }
         })
     },
-    // 文章分組
-    getGroup() {
-        let that = this
-        postAjax({
-            url: 'interfaceAction',
-            data: {
-                interId: '20510',
-                version: 1,
-                authKey: wx.getStorageSync('authKey'),
-                method: 'content-group'
-            }
-        }).then((res) => {
-
-            if (res.data.status == '00') {
-                let {
-                    contentGroupList
-                } = res.data;
-                that.setData({
-                    contentGroupList,
-                    groupId: that.data.groupId || contentGroupList[0][0]
-                })
-                that.getArticleList(that.data.groupId) // 默認第一分組的內容列表
-            }
-        })
-    },
-    // 文章列表
-    getArticleList(groupId, callback) {
-        var that = this;
-        postAjax({
-            url: 'interfaceAction',
-            data: {
-                interId: '20510',
-                version: 1,
-                authKey: wx.getStorageSync('authKey'),
-                method: 'content-list',
-                params: {
-                    groupId,
-                    page: that.data.page,
-                    size: that.data.size
-                }
-            }
-        }).then((res) => {
-            if (res.data.status == '00') {
-                let {
-                    contentList
-                } = res.data;
-                that.setData({
-                    contentList
-                })
-                callback && callback(res)
-            }
-        })
-    },
-    // 组件做任务去文章列表
-    toAwardView(data) {
-        console.log(data.detail) // 要跳转的view id
-        this.setData({
-            toView: data.detail
-        })
-    },
-    // 切换分组tab
-    switchNav(e) {
-        var {
-            current,
-            postgroupid
-        } = e.currentTarget.dataset;
-
-        //每个tab选项宽度占1/4
-        var singleNavWidth = this.data.windowWidth / 4;
-        //tab选项居中                            
-        this.setData({
-            navScrollLeft: (current - 1) * singleNavWidth
-        })
-        if (this.data.currentTab == current) {
-            return false;
-        } else {
-            this.setData({
-                currentTab: current,
-                page: 1,
-                groupId: postgroupid
-            })
-        }
-        // postgroupid 請求列表
-        this.getArticleList(postgroupid)
-    },
     /**
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function() {
-        console.log("触底")
-        var that = this;
-        if (this.data.hasMoreData) {
-            that.data.page++
-                postAjax({
-                    url: 'interfaceAction',
-                    data: {
-                        interId: '20510',
-                        version: 1,
-                        authKey: wx.getStorageSync('authKey'),
-                        method: 'content-list',
-                        params: {
-                            groupId: that.data.groupId,
-                            page: that.data.page,
-                            size: that.data.size
-                        }
-                    }
-                }).then((res) => {
-                    if (res.data.status == '00') {
-                        if (res.data.contentList < that.data.size) {
-                            that.setData({
-                                detail: that.data.contentList.concat(res.data.contentList),
-                                hasMoreData: false
-                            })
-                        } else {
-                            that.setData({
-                                detail: that.data.contentList.concat(res.data.contentList),
-                                hasMoreData: true,
-                                page: that.data.page
-                            })
-                        }
-                    }
-                });
-        } else {
-            wx.showToast({
-                title: '没有更多了',
-                icon: 'none'
-            })
-        }
+        // console.log("触底")
     },
     // 上拉加载更多
     loadMoreData() {
@@ -523,93 +325,6 @@ Page({
     preventBubble() {
         return false
     },
-    // 文章详情
-    clickArticle(e) {
-        let {
-            url,
-            id,
-            ruleid
-        } = e.currentTarget.dataset
-        if (wx.getStorageSync('readTips')) {
-            this.setData({
-                readTips: false
-            })
-            this.jumpArcticelDetail(id, ruleid, url)
-        } else {
-            this.setData({
-                readTips: true,
-                jumpArtObj: {
-                    url,
-                    id,
-                    ruleid
-                }
-            })
-            wx.setStorageSync("readTips", true)
-        }
-    },
-    jumpArcticelDetail(id, ruleid, url) {
-        // 记录时间
-        this.NumTap(id, ruleid, url)
-            // 记录点击数
-        this.userAction(id, 3)
-        if (!!url) {
-            wx.navigateTo({
-                url: `/pages/article_detail/article_detail?url=${url}`,
-            })
-        } else {
-            wx.showToast({
-                title: '公众号文章不存在',
-                icon: 'none'
-            })
-        }
-    },
-    // 每日任务
-    toDailyTask() {
-        wx.navigateTo({
-            url: '/pages/daily_task/daily_task'
-        })
-    },
-    // 换购商城
-    toShopMall() {
-        // wx.showToast({
-        //   title: '功能即将开放,敬请期待！',
-        //   icon: 'none'
-        // })
-        wx.navigateTo({
-            url: '/pages/shopMall/shopMall'
-        })
-    },
-    // 幸运转盘
-    toWheel() {
-        // wx.showToast({
-        //   title: '功能即将开放,敬请期待！',
-        //   icon: 'none'
-        // })
-        wx.navigateTo({
-            url: '/pages/wheel/wheel'
-        })
-    },
-    // 切换收藏
-    toggleCollect(e) {
-        let that = this
-        this.setData({
-            isDeal: true
-        })
-        let {
-            id,
-            iscollected
-        } = e.currentTarget.dataset
-        if (iscollected == 0) {
-            this.userAction(id, 101) // 收藏
-        } else {
-            this.userAction(id, 102) // 取消收藏
-        }
-        this.getArticleList(this.data.groupId, function() {
-            that.setData({
-                isDeal: false
-            })
-        })
-    },
     // 用户行为记录
     userAction(id, action_type) {
         postAjax({
@@ -627,127 +342,6 @@ Page({
             }
         }).then((res) => {
             if (res.data.status == '00') {}
-        })
-    },
-    // 点击计时
-    NumTap(id, ruleid, url) {
-        let startTime = new Date().getTime(); //获取系统日期
-        wx.setStorageSync("timeStart", {
-            id,
-            ruleid,
-            url,
-            beginTime: startTime
-        })
-    },
-    // 阅读时间
-    postReadTime(id, second, ruleid, url) {
-        var that = this;
-        console.log(id)
-        console.log(ruleid)
-        console.log(url)
-        postAjaxS({
-                url: 'interfaceAction',
-                data: {
-                    interId: '70009',
-                    version: 1,
-                    authKey: wx.getStorageSync('authKey'),
-                    method: 'r-rule-click',
-                    id: id,
-                    params: {
-                        stayTime: second,
-                        objType: 5,
-                        defGroupId: that.data.groupId
-                    }
-                }
-            }).then((res) => {
-                if (res.data.status == '00') {
-                    if (res.data.award > 0) {
-                        if (app.globalData.passTips) {
-                            wx.showToast({
-                                title: `获得${res.data.award}书签`,
-                                icon: 'none'
-                            })
-                        } else {
-                            that.setData({
-                                showAwardPass: true,
-                                passAward: {
-                                    gold: res.data.award
-                                }
-                            })
-                        }
-                    }
-                } else if (res.data.status == '6') { // 停留时间过短
-                    if (app.globalData.failTips) {
-                        wx.showToast({
-                            title: `阅读时间过短,未获得书签`,
-                            icon: 'none'
-                        })
-                    } else {
-                        that.setData({
-                            showAwardFail: true,
-                            recordRead: {
-                                id: id,
-                                ruleid: ruleid,
-                                url: url
-                            },
-                            failAward: "阅读时间过短, 未获得书签"
-                        })
-                    }
-                } else if (res.data.status == '4') { // 对象总限, 提示该文章领取过奖励
-                    wx.showToast({
-                        title: `该文章的阅读奖励已经领取过了`,
-                        icon: 'none'
-                    })
-                }
-                wx.removeStorageSync('timeStart');
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    },
-    // 检测该奖励规则是否在已完成规则里
-    checkIndexArray: function(aid, array) {
-        for (let i = 0; i < array.length; i++) {
-            if (array[i][0] == aid) {
-                return true;
-                break;
-            }
-        }
-        return false;
-    },
-    // 检测已奖励完的规则
-    filterDoneAwardRules: function() {
-        console.log(this.data.rewardList)
-        let rewardList = this.data.rewardList.filter(function(item) {
-            return item[5] == item[4]
-        });
-        console.log(rewardList)
-        return rewardList;
-    },
-    // 获取奖励规则
-    getAwardRules() {
-        let that = this
-        postAjax({
-            url: 'interfaceAction',
-            data: {
-                interId: '20104',
-                version: 1,
-                authKey: wx.getStorageSync('authKey'),
-                method: 'reward-list'
-            }
-        }).then((res) => {
-            if (res.data.status == '00') {
-                let rewardList = res.data.infos;
-                console.log("reward-list", rewardList)
-                that.setData({
-                    rewardList
-                }, function() {
-                    let doneAwards = that.filterDoneAwardRules();
-                    that.setData({
-                        doneAwards
-                    })
-                })
-            }
         })
     },
     onShareAppMessage: function(res) {
@@ -808,61 +402,49 @@ Page({
             shareImgUrl: `https://small.ejamad.com/realSync214?authKey=${wx.getStorageSync('authKey')}&id=${artid}`
         })
     },
-    hideReadTips() {
-        this.setData({
-            readTips: false
-        })
-        let {
-            jumpArtObj
-        } = this.data
-        this.jumpArcticelDetail(jumpArtObj.id, jumpArtObj.ruleid, jumpArtObj.url)
-    },
-    // hideTaskTips() {
-    //     app.globalData.isTaskTips = false
-    //     this.setData({
-    //         isTaskTips: false
-    //     })
-    // },
-    // hideReAwardTips() {
-    //     app.globalData.isReAwardTips = false
-    //     this.setData({
-    //         isReAwardTips: false
-    //     })
-    // },
     // 进入分享页  
-    bindClickCard() {
-        console.log("进入分享页")
+    bindClickCard(e) {
+        let { id } = e.currentTarget.dataset
         wx.navigateTo({
-            url: "/pages/audio_detail/audio_detail"
+            url: `/pages/audio_detail/audio_detail?pid=${id}`
         })
     },
     // 轮播滑动完成
     onSwiperAnimationFinish(e) {
         let { current, source } = e.detail
-        console.log(e)
-
-        let length = this.data.bannerData.length - 1
-        console.log(length)
-
-        if (current === length && length == 0) {
-            this.setData({
-                bannerData: this.data.bannerData.concat(this.data.bannerData)
-            })
-        }
-
+            // console.log(e)
     },
+    // 轮播改变
     onSwiperChange(e) {
-        console.log("轮播改变")
+        // console.log("轮播改变")
         let { current, source } = e.detail
-        console.log(e)
-
-        let length = this.data.bannerData.length - 1
-        console.log(length)
-
-        if (current === length) {
-            this.setData({
-                bannerData: this.data.bannerData.concat(this.data.bannerData)
-            })
-        }
+            // console.log(e)
+    },
+    pList() {
+        var that = this;
+        postAjax({
+            url: 'interfaceAction',
+            data: {
+                interId: '20111',
+                version: 1,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'p-group',
+                params: {
+                    // groupProductCount: 4  查询全部
+                }
+            }
+        }).then((res) => {
+            console.log(res);
+            if (res.data.status == '00') {
+                that.setData({
+                    bannerData: res.data.infos
+                })
+            }
+        })
+    },
+    toShareDetail() {
+        wx.navigateTo({
+            url: "/pages/share_detail/share_detail"
+        })
     }
 })

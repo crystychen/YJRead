@@ -4,75 +4,52 @@
     <!-- 轮播图 -->
     <view class='banner-wrap' wx:if="{{bannerData.length}}">
       <swiper class='banner' indicator-dots="{{false}}" autoplay="{{false}}" previous-margin="60rpx" next-margin="60rpx" circular='{{false}}' bindchange="onSwiperChange" bindanimationfinish="onSwiperAnimationFinish">
-        <swiper-item wx:for="{{bannerData}}" wx:key="">
-          <view class="card-wrap" data-id="{{item[0]}}" bindtap="bindClickCard">
-            <view class="card-title">{{item[1]}}</view>
-            <view class="card-body">
-              <view class="list">
-                <view class="list-item" wx:for="{{shareBooks}}" wx:key="key">
-                  <view class="img">
-                    <image class="" src="{{item.img}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-                    <view class="label-wrap">
-                      <view class="label-bcg"></view>
-                      <view class="label">原价: <text class="line-through">{{item.price}}书签</text></view>
-                    </view>
+        <block wx:for="{{bannerData}}" wx:key="">
+          <swiper-item wx:if="{{item.composeType == 1}}">
+            <view class="card-wrap" data-id="{{item[0]}}" catchtap="toShareDetail">
+              <view class="card-title">{{item.name}}</view>
+              <view class="card-body">
+                <view class="list">
+                  <view class="list-item" wx:for="{{item.children}}" wx:key="key" data-id="{{item.id}}" catch:tap="bindClickCard">
+                    <block wx:if="{{index < 4}}">
+                      <view class="img">
+                        <image class="" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+                        <view class="label-wrap">
+                          <view class="label-bcg"></view>
+                          <view class="label">
+                            原价:
+                            <text class="line-through">{{item.originalPrice}}书签</text>
+                          </view>
+                        </view>
+                      </view>
+                    </block>
                   </view>
-                </view>
-                <!-- <view class="list-item">
-                  <view class="img">
-                    <image class="" src="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-                    <view class="label-wrap">
-                      <view class="label-bcg"></view>
-                      <view class="label">原价: 18书签</view>
-                    </view>
-                  </view>
-                </view>
-                <view class="list-item">
-                  <view class="img">
-                    <image class="" src="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-                    <view class="label-wrap">
-                      <view class="label-bcg"></view>
-                      <view class="label">原价: 18书签</view>
-                    </view>
-                  </view>
-                </view>
-                <view class="list-item">
-                  <view class="img">
-                    <image class="" src="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-                    <view class="label-wrap">
-                      <view class="label-bcg"></view>
-                      <view class="label">原价: 18书签</view>
-                    </view>
-                  </view>
-                </view> -->
-              </view>
-            </view>
-            <view class="btn-container">
-              <view class="large-btn">免费领取</view>
-            </view>
-          </view>
-        </swiper-item>
-        <!-- <swiper-item>
-          <view class="card-wrap">
-            <view class="card-body">
-              <view class="card-infos">
-                <image class="img" src="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191552198110.jpg" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-                <view class="title">罗马人的故事</view>
-                <view class="author">盐野七生</view>
-                <view class="price">10书签/本</view>
-                <view class="desc">
-                  《罗马人的故事》是2011年中信出版社出版的图书，作者是 (日)盐野七生，主要描述1300多年间罗马从诞生到灭亡的历史。
                 </view>
               </view>
+              <view class="btn-container">
+                <view class="large-btn" catchtap="toShareDetail">免费领取</view>
+              </view>
             </view>
-            <view class="btn-container">
-              <view class="large-btn">点击兑换</view>
-            </view>
-          </view>
-        </swiper-item> -->
-        <!-- <swiper-item>
-          <view class="card-wrap"></view>
-        </swiper-item> -->
+          </swiper-item>
+          <block wx:if="{{item.composeType == 3}}">
+            <swiper-item wx:for="{{item.children}}" wx:key="key">
+              <view class="card-wrap" data-id="{{item.id}}" bindtap="bindClickCard">
+                <view class="card-body">
+                  <view class="card-infos">
+                    <image class="img" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+                    <view class="title">{{item.productName}}</view>
+                    <view class="author">　　　</view>
+                    <view class="price">{{item.gold}}书签/本</view>
+                    <view class="desc">{{item.productIntroduction}}</view>
+                  </view>
+                </view>
+                <view class="btn-container">
+                  <view class="large-btn">点击兑换</view>
+                </view>
+              </view>
+            </swiper-item>
+          </block>
+        </block>
       </swiper>
     </view>
   </scroll-view>
@@ -90,15 +67,6 @@
 <share-poster modal-hidden="{{isPosterModal}}" img-url="{{shareImgUrl}}"></share-poster>
 <!-- 分享面板 -->
 <share-board modal-hidden="{{isShareBoard}}" putshareurl="{{putshareurl}}" putshareartid="{{putshareartid}}" bindshowPosterModal="showPosterModal"></share-board>
-<!-- 首次提醒阅读 -->
-<view class="modal-mask" bindtap="hideReadTips" catchtouchmove="preventTouchMove" wx:if="{{readTips}}"></view>
-<view class='modal modal-read-tips' catchtouchmove="preventTouchMove" wx:if="{{readTips}}">
-  <view class='modal-title'>需知</view>
-  <view class='modal-content'>
-    <text>1.每阅读一篇文章, 停留8秒以上, 即可获1个书签, 每日最多可通过阅读文章获得10个书签</text>
-  </view>
-  <view class='btn-know' bindtap='hideReadTips'>知道了</view>
-</view>
 <!-- 气泡 -->
 <!-- <view class='bubble-tips-wrap' hidden='{{istoptips}}'>
   <view class="bubble-tips">

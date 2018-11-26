@@ -9,6 +9,7 @@
         "pages/shopMall/shopMall",
         "pages/reading/reading",
         "pages/audio_detail/audio_detail",
+        "pages/share_detail/share_detail",
         "pages/orderlist/orderlist",
         "pages/order_detail/order_detail",
         "pages/logs/logs"

@@ -12,18 +12,18 @@
       <!-- 旋转图 -->
       <view class="rotate-disk-container">
         <view class="rotate-disk ">
-          <image class="poster" mode="" src="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191552198110.jpg"></image>
+          <image class="poster" mode="" src="{{book.img}}"></image>
         </view>
       </view>
       <!-- 操作 -->
       <view class="title-container">
-        <view class="title">如懿传</view>
-        <view class="author">吴雪岚</view>
+        <view class="title">{{book.bookName}}</view>
+        <view class="author">{{book.author}}</view>
       </view>
       <view class="slider-container">
-        <text class="slider-time">{{currentPosition === 0 ? '00:00' : currentPosition}}</text>
+        <text class="slider-time">{{currentPosition === 0 ? '' : currentPosition}}</text>
         <slider value="{{sliderValue}}" bindchange="bindSliderchange" activeColor="#1393FC" backgroundColor="#E2E2E2" style="width: 64%;margin: 0;" block-size="8" block-color="#fff" />
-        <text class="slider-time">{{duration === 0 ? '04:26' : duration}}</text>
+        <text class="slider-time">{{duration === 0 ? '' : duration}}</text>
       </view>
       <view class="operation-container">
         <view class="" bindtap="bindTapPrev">
@@ -33,10 +33,16 @@
           <!-- {{pauseStatus === false ? '暂停' : '播放'}} -->
           <view class="icon-wrap">
             <block wx:if="{{pauseStatus === false}}">
-              <image class="icon" src="/images/play.png"></image>
+              <!-- <image class="icon" src="/images/play.png"></image> -->
+              <view class="icon">
+                <view class="suspend"></view>
+              </view>
             </block>
             <block wx:else>
-              <image class="icon" src="/images/pause.png"></image>
+              <!-- <image class="icon" src="/images/pause.png"></image> -->
+              <view class="icon">
+                <view class="cart"></view>
+              </view>
             </block>
           </view>
         </view>
@@ -44,7 +50,7 @@
           <image class="md_icon" src="/images/next.png"></image>
         </view>
       </view>
-      <view class="desc">后宫没有斗争，没有胜利者，只有前赴后继的可怜女人</view>
+      <view class="desc">{{}}</view>
     </view>
   </view>
   <view class="chapter cell-group">
@@ -100,12 +106,12 @@
   </view>
   <view class="accordion-group-wrap">
     <wux-accordion-group title="" default-current="{{ ['0'] }}">
-      <wux-accordion title="关于本书" content="微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp"></wux-accordion>
+      <wux-accordion title="关于本书" content="{{book.about}}"></wux-accordion>
     </wux-accordion-group>
   </view>
   <view class="accordion-group-wrap">
     <wux-accordion-group title="">
-      <wux-accordion title="本书金句" content="微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp微信小程序自定义组件 https://github.com/wux-weapp/wux-weapp"></wux-accordion>
+      <wux-accordion title="本书金句" content="{{book.goldWord}}"></wux-accordion>
     </wux-accordion-group>
   </view>
   <view class="btn-container fixed bottom">
