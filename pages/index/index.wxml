@@ -38,7 +38,7 @@
                   <view class="card-infos">
                     <image class="img" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
                     <view class="title">{{item.productName}}</view>
-                    <view class="author">　　　</view>
+                    <view class="author">{{item.author}}</view>
                     <view class="price">{{item.gold}}书签/本</view>
                     <view class="desc">{{item.productIntroduction}}</view>
                   </view>

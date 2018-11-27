@@ -93,9 +93,10 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 9,
 					"name": "音频详情",
-					"pathName": "pages/audio_detail/audio_detail"
+					"pathName": "pages/audio_detail/audio_detail",
+					"query": "pid=166"
 				}
 			]
 		}

@@ -1,5 +1,6 @@
 /* pages/audio_detail/index.wxss */
 
+@import "/wxParse/wxParse.wxss";
 .container {
     background: #F6F6F6;
     width: 100%;
@@ -149,16 +150,17 @@
 
 .operation-container {
     width: 100%;
-    height: 100rpx;
+    /* height: 100rpx; */
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 20rpx 0;
+    /* margin: 20rpx 0; */
 }
 
 .play-icon {
     width: 200rpx;
+    height: 150rpx;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -218,7 +220,7 @@
 /* 章节 */
 
 .chapter {
-    margin: 30rpx 0;
+    /* margin: 30rpx 0; */
     background: #fff;
 }
 
@@ -269,7 +271,9 @@
     text-align: inherit;
     padding: 20rpx 30rpx;
     position: relative;
-    background: #fff
+    background: #fff;
+    /* margin-left: 30rpx; */
+    /* border-bottom: 1rpx solid #E6E6E6; */
 }
 
 .cell:after {
@@ -296,6 +300,10 @@
     transform-origin: 0 100%;
     transform: scaleY(.5);
     left: 30rpx
+}
+
+.cell:last-child::after {
+    border: none;
 }
 
 .cell_thumb {
@@ -354,7 +362,7 @@
 }
 
 
-/* 作者信息 */
+/* 播读者信息 */
 
 .sm-btn {
     width: 130rpx;
@@ -370,6 +378,10 @@
 .media-wrap {
     margin: 0rpx auto;
     background: #ffffff;
+}
+
+.media-body {
+    margin-right: 140rpx;
 }
 
 
@@ -398,6 +410,168 @@
 
 /* 列表媒体对象end */
 
+.group-title {
+    width: 100%;
+    height: 70rpx;
+    line-height: 70rpx;
+    font-size: 30rpx;
+    font-weight: bold;
+}
+
 .accordion-group-wrap {
     margin: 30rpx 0;
+    padding: 10rpx 30rpx;
+    padding-bottom: 30rpx;
+    background: #fff;
+}
+
+
+/* 导航tab */
+
+.nav {
+    height: 90rpx;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    line-height: 90rpx;
+    background: #fff;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1rpx solid #E6E6E6;
+}
+
+.nav-item {
+    width: 23%;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    color: #A6A09F;
+    font-size: 30rpx;
+}
+
+.nav-item.active {
+    color: #000;
+    font-weight: bold;
+    font-size: 32rpx;
+}
+
+.slider-wrap {
+    width: 80rpx;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.navbar_slider {
+    background: #000;
+    height: 8rpx;
+    width: 80rpx;
+    margin: 0 auto;
+}
+
+
+/* 悬浮播放器 */
+
+.float-board {
+    position: fixed;
+    bottom: 120rpx;
+    padding: 0 30rpx;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.float-board .bcg {
+    background: #000;
+    opacity: 0.5;
+    width: 100%;
+    height: 120rpx;
+    border-radius: 10rpx;
+}
+
+.float-board .wrap {
+    width: 84%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    position: absolute;
+    left: 60rpx;
+    top: 0;
+    color: #ffffff;
+    box-sizing: border-box;
+}
+
+.float-board .float-icon-wrap {
+    width: 70rpx;
+    background: transparent;
+    height: 70rpx;
+    border-radius: 50%;
+    /* box-shadow: 0px 0px 25rpx #dddee1; */
+    /* box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233); */
+    border: 6rpx solid #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.float-board .play-info {
+    margin: 0 20rpx;
+    width: 80%;
+}
+
+.play-info .play-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 14rpx;
+}
+
+.play-info .tag {
+    background: #AFAFAF;
+    color: #535353;
+    border: none;
+    margin: 0 20rpx;
+}
+
+.float-icon-wrap .icon {
+    width: 110rpx;
+    height: 110rpx;
+    margin: 0;
+    padding: 0;
+    background: #1264FE;
+    border-radius: 50%;
+    position: relative;
+}
+
+.float-cart {
+    width: 0rpx;
+    height: 0rpx;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-width: 20rpx 0 20rpx 26rpx;
+    border-style: solid;
+    border-radius: 10rpx;
+    border-color: transparent transparent transparent #fff;
+    /*透明 透明  灰*/
+    margin: 0 4rpx;
+}
+
+.float-suspend {
+    width: 12rpx;
+    height: 30rpx;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-left: 10rpx solid #fff;
+    border-right: 10rpx solid #fff;
 }

@@ -29,7 +29,7 @@
                 <image class="img" src='{{item.thumbImg}}'></image>
                 <view class='info'>
                   <view class='title'>{{item.productName}}</view>
-                  <!-- <text style="color: #CECED6;height: 50rpx;">伊恩·斯图尔特</text> -->
+                  <text style="color: #CECED6;height: 50rpx;">{{item.author}}</text>
                   <view class='desc'>{{item.productIntroduction}}</view>
                   <view style="width: 100%;position: absolute;bottom:0rpx;">
                     <!-- <text class='line-through light-gray origin-price'>原价:{{item.originalPrice?item.originalPrice:0}}元</text> -->

@@ -1,8 +1,11 @@
 // pages/audio_detail/index.js
-import audioList from './data.js'
+// import audioList from './data.js'
 import {
     postAjax
 } from '../../utils/ajax.js';
+var WxParse = require('../../wxParse/wxParse.js');
+const utils = require('../../utils/util.js');
+
 
 Page({
 
@@ -10,40 +13,43 @@ Page({
      * 页面的初始数据
      */
     data: {
-        audioList: audioList,
+        audioList: [],
         audioIndex: 0,
-        pauseStatus: true,
+        playStatus: false,
         listShow: false,
         timer: '',
         currentPosition: 0,
         duration: 0,
-        chapters: [{
-            title: "为什么要听这本书？",
-            id: 1,
-            free: true,
-            duration: "05:10"
-        }, {
-            title: "什么是厌女症？",
-            id: 2,
-            free: false,
-            duration: "09:10"
-        }, {
-            title: "世上存在没有厌女症的男人吗？",
-            id: 3,
-            free: false,
-            duration: "04:10"
-        }, {
-            title: "为什么说女人也有厌女症？",
-            id: 4,
-            free: false,
-            duration: "05:10"
-        }]
+        navBar: [{
+                key: "1",
+                title: "简介"
+            },
+            {
+                key: "2",
+                title: "章节"
+            }
+
+        ],
+        currentTabKey: "1",
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        // 获取背景音频信息
+        const backgroundAudioManager = wx.getBackgroundAudioManager()
+        console.log(backgroundAudioManager, 'backgroundAudioManager')
+        this.setData({
+            // playStatus: backgroundAudioManager.paused,
+            // duration: this.stotime(backgroundAudioManager.duration),
+            // currentPosition: this.stotime(backgroundAudioManager.currentTime),
+        })
+        console.log(this.data.playStatus, 'playStatus')
+        backgroundAudioManager.onPlay(this.onPlay) // 监听背景音频播放事件
+        backgroundAudioManager.onPause(this.onPause) // 监听背景音频暂停事件
+        backgroundAudioManager.onTimeUpdate(this.onTimeUpdate) // 监听背景音频播放进度更新事件
+        backgroundAudioManager.onEnded(this.onEnded) // 监听背景音频自然播放结束事件
         let pid = options.pid // 商品id
         let that = this
         console.log(pid)
@@ -54,8 +60,21 @@ Page({
             console.log(bookId)
             that.bookDetail(bookId).then((res) => {
                 console.log("图书详情", res)
+                WxParse.wxParse('about', 'html', res.book.about, that, 5);
+                WxParse.wxParse('goldWord', 'html', res.book.goldWord, that, 5);
+                let sections = res.book.sections.map((element, index) => {
+                    element.sectionSec = utils.formatSeconds(element.sectionSec)
+                    return element
+                })
+                let audioList = sections.filter((element) => {
+
+                    return element.sectionUrl != "";
+                })
                 that.setData({
-                    book: res.book
+                    book: res.book,
+                    sections,
+                    audioList,
+                    currentAudio: audioList[0]
                 })
             })
         })
@@ -102,7 +121,21 @@ Page({
     onReachBottom: function() {
 
     },
-
+    /**
+     * 页面滚动
+     */
+    onPageScroll: function(e) {
+        console.log(e); //{scrollTop:99}
+        if (e.scrollTop >= 400) {
+            this.setData({
+                isShowFloat: true
+            })
+        } else if (e.scrollTop < 400) {
+            this.setData({
+                isShowFloat: false
+            })
+        }
+    },
     /**
      * 用户点击右上角分享
      */
@@ -112,23 +145,15 @@ Page({
     // 播放器操作
     bindSliderchange: function(e) {
         // clearInterval(this.data.timer)
-        let value = e.detail.value
         let that = this
+        let value = e.detail.value
         console.log(e.detail.value)
-        wx.getBackgroundAudioPlayerState({
-            success: function(res) {
-                console.log(res)
-                let { status, duration } = res
-                if (status === 1 || status === 0) {
-                    that.setData({
-                        sliderValue: value
-                    })
-                    wx.seekBackgroundAudio({
-                        position: value * duration / 100,
-                    })
-                }
-            }
+        this.setData({
+            sliderValue: value
         })
+        const backgroundAudioManager = wx.getBackgroundAudioManager()
+        let currentTime = (value / 100) * backgroundAudioManager.duration
+        backgroundAudioManager.seek(currentTime)
     },
     bindTapPrev: function() {
         console.log('bindTapPrev')
@@ -142,15 +167,16 @@ Page({
         }
         this.setData({
             audioIndex: audioIndexNow,
+            currentAudio: this.data.audioList[audioIndexNow],
             sliderValue: 0,
             currentPosition: 0,
-            duration: 0,
+            duration: this.data.audioList[audioIndexNow].sectionSec
         })
         let that = this
         setTimeout(() => {
-            if (that.data.pauseStatus === true) {
-                that.play()
-            }
+            // if (that.data.playStatus === true) {
+            that.beginPlay()
+                // }
         }, 1000)
         wx.setStorageSync('audioIndex', audioIndexNow)
     },
@@ -166,75 +192,83 @@ Page({
         }
         this.setData({
             audioIndex: audioIndexNow,
+            currentAudio: this.data.audioList[audioIndexNow],
             sliderValue: 0,
             currentPosition: 0,
-            duration: 0,
+            duration: this.data.audioList[audioIndexNow].sectionSec,
         })
         let that = this
         setTimeout(() => {
-            if (that.data.pauseStatus === false) {
-                that.play()
-            }
+            // if (that.data.playStatus === true) {
+            that.beginPlay()
+                // }
         }, 1000)
         wx.setStorageSync('audioIndex', audioIndexNow)
     },
-    bindTapPlay: function() {
+    switchPlayStatus: function() {
         console.log('bindTapPlay')
-        console.log(this.data.pauseStatus)
-        if (this.data.pauseStatus === true) {
-            this.play()
-            this.setData({ pauseStatus: false })
+        console.log(this.data.playStatus)
+        const backgroundAudioManager = wx.getBackgroundAudioManager()
+        console.log("backgroundAudioManager", backgroundAudioManager)
+        if (this.data.playStatus) {
+            backgroundAudioManager.pause()
+            this.setData({ playStatus: false })
         } else {
-            wx.pauseBackgroundAudio()
-            this.setData({ pauseStatus: true })
+            if (backgroundAudioManager.paused) {
+                backgroundAudioManager.play()
+            } else {
+                this.beginPlay()
+            }
+            this.setData({ playStatus: true })
         }
     },
-    play() {
+    beginPlay(e) {
         let { audioList, audioIndex } = this.data
-        wx.playBackgroundAudio({
-            dataUrl: audioList[audioIndex].src,
-            title: audioList[audioIndex].name,
-            coverImgUrl: audioList[audioIndex].poster
+        if (!!e) {
+            audioIndex = e.currentTarget.dataset.index
+        }
+        this.setData({
+            playStatus: true,
+            currentAudio: this.data.audioList[audioIndex]
         })
-        let that = this
-        let timer = setInterval(function() {
-            that.setDuration(that)
-        }, 1000)
-        this.setData({ timer: timer })
+        const backAudio = wx.getBackgroundAudioManager();
+
+        backAudio.src = audioList[audioIndex].sectionUrl
+        backAudio.title = audioList[audioIndex].sectionName
+        backAudio.play();
+        backAudio.onPlay(() => {
+            console.log("音乐播放开始");
+        })
+        backAudio.onEnded(() => {
+            console.log("音乐播放结束");
+        })
+        backAudio.onTimeUpdate(this.onTimeUpdate)
     },
-    setDuration(that) {
-        wx.getBackgroundAudioPlayerState({
-            success: function(res) {
-                // console.log(res)
-                let { status, duration, currentPosition } = res
-                if (status === 1 || status === 0) {
-                    that.setData({
-                        currentPosition: that.stotime(currentPosition),
-                        duration: that.stotime(duration),
-                        sliderValue: Math.floor(currentPosition * 100 / duration),
-                    })
-                }
-            }
+    onPlay() {
+        this.setData({
+            pause
+        })
+    },
+    onTimeUpdate() {
+        const backgroundAudioManager = wx.getBackgroundAudioManager()
+        let sliderValue = backgroundAudioManager.currentTime / backgroundAudioManager.duration * 100
+        this.setData({
+            currentPosition: this.stotime(backgroundAudioManager.currentTime),
+            sliderValue: sliderValue,
+            duration: this.stotime(backgroundAudioManager.duration)
         })
     },
     stotime: function(s) {
-        let t = '';
+        let t = ''
         if (s > -1) {
-            // let hour = Math.floor(s / 3600);
             let min = Math.floor(s / 60) % 60;
-            let sec = s % 60;
-            // if (hour < 10) {
-            //   t = '0' + hour + ":";
-            // } else {
-            //   t = hour + ":";
-            // }
-
-            if (min < 10) { t += "0"; }
-            t += min + ":";
-            if (sec < 10) { t += "0"; }
-            t += sec;
+            let sec = Math.floor(s) % 60
+            if (min < 10) { t += '0' }
+            t += min + ':'
+            if (sec < 10) { t += '0' }
+            t += sec
         }
-        return t;
+        return t
     },
     // 点击章节
     onClickCell(e) {
@@ -290,5 +324,26 @@ Page({
                 }
             })
         })
+    },
+    // 切换分组tab
+    switchNavTab(e) {
+        var {
+            current
+        } = e.currentTarget.dataset;
+
+        //每个tab选项宽度占1/4
+        var singleNavWidth = this.data.windowWidth / 4;
+        //tab选项居中                            
+        this.setData({
+            navScrollLeft: (current - 1) * singleNavWidth
+        })
+        if (this.data.currentTabKey == current) {
+            return false;
+        } else {
+            this.setData({
+                currentTabKey: current
+            })
+        }
+        // this.getArticleList(postgroupid)
     },
 })
