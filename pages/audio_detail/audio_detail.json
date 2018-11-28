@@ -4,7 +4,7 @@
         "wux-cell": "../../components/dist/cell/index",
         "wux-media": "../../components/dist/media/index",
         "wux-accordion": "../../components/dist/accordion/index",
-        "wux-accordion-group": "../../components/dist/accordion-group/index"
-
+        "wux-accordion-group": "../../components/dist/accordion-group/index",
+        "popupPro": "../../components/popupPro/popupPro"
     }
 }

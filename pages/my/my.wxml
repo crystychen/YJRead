@@ -56,7 +56,7 @@
     <view class="menu">
       <view class='menu-item' bindtap="toOrderList">
         <image class="img" src='/images/myorder-icon.png'></image>
-        <text class='menu-title'>我的订单</text>
+        <text class='menu-title'>我的书架</text>
         <view class='right'>
           <view class="cart"></view>
         </view>

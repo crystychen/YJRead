@@ -6,19 +6,19 @@
       <swiper class='banner' indicator-dots="{{false}}" autoplay="{{false}}" previous-margin="60rpx" next-margin="60rpx" circular='{{false}}' bindchange="onSwiperChange" bindanimationfinish="onSwiperAnimationFinish">
         <block wx:for="{{bannerData}}" wx:key="">
           <swiper-item wx:if="{{item.composeType == 1}}">
-            <view class="card-wrap" data-id="{{item[0]}}" catchtap="toShareDetail">
+            <view class="card-wrap" >
               <view class="card-title">{{item.name}}</view>
               <view class="card-body">
                 <view class="list">
                   <view class="list-item" wx:for="{{item.children}}" wx:key="key" data-id="{{item.id}}" catch:tap="bindClickCard">
                     <block wx:if="{{index < 4}}">
-                      <view class="img">
-                        <image class="" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+                      <view class="col-wrap">
+                        <image class="img" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
                         <view class="label-wrap">
                           <view class="label-bcg"></view>
                           <view class="label">
                             原价:
-                            <text class="line-through">{{item.originalPrice}}书签</text>
+                            <text class="">{{item.originalPrice}}书签</text>
                           </view>
                         </view>
                       </view>
@@ -27,13 +27,13 @@
                 </view>
               </view>
               <view class="btn-container">
-                <view class="large-btn" catchtap="toShareDetail">免费领取</view>
+                <view class="large-btn" data-gtitle="{{item.name}}" data-groupid="{{item.id}}" catchtap="toShareDetail">免费领取</view>
               </view>
             </view>
           </swiper-item>
           <block wx:if="{{item.composeType == 3}}">
             <swiper-item wx:for="{{item.children}}" wx:key="key">
-              <view class="card-wrap" data-id="{{item.id}}" bindtap="bindClickCard">
+              <view class="card-wrap">
                 <view class="card-body">
                   <view class="card-infos">
                     <image class="img" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
@@ -44,7 +44,11 @@
                   </view>
                 </view>
                 <view class="btn-container">
-                  <view class="large-btn">点击兑换</view>
+                  <!-- <view class="large-btn">点击兑换</view> -->
+                  <view class="link-wrap">
+                    <text class="link-item" data-id="{{item.id}}" bindtap="bindClickCard">去试听</text>
+                    <text class="link-item" bindtap="toShopMall">看更多</text>
+                  </view>
                 </view>
               </view>
             </swiper-item>

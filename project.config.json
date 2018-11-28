@@ -36,7 +36,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 9,
+			"current": 11,
 			"list": [
 				{
 					"id": -1,
@@ -97,6 +97,17 @@
 					"name": "音频详情",
 					"pathName": "pages/audio_detail/audio_detail",
 					"query": "pid=166"
+				},
+				{
+					"id": -1,
+					"name": "分享详情页",
+					"pathName": "pages/share_detail/share_detail",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "书城",
+					"pathName": "pages/shopMall/shopMall"
 				}
 			]
 		}

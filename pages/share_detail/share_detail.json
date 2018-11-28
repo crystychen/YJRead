@@ -1,1 +1,6 @@
-{}
+{
+    "usingComponents": {
+        "wux-row": "../../components/dist/row/index",
+        "wux-col": "../../components/dist/col/index"
+    }
+}

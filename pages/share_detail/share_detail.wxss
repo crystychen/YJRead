@@ -1,1 +1,63 @@
 /* pages/share_detail/share_detail.wxss */
+
+.container {
+    background: #F6F6F6;
+    height: 100%;
+}
+
+.main-title {
+    font-weight: bold;
+    font-size: 32rpx;
+    text-align: center;
+    height: 90rpx;
+    line-height: 90rpx;
+}
+
+.sec-title {
+    color: #A5A09F;
+    text-align: center;
+}
+
+.books-list {
+    padding: 0 20rpx;
+    margin: 20rpx 0;
+}
+
+.book {
+    margin: 10rpx;
+    /* border-radius: 20rpx; */
+    background: #fff;
+    height: 500rpx;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10rpx 0;
+}
+
+.book-img {
+    width: 50%;
+    height: 250rpx;
+    margin: 20rpx auto;
+}
+
+.book-author {
+    color: #A5A09F;
+}
+
+.book-author,
+.book-name,
+.book-price {
+    margin: 2rpx auto;
+}
+
+.book .share-btn {
+    padding: 0 40rpx;
+    background: #3772FB;
+    color: #fff;
+    font-size: 28rpx;
+    height: 50rpx;
+    line-height: 46rpx;
+    margin: 10rpx auto;
+    border-radius: 50rpx;
+}

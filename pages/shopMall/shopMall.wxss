@@ -7,14 +7,14 @@
 }
 
 .sm-btn {
-    width: 130rpx;
+    width: 140rpx;
     height: 60rpx;
     line-height: 60rpx;
     border-radius: 30rpx;
     font-size: 30rpx;
-    color: #fff;
+    color: #3773FA;
     padding: 0 10rpx;
-    background: linear-gradient(to right, #e2c597, #cf9f73);
+    background: #EBF2FF;
 }
 
 .container {
@@ -321,15 +321,15 @@
 }
 
 .infos-desc {
-    margin-left: 10rpx;
+    /* margin-left: 10rpx; */
     display: inline-block;
     color: #8C8C94;
 }
 
 .num {
-    color: #cf9f73;
+    color: #3773FA;
     font-weight: bold;
-    padding: 0 8rpx;
+    padding-right: 8rpx;
 }
 
 .vertical .content {
@@ -426,7 +426,8 @@
 }
 
 .time {
-    color: rgb(136, 136, 136);
+    /* color: rgb(136, 136, 136); */
+    color: #AFB4CD;
     font-size: 24rpx;
     margin-top: 10rpx;
 }

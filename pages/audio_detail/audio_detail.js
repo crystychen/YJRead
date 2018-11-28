@@ -4,6 +4,7 @@ import {
     postAjax
 } from '../../utils/ajax.js';
 var WxParse = require('../../wxParse/wxParse.js');
+const app = getApp()
 const utils = require('../../utils/util.js');
 
 
@@ -50,34 +51,56 @@ Page({
         backgroundAudioManager.onPause(this.onPause) // 监听背景音频暂停事件
         backgroundAudioManager.onTimeUpdate(this.onTimeUpdate) // 监听背景音频播放进度更新事件
         backgroundAudioManager.onEnded(this.onEnded) // 监听背景音频自然播放结束事件
+
         let pid = options.pid // 商品id
         let that = this
         console.log(pid)
-            // 先通过pid获取商品详情拿到图书bookid,再获取图书明细 
-        this.proDetail(pid).then((res) => {
-            console.log(res)
-            let { bookId } = res.product
-            console.log(bookId)
-            that.bookDetail(bookId).then((res) => {
-                console.log("图书详情", res)
-                WxParse.wxParse('about', 'html', res.book.about, that, 5);
-                WxParse.wxParse('goldWord', 'html', res.book.goldWord, that, 5);
-                let sections = res.book.sections.map((element, index) => {
-                    element.sectionSec = utils.formatSeconds(element.sectionSec)
-                    return element
-                })
-                let audioList = sections.filter((element) => {
 
-                    return element.sectionUrl != "";
-                })
+        app.loginGetUserInfo(function(uinfo) {
+            that.setData({
+                userInfo: uinfo,
+                authLevel: wx.getStorageSync('authLevel')
+            });
+            // 先通过pid获取商品详情拿到图书bookid,再获取图书明细 
+            that.proDetail(pid).then((res) => {
+                // console.log(res)
+                let { bookId, product } = res.product
                 that.setData({
-                    book: res.book,
-                    sections,
-                    audioList,
-                    currentAudio: audioList[0]
+                    product: res.product
+                })
+                that.bookDetail(bookId).then((res) => {
+                    // console.log("图书详情", res)
+                    WxParse.wxParse('about', 'html', res.book.about, that, 5);
+                    WxParse.wxParse('goldWord', 'html', res.book.goldWord, that, 5);
+                    let sections = res.book.sections.map((element, index) => {
+                        element.sectionSec = utils.formatSeconds(element.sectionSec)
+                        return element
+                    })
+                    let audioList = sections.filter((element) => {
+                        return element.sectionUrl != "";
+                    })
+                    that.setData({
+                        book: res.book,
+                        sections,
+                        audioList,
+                        currentAudio: audioList[0]
+                    })
                 })
             })
-        })
+            app.getShareData(4); // 转发语
+            if (wx.getStorageSync('authLevel') == 2) {
+                app.getAccount();
+                // 用户是否是vip
+                app.getUserVip().then((res) => {
+                    console.log("用户vip", res)
+                    that.setData({
+                        isVip: res.data.isVip
+                    })
+                })
+            }
+
+        });
+
     },
 
     /**
@@ -125,22 +148,50 @@ Page({
      * 页面滚动
      */
     onPageScroll: function(e) {
-        console.log(e); //{scrollTop:99}
-        if (e.scrollTop >= 400) {
-            this.setData({
-                isShowFloat: true
-            })
-        } else if (e.scrollTop < 400) {
-            this.setData({
-                isShowFloat: false
-            })
-        }
+        // console.log(e); //{scrollTop:99}
+        // if (e.scrollTop >= 400) {
+        //     this.setData({
+        //         isShowFloat: true
+        //     })
+        // } else if (e.scrollTop < 400) {
+        //     this.setData({
+        //         isShowFloat: false
+        //     })
+        // }
     },
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function() {
-
+    onShareAppMessage: function(res) {
+        var that = this;
+        var {
+            unionId,
+            channelId
+        } = app.globalData;
+        console.log(unionId);
+        const {
+            userId
+        } = wx.getStorageSync('userInfo');
+        if (res.from == "button") {
+            console.log(res)
+            let {
+                shareurl,
+                shareartid
+            } = res.target.dataset;
+            let target_id = res.target.id;
+            if (target_id === 'item-share') {
+                return {
+                    title: that.data.shareData[0][1],
+                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterType=5&shareurl=${shareurl}&shareartid=${shareartid}`,
+                    imageUrl: that.data.shareData[0][3],
+                }
+            }
+        }
+        return {
+            title: that.data.shareData[0][1],
+            path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&unionId=${unionId}&inviterType=0`,
+            imageUrl: that.data.shareData[0][3],
+        }
     },
     // 播放器操作
     bindSliderchange: function(e) {
@@ -296,7 +347,7 @@ Page({
                 if (data.data.status == '00') {
                     resolve(data.data);
                 } else {
-                    reject(res.data.resultMsg)
+                    reject(data.data.resultMsg)
                 }
             })
         })
@@ -346,4 +397,76 @@ Page({
         }
         // this.getArticleList(postgroupid)
     },
+    // 兑换商品
+    postOrderSubmit(e, orderType) {
+        let that = this
+        let postorderType = orderType ? orderType : 0
+        let { product } = this.data
+            // 判断金币不足
+        if (this.data.gold < product.gold) {
+            this.setData({
+                EvegoldModal: true
+            })
+            return;
+        }
+        postAjax({
+            url: "interfaceAction",
+            method: 'POST',
+            data: {
+                interId: '20321',
+                version: 1,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'order-submit',
+                params: {
+                    productId: product.id,
+                    orderType: postorderType,
+                    channelId: app.globalData.channelId
+                }
+            },
+        }).then((res) => {
+            if (res.data.success) {
+                // 判断是否需要支付，true调起支付
+                if (res.data.pay) {
+                    that.PayFor(res.data.orderId).then(function(data) {
+                        // that.pDetail(pid);
+                        // that.getProductDetail(that.data.productId);
+                        wx.showToast({
+                            title: '兑换成功，商品即将出库',
+                            icon: "none",
+                            success: (res) => {
+                                wx.navigateTo({
+                                    url: '/pages/my/orderlist/orderlist',
+                                })
+                            }
+                        })
+
+                    })
+
+                } else {
+                    // 兑换成功
+                    that.setData({
+                        successModal: true
+                    })
+                }
+            } else {
+                utils.alert(res.data.msg)
+            }
+        })
+    },
+    // 领取会员卡 
+    toMyCenter() {
+        console.log("领取会员卡")
+    },
+    // 砍价页面
+    toCutDown() {
+        console.log("砍价页面")
+    },
+    // 书架页面
+    toBookShelf() {
+        console.log("书架页面")
+    },
+    // 立即播放
+    playNow() {
+        console.log("立即播放")
+    }
 })

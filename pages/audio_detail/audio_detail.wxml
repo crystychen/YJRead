@@ -21,31 +21,33 @@
         <view class="title">{{book.bookName}}</view>
         <view class="author">{{book.author}}</view>
       </view>
-      <view class="slider-container">
-        <text class="slider-time">{{currentPosition === 0 ? '00:00' : currentPosition}}</text>
-        <slider value="{{sliderValue}}" bindchange="bindSliderchange" activeColor="#1393FC" backgroundColor="#E2E2E2" style="width: 64%;margin: 0;" block-size="8" block-color="#fff" />
-        <text class="slider-time">{{duration === 0 ? audioList[0].sectionSec : duration}}</text>
-      </view>
-      <view class="operation-container">
-        <view class="" bindtap="bindTapPrev">
-          <image class="md_icon" src="/images/prev.png"></image>
+      <view wx:if="{{isVip}}">
+        <view class="slider-container">
+          <text class="slider-time">{{currentPosition === 0 ? '00:00' : currentPosition}}</text>
+          <slider value="{{sliderValue}}" bindchange="bindSliderchange" activeColor="#1393FC" backgroundColor="#E2E2E2" style="width: 64%;margin: 0;" block-size="8" block-color="#fff" />
+          <text class="slider-time">{{duration === 0 ? audioList[0].sectionSec : duration}}</text>
         </view>
-        <view class="play-icon" bindtap="switchPlayStatus">
-          <view class="icon-wrap">
-            <block wx:if="{{playStatus === true}}">
-              <view class="icon">
-                <view class="suspend"></view>
-              </view>
-            </block>
-            <block wx:else>
-              <view class="icon">
-                <view class="cart"></view>
-              </view>
-            </block>
+        <view class="operation-container">
+          <view class="" bindtap="bindTapPrev">
+            <image class="md_icon" src="/images/prev.png"></image>
           </view>
-        </view>
-        <view class="" bindtap="bindTapNext">
-          <image class="md_icon" src="/images/next.png"></image>
+          <view class="play-icon" bindtap="switchPlayStatus">
+            <view class="icon-wrap">
+              <block wx:if="{{playStatus === true}}">
+                <view class="icon">
+                  <view class="suspend"></view>
+                </view>
+              </block>
+              <block wx:else>
+                <view class="icon">
+                  <view class="cart"></view>
+                </view>
+              </block>
+            </view>
+          </view>
+          <view class="" bindtap="bindTapNext">
+            <image class="md_icon" src="/images/next.png"></image>
+          </view>
         </view>
       </view>
       <view class="desc">{{}}</view>
@@ -88,7 +90,7 @@
     <view class="chapter cell-group" hidden="{{currentTabKey == 2?false:true}}">
       <view class="cell-group_bd">
         <block wx:for="{{sections}}" wx:key="key">
-          <view class="cell" data-index="{{index}}" catch:tap="{{item.isAudition?'beginPlay':''}}">
+          <view class="cell" data-index="{{index}}" catch:tap="{{item.sectionUrl?'beginPlay':''}}">
             <view class="cell_hd">
               <block wx:if="{{ thumb }}">
                 <image class="cell_thumb" src="{{ thumb }}" />
@@ -97,13 +99,14 @@
             <view class="cell_bd">{{item.sectionName}}</view>
             <view class="cell_desc">
               <view class="cell-lock">
-                <block wx:if="{{item.isAudition}}">
+                <block wx:if="{{item.sectionUrl && item.isAudition}}">
                   <!-- <wux-tag color="#1193FE"></wux-tag> -->
                   <view class="tag">试听</view>
                 </block>
-                <block wx:else>
+                <block wx:elif="{{!item.sectionUrl && !item.isAudition }}">
                   <image class="xs_icon" src="/images/lock.png"></image>
                 </block>
+                <block wx:else></block>
               </view>
               <view class="clock-wrap">
                 <image class="xs_icon" src="/images/clock.png"></image>
@@ -115,12 +118,26 @@
       </view>
     </view>
   </view>
-  <view class="btn-container fixed bottom">
-    <view class="btn lg-btn active">19书签兑换</view>
+  <view class="btn-container fixed bottom" wx:if="{{!product.exchanged && !isVip}}">
+    <view class="row">
+      <view class="share-btn">
+        <image class="sm_icon" src="/images/share-icon.png"></image>
+        <text class="" style="margin-top: 10rpx">分享</text>
+        <button open-type="share" ></button>
+      </view>
+      <view class="pay-btn-wrap" bindtap="postOrderSubmit" style="background: #FFC557">
+        <view class="a">{{product.gold}}书签</view>
+        <view class="" style="margin-top: 4rpx;font-size: 30rpx">立刻解锁</view>
+      </view>
+      <view class="pay-btn-wrap" >
+        <view class="">0书签解锁</view>
+        <view class="" style="margin-top: 4rpx;font-size: 30rpx">立刻砍书签</view>
+      </view>
+    </view>
   </view>
 </view>
-
-<view class="float-board" hidden="{{!isShowFloat}}">
+<!-- // wx:if="{{isVip}}" -->
+<view class="float-board" wx:if="{{!isVip}}">
   <view class="bcg"></view>
   <view class="wrap">
     <view class="float-icon-wrap" bindtap="switchPlayStatus">
@@ -136,3 +153,8 @@
     </view>
   </view>
 </view>
+
+<!-- 书签不足 -->
+<popupPro modal-hidden="{{EvegoldModal}}" modal-title="解锁失败" tips="你的书签不足" modal-type="fail" bindtoMyCutDown="toCutDown" bindtoMycenter="toMyCenter"></popupPro>
+<!-- 兑换成功 -->
+<popupPro modal-hidden="{{successModal}}" modal-title="解锁成功" tips="书籍已放入【我的书架】" modal-type="success" bindonPlayNow="playNow" bindtoBookShelf="toBookShelf"></popupPro>

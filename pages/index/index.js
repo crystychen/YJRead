@@ -23,18 +23,18 @@ Page({
         let that = this
         console.log(options)
         wx.getSystemInfo({
-            success: (res) => {
-                this.setData({
-                    pixelRatio: res.pixelRatio,
-                    windowHeight: res.windowHeight,
-                    windowWidth: res.windowWidth
-                })
-            }
-        })
-        this.setData({
-                isTaskTips: app.globalData.isTaskTips,
-                isReAwardTips: app.globalData.isReAwardTips
+                success: (res) => {
+                    this.setData({
+                        pixelRatio: res.pixelRatio,
+                        windowHeight: res.windowHeight,
+                        windowWidth: res.windowWidth
+                    })
+                }
             })
+            // this.setData({
+            //         isTaskTips: app.globalData.isTaskTips,
+            //         isReAwardTips: app.globalData.isReAwardTips
+            //     })
             // 页面传参
         if (!!options.cid) { // 渠道取值
             app.globalData.channelId = options.cid;
@@ -442,9 +442,15 @@ Page({
             }
         })
     },
-    toShareDetail() {
+    toShareDetail(e) {
+        let { groupid, gtitle } = e.currentTarget.dataset
         wx.navigateTo({
-            url: "/pages/share_detail/share_detail"
+            url: `/pages/share_detail/share_detail?groupid=${groupid}&gtitle=${gtitle}`
+        })
+    },
+    toShopMall() {
+        wx.switchTab({
+            url: "/pages/shopMall/shopMall"
         })
     }
 })

@@ -29,29 +29,22 @@
                 <image class="img" src='{{item.thumbImg}}'></image>
                 <view class='info'>
                   <view class='title'>{{item.productName}}</view>
-                  <text style="color: #CECED6;height: 50rpx;">{{item.author}}</text>
+                  <text style="color: #CECED6;height: 50rpx;" wx:if="{{item.author}}">{{item.author}}</text>
                   <view class='desc'>{{item.productIntroduction}}</view>
-                  <view style="width: 100%;position: absolute;bottom:0rpx;">
-                    <!-- <text class='line-through light-gray origin-price'>原价:{{item.originalPrice?item.originalPrice:0}}元</text> -->
-                    <view class='row'>
-                      <image class="sm_icon" src='/images/bookMark_active.png'></image>
-                      <view class='infos-desc'>
-                        <text>书签所需</text>
-                        <text class="num">{{item.gold}}</text>
-                        <text>张</text>
-                      </view>
-                    </view>
+                  <view class='infos-desc' style="width: 100%;position: absolute;bottom:0rpx;">
+                    <text class="num">{{item.gold}}</text>
+                    <text>书签</text>
                   </view>
-                  <form report-submit='true' data-id="{{item.id}}" data-protype="{{item.welfareProductType}}" data-needgold="{{item.gold}}" bindsubmit='{{item.welfareProductType == 4?"":"postOrderSubmit"}}'>
+                  <!-- <form report-submit='true' data-id="{{item.id}}" data-protype="{{item.welfareProductType}}" data-needgold="{{item.gold}}" bindsubmit='{{item.welfareProductType == 4?"":"postOrderSubmit"}}'>
                     <button formType="submit" class='item-btn sm-btn'>兑换</button>
-                  </form>
+                  </form> -->
                 </view>
               </view>
             </block>
           </view>
-          <navigator wx:if='{{proList.total > proList.children.length}}' class="more" open-type='navigate' url='/pages/productList/productList?pid={{proList.id}}'>
+          <!-- <navigator wx:if='{{proList.total > proList.children.length}}' class="more" open-type='navigate' url='/pages/productList/productList?pid={{proList.id}}'>
             <text>更多商品</text>
-          </navigator>
+          </navigator> -->
         </view>
       </block>
     </view>

@@ -1,0 +1,156 @@
+/* 弹窗 */
+
+.modal-mask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    overflow: hidden;
+    z-index: 1000;
+    color: #fff;
+}
+
+.modal {
+    position: fixed;
+    top: 260rpx;
+    left: 50%;
+    transform: translate(-50%);
+    width: 560rpx;
+    height: 550rpx;
+    /* width: 600rpx; */
+    /* height: 600rpx; */
+    z-index: 1001;
+}
+
+.close {
+    position: absolute;
+    right: 0;
+    top: 10rpx;
+    text-align: center;
+    font-weight: bold;
+    z-index: 1;
+    color: #fff;
+}
+
+.close::before {
+    content: "\2716";
+}
+
+.modal-content {
+    /* width: 100%; */
+    height: 470rpx;
+    /* background: #fff; */
+    border-radius: 30rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 1;
+    padding-top: 160rpx;
+    box-sizing: border-box;
+}
+
+.modal-header {
+    width: 130rpx;
+    height: 130rpx;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -76rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.modal-header>image {
+    width: 70%;
+    height: 70%;
+    margin: 0 auto;
+}
+
+.title {
+    width: 100%;
+    display: block;
+    font-size: 40rpx;
+    font-weight: bold;
+    text-align: center;
+}
+
+.desc {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    font-size: 30rpx;
+    text-align: center;
+    color: #8f8f93;
+    margin-top: 20rpx;
+}
+
+.num {
+    color: #cf9f73;
+    font-weight: bold;
+    padding: 0 8rpx;
+}
+
+.modal-content .btn-container {
+    width: 100%;
+    margin-top: 20rpx;
+    position: absolute;
+    bottom: 10rpx;
+}
+
+.modal-content .btn {
+    width: 384rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #fff;
+    font-size: 30rpx;
+    border-radius: 50rpx;
+    margin: 30rpx auto;
+    text-align: center;
+}
+
+.modal-content .btn.active {
+    /* background: linear-gradient(to right, #e2c597, #cf9f73); */
+    background: #FFAA0F;
+    color: #fff;
+    border: none;
+}
+
+.modal-content .btn.border {
+    border: 1rpx solid #FFAA0F;
+    color: #FFAA0F;
+}
+
+.bcgImg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.swtich-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 200rpx;
+    margin: 0 auto;
+    height: 40rpx;
+    position: relative;
+    bottom: 24rpx;
+}
+
+.swtich-wrap>text {
+    font-size: 22rpx;
+    height: 30rpx;
+    line-height: 46rpx;
+}
+
+.swtich-wrap .switch {
+    /* position: absolute;
+  left: 0; */
+}
