@@ -36,7 +36,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 11,
+			"current": 12,
 			"list": [
 				{
 					"id": -1,
@@ -96,7 +96,7 @@
 					"id": 9,
 					"name": "音频详情",
 					"pathName": "pages/audio_detail/audio_detail",
-					"query": "pid=166"
+					"query": "pid=163"
 				},
 				{
 					"id": -1,
@@ -107,7 +107,14 @@
 				{
 					"id": -1,
 					"name": "书城",
-					"pathName": "pages/shopMall/shopMall"
+					"pathName": "pages/shopMall/shopMall",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "砍价页面",
+					"pathName": "pages/cut_down/cut_down",
+					"query": "orderid=2018112916251260145"
 				}
 			]
 		}

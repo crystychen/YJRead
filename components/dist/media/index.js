@@ -1,5 +1,5 @@
 Component({
-    externalClasses: ['wux-class', 'wux-class-body'],
+    externalClasses: ['wux-class', 'wux-class-body', 'wux-class-title'],
     properties: {
         thumb: {
             type: String,

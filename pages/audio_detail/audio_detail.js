@@ -83,7 +83,7 @@ Page({
                         book: res.book,
                         sections,
                         audioList,
-                        currentAudio: audioList[0]
+                        currentAudio: audioList[0] || []
                     })
                 })
             })
@@ -175,15 +175,53 @@ Page({
         if (res.from == "button") {
             console.log(res)
             let {
-                shareurl,
-                shareartid
+                pid
             } = res.target.dataset;
+
             let target_id = res.target.id;
+            if (target_id === 'free-share') {
+                return {
+                    title: that.data.shareData[0][1],
+                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}`,
+                    imageUrl: that.data.shareData[0][3],
+                    success: res => {
+                        console.log('--- 转发回调 ---', res);
+                    },
+                    fail: () => {
+                        console.log('--- 转发失败 ---');
+                    },
+                    complete: res => {
+                        console.log(res)
+                        if (res.errMsg == 'shareAppMessage:ok') {
+                            //分享为按钮转发
+                            // if (_this.data.shareBtn) {
+                            //     //判断是否分享到群
+                            //     if (res.hasOwnProperty('shareTickets')) {
+                            //         console.log(res.shareTickets[0]);
+                            //         //分享到群
+                            //         _this.data.isshare = 1;
+                            //     } else {
+                            //         // 分享到个人
+                            //         _this.data.isshare = 0;
+                            //     }
+                            // }
+                            console.log("分享成功")
+                            that.postOrderSubmit()
+                        } else {
+                            console.log("分享失败")
+                        }
+                    }
+                }
+            }
             if (target_id === 'item-share') {
                 return {
                     title: that.data.shareData[0][1],
-                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterType=5&shareurl=${shareurl}&shareartid=${shareartid}`,
+                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}`,
                     imageUrl: that.data.shareData[0][3],
+                    complete: res => {
+                        console.log(res)
+                        if (res.errMsg == 'shareAppMessage:ok') {}
+                    }
                 }
             }
         }
@@ -398,12 +436,12 @@ Page({
         // this.getArticleList(postgroupid)
     },
     // 兑换商品
-    postOrderSubmit(e, orderType) {
+    postOrderSubmit(e, orderType, callback) {
         let that = this
         let postorderType = orderType ? orderType : 0
         let { product } = this.data
             // 判断金币不足
-        if (this.data.gold < product.gold) {
+        if (this.data.gold < product.gold && orderType == 0) {
             this.setData({
                 EvegoldModal: true
             })
@@ -439,15 +477,16 @@ Page({
                                 })
                             }
                         })
-
                     })
-
                 } else {
-                    // 兑换成功
-                    that.setData({
-                        successModal: true
-                    })
+                    if (orderType != 2) {
+                        // 兑换成功
+                        that.setData({
+                            successModal: true
+                        })
+                    }
                 }
+                callback && callback(res)
             } else {
                 utils.alert(res.data.msg)
             }
@@ -468,5 +507,41 @@ Page({
     // 立即播放
     playNow() {
         console.log("立即播放")
+    },
+    // 砍价
+    toCutDown(e) {
+        // 
+        let that = this
+        this.postOrderSubmit([], 2, (res) => {
+            console.log("砍价发起", res)
+            wx.navigateTo({
+                url: `/pages/cut_down/cut_down?orderid=${res.data.orderId}`
+            })
+            that.orderBargain(res.data.orderId, 1)
+
+        })
+    },
+    //  砍价砍一刀
+    orderBargain(orderid, bargainType) {
+        postAjax({
+            url: "interfaceAction",
+            method: 'POST',
+            data: {
+                interId: '20321',
+                version: 1,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'order-bargain',
+                params: {
+                    orderNo: orderid,
+                    type: bargainType,
+                }
+            },
+        }).then((res) => {
+            if (res.success) {
+                // callback && callback(res)
+            } else {
+                // utils.alert(res.data.msg)
+            }
+        })
     }
 })

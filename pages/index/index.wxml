@@ -5,32 +5,36 @@
     <view class='banner-wrap' wx:if="{{bannerData.length}}">
       <swiper class='banner' indicator-dots="{{false}}" autoplay="{{false}}" previous-margin="60rpx" next-margin="60rpx" circular='{{false}}' bindchange="onSwiperChange" bindanimationfinish="onSwiperAnimationFinish">
         <block wx:for="{{bannerData}}" wx:key="">
-          <swiper-item wx:if="{{item.composeType == 1}}">
-            <view class="card-wrap" >
-              <view class="card-title">{{item.name}}</view>
-              <view class="card-body">
-                <view class="list">
-                  <view class="list-item" wx:for="{{item.children}}" wx:key="key" data-id="{{item.id}}" catch:tap="bindClickCard">
-                    <block wx:if="{{index < 4}}">
-                      <view class="col-wrap">
-                        <image class="img" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-                        <view class="label-wrap">
-                          <view class="label-bcg"></view>
-                          <view class="label">
-                            原价:
-                            <text class="">{{item.originalPrice}}书签</text>
+          <block wx:if="{{item.composeType == 1}}">
+            <swiper-item>
+              <view class="card-wrap">
+                <view class="card-title">{{item.name}}</view>
+                <view class="card-body">
+                  <view class="list">
+                    <view class="list-item" wx:for="{{item.children}}" wx:key="key" data-id="{{item.id}}" catch:tap="bindClickCard">
+                      <block wx:if="{{index < 4}}">
+                        <view class="col-wrap">
+                          <image class="img" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+                          <view class="label-wrap">
+                            <view class="label-bcg"></view>
+                            <view class="label">
+                              原价:
+                              <text class="">{{item.originalPrice}}书签</text>
+                            </view>
                           </view>
                         </view>
-                      </view>
-                    </block>
+                      </block>
+                    </view>
+                  </view>
+                </view>
+                <view class="btn-container">
+                  <view class="btn large-btn blue-bcg" data-gtitle="{{item.name}}" data-groupid="{{item.id}}" catchtap="toShareDetail">
+                    免费领取
                   </view>
                 </view>
               </view>
-              <view class="btn-container">
-                <view class="large-btn" data-gtitle="{{item.name}}" data-groupid="{{item.id}}" catchtap="toShareDetail">免费领取</view>
-              </view>
-            </view>
-          </swiper-item>
+            </swiper-item>
+          </block>
           <block wx:if="{{item.composeType == 3}}">
             <swiper-item wx:for="{{item.children}}" wx:key="key">
               <view class="card-wrap">

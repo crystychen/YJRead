@@ -51,8 +51,6 @@
     margin: 0 42rpx;
     height: 90rpx;
     line-height: 90rpx;
-    color: #ffffff;
-    background: #3772FB;
     text-align: center;
     font-size: 30rpx;
     border-radius: 10rpx;
@@ -185,6 +183,12 @@
     width: 80%;
     color: #A5A09F;
     margin: 10rpx 0;
+    overflow: hidden;
+    display: -webkit-box;
+    white-space: initial;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 

@@ -13,7 +13,8 @@ Page({
     data: {
         viewCount: 0,
         validViewCount: 0,
-        todaygold: 0
+        todaygold: 0,
+        isVip: false
     },
 
     /**
@@ -45,6 +46,13 @@ Page({
             if (wx.getStorageSync('authLevel') == 2) {
                 app.getAccount();
                 that.getTodayNumber(); // 今日数量
+                app.getUserVip().then((res) => {
+                    console.log("用户vip", res)
+                    that.setData({
+                        isVip: res.data.isVip,
+                        Vip: res.data
+                    })
+                })
             }
 
         });
@@ -186,5 +194,9 @@ Page({
         })
     },
     // 领取卡片
-    bindReceive() {}
+    bindReceive() {
+        this.setData({
+            isMenCard: true
+        })
+    }
 })

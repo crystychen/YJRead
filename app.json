@@ -10,6 +10,7 @@
         "pages/reading/reading",
         "pages/audio_detail/audio_detail",
         "pages/share_detail/share_detail",
+        "pages/cut_down/cut_down",
         "pages/orderlist/orderlist",
         "pages/order_detail/order_detail",
         "pages/logs/logs"

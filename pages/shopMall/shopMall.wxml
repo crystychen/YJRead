@@ -1,13 +1,17 @@
 <!-- pages/index/index.wxml -->
 <view class='container'>
-  <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
-    <wux-media thumb="https://soure.chudianad.com/static/welfare/product/thumbImg/201811191551200805.jpg" thumb-style="" title="本周分享免费书单" label="每周五12:00更新">
-      <view class="btn-wrap center-right" data-appid="{{item.appid}}" data-path="{{item.path}}" slot hover-class="none" hover-stop-propagation="false" bind:tap="navigateToMini">
-        <view class="sm-btn btn" bindtap="viewBookList">查看</view>
-      </view>
-      <view class="time">{{item.createTime}}</view>
-    </wux-media>
-  </view>
+  <block wx:for="{{products}}" wx:key="index" wx:for-item="proList">
+    <view class="media-wrap" slot="body" wx:if='{{proList.composeType == 1}}'>
+      <wux-media thumb="{{proList.children[0].thumbImg}}" thumb-style="" title="{{proList.name}}" label="每周五12:00更新">
+        <view class="btn-wrap center-right" slot hover-class="none" hover-stop-propagation="false">
+          <view class="sm-btn btn blue-color" data-gtitle="{{proList.name}}" data-groupid="{{proList.id}}" bindtap="viewBookList">
+            查看
+          </view>
+        </view>
+        <view class="time">{{item.createTime}}</view>
+      </wux-media>
+    </view>
+  </block>
   <view style="">
     <!-- 福利 -->
     <view style='position: relative;'>
@@ -23,13 +27,15 @@
           </view>
           <view class='content'>
             <block wx:for="{{proList.children}}" wx:key="index">
-              <view class="vertical-item" data-goodsid="{{item.id}}" data-item="{{item}}" catchtap='{{item.welfareProductType == 4?"popupProduct":""}}'>
+              <view class="vertical-item" data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
                 <!-- 没授权 -->
                 <button class="auth-btn" wx:if='{{authLevel != 2}}' open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
                 <image class="img" src='{{item.thumbImg}}'></image>
                 <view class='info'>
                   <view class='title'>{{item.productName}}</view>
-                  <text style="color: #CECED6;height: 50rpx;" wx:if="{{item.author}}">{{item.author}}</text>
+                  <view style="color: #CECED6;height: 50rpx;" wx:if="{{item.author}}">
+                    {{item.author}}
+                  </view>
                   <view class='desc'>{{item.productIntroduction}}</view>
                   <view class='infos-desc' style="width: 100%;position: absolute;bottom:0rpx;">
                     <text class="num">{{item.gold}}</text>

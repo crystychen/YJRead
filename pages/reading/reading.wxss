@@ -27,9 +27,6 @@
     line-height: 60rpx;
     border-radius: 30rpx;
     font-size: 30rpx;
-    color: #fff;
-    padding: 0 10rpx;
-    background: linear-gradient(to right, #e2c597, #cf9f73);
 }
 
 .media-wrap {
@@ -89,7 +86,8 @@
 }
 
 .nav-item.active {
-    color: #cf9e73;
+    color: #3772FB;
+    /* font-weight: bold; */
 }
 
 .slider-wrap {
@@ -101,7 +99,7 @@
 }
 
 .navbar_slider {
-    background: #cf9e73;
+    background: #3772FB;
     height: 8rpx;
     width: 80rpx;
     margin: 0 auto;
@@ -191,7 +189,11 @@
 }
 
 .share {
-    position: absolute;
+    /* position: absolute;
     right: 10rpx;
-    bottom: 0;
+    bottom: 0; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 40rpx;
 }

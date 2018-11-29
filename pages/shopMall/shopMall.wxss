@@ -12,9 +12,6 @@
     line-height: 60rpx;
     border-radius: 30rpx;
     font-size: 30rpx;
-    color: #3773FA;
-    padding: 0 10rpx;
-    background: #EBF2FF;
 }
 
 .container {

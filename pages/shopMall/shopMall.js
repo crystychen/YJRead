@@ -590,9 +590,20 @@ Page({
         })
     },
     // 查看免费书单
-    viewBookList() {
+    viewBookList(e) {
         console.log("查看免费书单")
+        let { groupid, gtitle } = e.currentTarget.dataset
+        wx.navigateTo({
+            url: `/pages/share_detail/share_detail?groupid=${groupid}&gtitle=${gtitle}`
+        })
+    },
+    toAudioDetail(e) {
+        let { id, welftype } = e.currentTarget.dataset
+        if (welftype == 6) {
+            wx.navigateTo({
+                url: `/pages/audio_detail/audio_detail?pid=${id}`
+            })
+        }
     }
-
 
 })

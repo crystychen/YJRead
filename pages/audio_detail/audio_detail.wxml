@@ -21,7 +21,7 @@
         <view class="title">{{book.bookName}}</view>
         <view class="author">{{book.author}}</view>
       </view>
-      <view wx:if="{{isVip}}">
+      <view wx:if="{{isVip || product.exchanged}}">
         <view class="slider-container">
           <text class="slider-time">{{currentPosition === 0 ? '00:00' : currentPosition}}</text>
           <slider value="{{sliderValue}}" bindchange="bindSliderchange" activeColor="#1393FC" backgroundColor="#E2E2E2" style="width: 64%;margin: 0;" block-size="8" block-color="#fff" />
@@ -65,7 +65,7 @@
   </view>
   <view class="tab-content">
     <view class="" hidden="{{currentTabKey == 1?false:true}}">
-      <view class="card-wrap">
+      <view class="accordion-group-wrap" wx:if="{{book.anchors.length}}">
         <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
           <wux-media wux-class-body="media-body" thumb="{{book.anchors[0].anchorHeadImg}}" thumb-style="border-radius: 300rpx" title="{{book.anchors[0].anchorName}}" label="{{book.anchors[0].anchorIntro}}">
             <view class="btn-wrap center-right" slot>
@@ -119,41 +119,46 @@
     </view>
   </view>
   <view class="btn-container fixed bottom" wx:if="{{!product.exchanged && !isVip}}">
-    <view class="row">
+    <view class="row" wx:if="{{product.gold}}">
       <view class="share-btn">
         <image class="sm_icon" src="/images/share-icon.png"></image>
         <text class="" style="margin-top: 10rpx">分享</text>
-        <button open-type="share" ></button>
+        <button open-type="share" id="item-share"></button>
       </view>
       <view class="pay-btn-wrap" bindtap="postOrderSubmit" style="background: #FFC557">
         <view class="a">{{product.gold}}书签</view>
         <view class="" style="margin-top: 4rpx;font-size: 30rpx">立刻解锁</view>
       </view>
-      <view class="pay-btn-wrap" >
+      <view class="pay-btn-wrap" catch:tap="toCutDown">
         <view class="">0书签解锁</view>
         <view class="" style="margin-top: 4rpx;font-size: 30rpx">立刻砍书签</view>
       </view>
     </view>
+    <view wx:else class="btn full-btn orange">
+      <button open-type="share" id="free-share"></button>
+      分享
+    </view>
   </view>
 </view>
 <!-- // wx:if="{{isVip}}" -->
-<view class="float-board" wx:if="{{!isVip}}">
-  <view class="bcg"></view>
-  <view class="wrap">
-    <view class="float-icon-wrap" bindtap="switchPlayStatus">
-      <view class="float-suspend" wx:if="{{playStatus === true}}"></view>
-      <view class="float-cart" wx:else></view>
-    </view>
-    <view class="play-info">
-      <view class="play-title">{{currentAudio.sectionName}}</view>
-      <view class="row">
-        <text class="">{{currentAudio.sectionSec}}</text>
-        <view class="tag" wx:if="currentAudio.isAudition">试听</view>
+<view class="float-board" wx:if="{{!product.exchanged && !isVip}}">
+  <block wx:if="{{currentAudio.length}}">
+    <view class="bcg"></view>
+    <view class="wrap">
+      <view class="float-icon-wrap" bindtap="switchPlayStatus">
+        <view class="float-suspend" wx:if="{{playStatus === true}}"></view>
+        <view class="float-cart" wx:else></view>
+      </view>
+      <view class="play-info">
+        <view class="play-title">{{currentAudio.sectionName}}</view>
+        <view class="row">
+          <text class="">{{currentAudio.sectionSec}}</text>
+          <view class="tag" wx:if="currentAudio.isAudition">试听</view>
+        </view>
       </view>
     </view>
-  </view>
+  </block>
 </view>
-
 <!-- 书签不足 -->
 <popupPro modal-hidden="{{EvegoldModal}}" modal-title="解锁失败" tips="你的书签不足" modal-type="fail" bindtoMyCutDown="toCutDown" bindtoMycenter="toMyCenter"></popupPro>
 <!-- 兑换成功 -->

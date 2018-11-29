@@ -15,6 +15,7 @@
                 <view class="status doing" wx:if='{{item[2] == 2 || item[2] == 4}}'>进行中</view>
                 <view class="status conment" wx:elif='{{item[2] == 5}}'>待评价</view>
                 <view class="status done" wx:elif='{{item[2] == 13 || item[2] == 12}}'>已完成</view>
+                <view class="status done" wx:elif='{{item[2] == 14 }}'>砍价中</view>
               </view>
               <view class="item-body">
                 <image class="img" src="{{item[5]}}" mode='scaleToFill' />
@@ -29,6 +30,7 @@
                   <view class='view-detail' wx:if="{{item[2] == 12}}">
                     <navigator open-type='navigate' path='{{item[11]}}' app-id='{{item[12]}}'  target="miniProgram" hover-class="none" class='' style="color: #cf9f73" >前往领取></navigator>
                   </view>
+                  <view wx:elif="item[2] == 14" class='view-detail' data-orderId='{{item[1]}}' catchtap='toCutDown'>查看砍价进度></view>
                   <view wx:else class='view-detail' data-orderId='{{item[1]}}' catchtap='detailOrder'>查看订单></view>
                 </view>
               </view>

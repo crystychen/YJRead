@@ -68,34 +68,17 @@ Page({
         }
     },
     onUnload() {
-        app.globalData.openOnShow = false
         wx.removeStorageSync('timeStart');
     },
     onShow: function() {
         let that = this
         app.visitorLogin(function(uinfo) {
                 that.setData({
-                        authLevel: wx.getStorageSync("authLevel"),
-                        userInfo: wx.getStorageSync('userInfo')
-                    })
-                    // 通过链接进来重新加载广告, 邀请人id = inviterUserId(不需授权调用)
-                if (!app.globalData.openOnShow || that.data.inviterUserId) {
-                    // wx.showLoading({
-                    //   title: '正在加载中'
-                    // })
+                    authLevel: wx.getStorageSync("authLevel"),
+                    userInfo: wx.getStorageSync('userInfo')
+                })
 
-                    app.getShareData(4); // 转发语
-                    // 轮播图
-                    app.getShareData(1, function(res) {
-                        that.setData({
-                            bannerData: res.data.infos
-                        })
-                    });
-
-                    // setTimeout(function() {
-                    //   wx.hideLoading()
-                    // }, 800)
-                }
+                app.getShareData(4); // 转发语
                 that.getGroup(); // 文章分組
 
                 app.getUserInfo([wx.getStorageSync('authLevel'), wx.getStorageSync('userInfo')]).then(function(uinfo) {
@@ -105,10 +88,14 @@ Page({
                     })
 
                     if (wx.getStorageSync("authLevel") == 2) {
-                        // app.getAccount(); // 获取账户信息
-                        // that.getTodayIsLottery(); //今天是否抽奖          
+                        app.getUserVip().then((res) => {
+                            console.log("用户vip", res)
+                            that.setData({
+                                isVip: res.data.isVip,
+                                Vip: res.data
+                            })
+                        })
                     }
-                    app.globalData.openOnShow = true
 
                 });
             })
@@ -554,6 +541,8 @@ Page({
     },
     //  领取卡片
     bindReceive() {
-        console.log("领取卡")
+        this.setData({
+            isMenCard: true
+        })
     }
 })

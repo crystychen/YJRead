@@ -1,0 +1,47 @@
+<!-- pages/cut_down/cut_down.wxml -->
+<!-- <text>pages/cut_down/cut_down.wxml</text> -->
+<view class="container">
+  <view class="pro-info-wrap">
+    <view class="pro-info">
+      <image class="img" src=""></image>
+      <view class="info-body">
+        <view class="">
+          <view class="name">如懿传</view>
+          <view class="desc">如懿传</view>
+        </view>
+        <view class="count-time">
+          <text class="time-num">23</text>
+          <text class="time-num">45</text>
+          <text class="time-num">58</text>
+          <text class="" style="color:#BBBBBB">后结束砍价</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="operation-wrap">
+    <view class="slider-wrap">
+      <view class="slider-text">已砍10书签,还差30书签</view>
+      <view class="slider">
+        <wux-progress active-color="#FFAA0F" percent="50" />
+      </view>
+    </view>
+    <view class="btn-cointainer">
+      <view class="btn orange main-btn share-btn">
+        转发群，可多砍一刀
+        <button open-type="share" id="first-share"></button>
+      </view>
+      <view class="btn border main-btn">支付30书签解锁</view>
+    </view>
+  </view>
+  <view class="record-wrap">
+    <view class="record-title">砍价记录</view>
+    <view class="record-list">
+      <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
+        <wux-media wux-class-title="media-title" thumb="https://wx.qlogo.cn/mmopen/vi_32/WmxkCfNhM2hWViahzP5TgMoRSZw1mHxtSyfic7DRhkdrTrTURcnEsQDTb2hcD75R0xgnsic3pv9D7PS39LicT7gibibQ/132" thumb-style="border-radius: 50%" title="白与修" label="发起砍价">
+          <!-- <view class="time">{{Vip.endTime}}</view> -->
+          <view class="label center-right" slot>砍掉10书签</view>
+        </wux-media>
+      </view>
+    </view>
+  </view>
+</view>
