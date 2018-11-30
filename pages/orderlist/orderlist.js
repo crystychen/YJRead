@@ -36,7 +36,7 @@ Page({
         ],
         currentNavtab: 0,
         page: 1,
-        size: 5,
+        size: 10,
         hasMoreData: true,
         sliderOffset: 0,
         sliderLeft: 0,
@@ -67,6 +67,19 @@ Page({
 
             }
         });
+        // let that = this
+        that.setData({ //由于getOrderList方法中的数据是concat多个，故先清除
+                orderInfos: [],
+                page: 1
+            })
+            // wx.showLoading({ //期间为了显示效果可以添加一个过度的弹出框提示“加载中”  
+            //   title: '加载中',
+            //   icon: 'loading',
+            // });
+        app.visitorLogin(function(uinfo) {
+            //刷新数据
+            that.getOrderList();
+        });
     },
 
     /**
@@ -80,19 +93,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        let that = this
-        that.setData({ //由于getOrderList方法中的数据是concat多个，故先清除
-                orderInfos: [],
-                page: 1
-            })
-            // wx.showLoading({ //期间为了显示效果可以添加一个过度的弹出框提示“加载中”  
-            //   title: '加载中',
-            //   icon: 'loading',
-            // });
-        app.visitorLogin(function(uinfo) {
-            //刷新数据
-            that.getOrderList();
-        });
+
 
     },
     //切换tab刷新数据
@@ -199,7 +200,6 @@ Page({
                         if (res.data.infos.length < that.data.size) {
                             setTimeout(() => {
                                 that.setData({
-                                    isShow: true,
                                     orderInfos: that.data.orderInfos.concat(res.data.infos),
                                     hasMoreData: false
                                 })
@@ -208,7 +208,6 @@ Page({
                         } else {
                             setTimeout(() => {
                                 that.setData({
-                                    payfor: that.data.payfor.concat(res.data.data),
                                     hasMoreData: true,
                                     page: that.data.page
                                 })
@@ -225,7 +224,59 @@ Page({
             })
         }
     },
+    bindscrolltolower() {
+        var that = this;
+        that.setData({
 
+            })
+            // console.log("下滑加载更多");
+        if (this.data.hasMoreData) {
+            that.data.page++
+                postAjax({
+                    url: "interfaceAction",
+                    // method: 'POST',
+                    data: {
+                        interId: '20321',
+                        version: 1,
+                        authKey: wx.getStorageSync('authKey'),
+                        method: 'order-list',
+                        params: {
+                            channelId: app.globalData.channelId,
+                            state: that.data.state,
+                            page: that.data.page,
+                            size: that.data.size
+                        }
+                    }
+                }).then((res) => {
+                    console.log("订单列表:", res)
+                    if (res.data.status == "00") {
+                        if (res.data.infos.length < that.data.size) {
+                            setTimeout(() => {
+                                that.setData({
+                                    orderInfos: that.data.orderInfos.concat(res.data.infos),
+                                    hasMoreData: false
+                                })
+                                wx.hideLoading();
+                            }, 500)
+                        } else {
+                            setTimeout(() => {
+                                that.setData({
+                                    hasMoreData: true,
+                                    page: that.data.page
+                                })
+                                wx.hideLoading();
+                            }, 500)
+                        }
+                    } else {
+                        utils.alert(res.data.resultMsg)
+                    }
+                })
+        } else {
+            wx.showToast({
+                title: '没有更多了',
+            })
+        }
+    },
     //取消订单
     toCancel: function(e) {
         var that = this
@@ -441,9 +492,13 @@ Page({
     },
     //进入详情订单
     detailOrder: function(e) {
-        let orderid = e.currentTarget.dataset.orderid;
+        // let orderid = e.currentTarget.dataset.orderid;
+        // wx.navigateTo({
+        //     url: '/pages/order_detail/order_detail?orderid=' + orderid
+        // })
+        let { pid, orderid, bookid } = e.currentTarget.dataset
         wx.navigateTo({
-            url: '/pages/order_detail/order_detail?orderid=' + orderid
+            url: `/pages/audio_detail/audio_detail?orderid=${orderid}&pid=${pid}&bookid=${bookid}`
         })
     },
     toCutDown(e) {

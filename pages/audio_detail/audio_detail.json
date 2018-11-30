@@ -5,6 +5,7 @@
         "wux-media": "../../components/dist/media/index",
         "wux-accordion": "../../components/dist/accordion/index",
         "wux-accordion-group": "../../components/dist/accordion-group/index",
-        "popupPro": "../../components/popupPro/popupPro"
+        "popupPro": "../../components/popupPro/popupPro",
+        "popupMemCard": "../../components/popupMemCard/index"
     }
 }

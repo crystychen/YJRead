@@ -1,6 +1,8 @@
 // pages/cut_down/cut_down.js
 import { postAjax } from '../../utils/ajax.js';
 const utils = require('../../utils/util.js');
+import { $wuxCountDown } from '../../components/dist/index'
+
 var app = getApp();
 
 Page({
@@ -19,30 +21,42 @@ Page({
     onLoad: function(options) {
         console.log(options);
         var that = this
-        if (!!options.shipping) {
-            that.setData({
-                shipping: true
-            })
-        }
+        that.setData({
+            orderid: options.orderid,
+            sharetime: options.sharetime || ""
+        })
         wx.getSystemInfo({
-            success: (res) => {
-                this.setData({
-                    pixelRatio: res.pixelRatio,
-                    windowHeight: res.windowHeight,
-                    windowWidth: res.windowWidth
-                })
-            }
-        })
-        app.visitorLogin(function(uinfo) {
-
-            // options.orderid 订单Id
-            that.getOrderDetail(options.orderid)
-                // 砍第一刀
-            app.getShareData(4)
-            that.setData({
-                orderid: options.orderid
+                success: (res) => {
+                    this.setData({
+                        pixelRatio: res.pixelRatio,
+                        windowHeight: res.windowHeight,
+                        windowWidth: res.windowWidth
+                    })
+                }
             })
-        })
+            // app.visitorLogin(function(uinfo) {
+            //     that.setData({
+            //         userInfo: uinfo,
+            //         authLevel: wx.getStorageSync('authLevel')
+            //     });
+            //     // options.orderid 订单I
+
+        // })
+        app.loginGetUserInfo(function(uinfo) {
+            that.setData({
+                userInfo: uinfo,
+                authLevel: wx.getStorageSync('authLevel')
+            });
+            that.getOrderDetail(options.orderid)
+            that.getCutDetail(options.orderid) // 获取砍价明细
+            app.getShareData(4)
+
+            // that.orderBargain(options.orderid, 1) // 砍第一刀
+            if (wx.getStorageSync('authLevel') == 2) {
+                app.getAccount();
+            }
+
+        });
 
     },
     /**
@@ -50,6 +64,9 @@ Page({
      */
     onShow: function() {
 
+    },
+    preventDefault() {
+        return false;
     },
     // 订单详情
     getOrderDetail(orderid) {
@@ -71,8 +88,67 @@ Page({
             // console.log(res)
             if (res.data.status === '00') {
                 that.setData({
-                    orderInfo: res.data.detail
+                        orderInfo: res.data.detail,
+                        productId: res.data.detail.productId
+                    })
+                    // 倒计时
+                that.countTime = new $wuxCountDown({
+                    date: res.data.detail.expiryTime,
+                    onEnd() {
+                        // 时间结束
+                        that.setData({
+                            timeOver: true
+                        })
+                    },
+                    render(date) {
+                        // const years = this.leadingZeros(date.years, 4) + ' - '
+                        // const days = this.leadingZeros(date.days, 3) + ' - '
+                        const hours = this.leadingZeros(date.hours, 2)
+                        const min = this.leadingZeros(date.min, 2)
+                        const sec = this.leadingZeros(date.sec, 2)
+
+                        that.setData({
+                            hours,
+                            min,
+                            sec
+                        })
+                    },
                 })
+            } else {
+                console.log('------')
+                console.log(res.data.resultMsg)
+            }
+        })
+    },
+    // 砍价详情
+    getCutDetail(orderid) {
+        let that = this
+
+        postAjax({
+            url: "interfaceAction",
+            data: {
+                interId: '20321',
+                version: 1,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'order-bargain-detail',
+                params: {
+                    orderNo: orderid
+                }
+            }
+        }).then((res) => {
+            if (res.data.status === '00') {
+                // 处理砍价类型、
+                let bargainDetails = res.data.bargain.details.map((element, index, item) => {
+                    element.bargainType = that.bargainType(element.bargainType)
+                    return element;
+                })
+                let percent = (res.data.bargain.haveBargainGold / res.data.bargain.gold) * 100
+                that.setData({
+                    bargain: res.data.bargain,
+                    bargainDetails,
+                    percent
+                })
+                console.log(bargainDetails)
             } else {
                 console.log('------')
                 console.log(res.data.resultMsg)
@@ -305,56 +381,51 @@ Page({
         } = wx.getStorageSync('userInfo');
         if (res.from == "button") {
             console.log(res)
-                // let {
-                //     pid
-                // } = res.target.dataset;
+            let {
+                pid,
+                sharetime
+            } = res.target.dataset;
 
             let target_id = res.target.id;
             if (target_id === 'first-share') {
                 return {
                     title: that.data.shareData[0][1],
-                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&orderid=${that.data.orderid}`,
+                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&orderid=${that.data.orderid}&sharetime=${sharetime}`,
                     imageUrl: that.data.shareData[0][3],
-                    success: res => {
-                        console.log('--- 转发回调 ---', res);
-                    },
-                    fail: () => {
-                        console.log('--- 转发失败 ---');
-                    },
                     complete: res => {
                         console.log(res)
                         if (res.errMsg == 'shareAppMessage:ok') {
-                            //分享为按钮转发
-                            // if (_this.data.shareBtn) {
-                            //     //判断是否分享到群
-                            //     if (res.hasOwnProperty('shareTickets')) {
-                            //         console.log(res.shareTickets[0]);
-                            //         //分享到群
-                            //         _this.data.isshare = 1;
-                            //     } else {
-                            //         // 分享到个人
-                            //         _this.data.isshare = 0;
-                            //     }
-                            // }
                             console.log("首次分享成功")
-                            that.orderBargain(that.data.orderid, 2)
+                            that.orderBargain(that.data.orderid, sharetime, (res) => {
+                                // 分享成功后提示操作并刷新页面
+                                that.setData({
+                                    firstPopup: true,
+                                    cutGold: res.data.gold
+                                })
+                                that.getCutDetail(that.data.orderid);
+                            })
                         } else {
                             console.log("分享失败")
                         }
                     }
                 }
             }
-            if (target_id === 'item-share') {
+            // 好友帮砍分享
+            if (target_id === 'share-cut') {
                 return {
                     title: that.data.shareData[0][1],
-                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}`,
+                    path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=${sharetime}`,
                     imageUrl: that.data.shareData[0][3],
                     complete: res => {
                         console.log(res)
-                        if (res.errMsg == 'shareAppMessage:ok') {}
+                        if (res.errMsg == 'shareAppMessage:ok') {
+
+                        }
                     }
                 }
             }
+
+
         }
         return {
             title: that.data.shareData[0][1],
@@ -362,8 +433,26 @@ Page({
             imageUrl: that.data.shareData[0][3],
         }
     },
+    // 处理砍价类型
+    bargainType(btype) {
+        let text = ""
+        switch (btype) {
+            case 1:
+                text = "发起砍价"
+                break;
+            case 2:
+                text = "首次分享"
+                break;
+            case 3:
+                text = "用户帮砍"
+                break;
+            default:
+                break;
+        }
+        return text
+    },
     //  砍一刀
-    orderBargain(orderid, bargainType) {
+    orderBargain(orderid, bargainType, callback) {
         postAjax({
             url: "interfaceAction",
             method: 'POST',
@@ -378,11 +467,112 @@ Page({
                 }
             },
         }).then((res) => {
-            if (res.status == "00") {
-                // callback && callback(res)
+            if (res.data.status == "00") {
+                callback && callback(res)
             } else {
                 utils.alert(res.data.msg)
             }
+        })
+    },
+    // 提交砍价订单
+    postOrderSubmit(e, callback) {
+        console.log("解锁订单")
+            // 书签判断是否足够
+        let { gold, haveBargainGold } = this.data.bargain;
+        let orderid = this.data.orderid;
+        let needgold = gold - haveBargainGold // 还需要支付的书签
+        if (this.data.gold < needgold) {
+            this.setData({
+                EvegoldModal: true
+            })
+            return;
+        }
+        postAjax({
+            url: "interfaceAction",
+            method: 'POST',
+            data: {
+                interId: '20321',
+                version: 1,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'order-bargain-submit',
+                params: {
+                    orderNo: orderid
+                }
+            },
+        }).then((res) => {
+            if (res.data.status == "00") {
+                callback && callback(res)
+                if (res.data.success) {
+                    that.setData({
+                        successModal: true
+                    })
+                }
+            } else {
+                utils.alert(res.data.msg)
+            }
+        })
+    },
+    // 授权新用户登录
+    onGotUserInfo: function(e) {
+        var that = this
+        if (!e.detail.userInfo) {
+            return;
+        }
+        app.globalData.iv = e.detail.iv; //先放app的全局变量，然后在其他方法解密
+        app.globalData.encryptedData = e.detail.encryptedData; //先放app的全局变量，然后在其他方法解密
+
+        app.uploadUserInfo(function(uinfo) {
+            // uinfo后台返回来的
+            app.globalData.fromauth = 1;
+            console.log("后台返回的unifo:", uinfo)
+            that.setData({
+                userInfo: uinfo,
+                authLevel: wx.getStorageSync('authLevel')
+            });
+
+            // 新好友授权后直接砍价
+            that.helpCut();
+
+        });
+    },
+    // 好友帮砍价
+    helpCut() {
+        this.orderBargain(this.data.orderid, 3, (res) => {
+            // 提示砍价成功
+            that.orderBargain(that.data.orderid, sharetime, (res) => {
+                // 分享成功后提示操作并刷新页面
+                that.setData({
+                    helpCutPopup: true,
+                    cutGold: res.data.gold
+                })
+
+            })
+        })
+    },
+    toIndex() {
+        wx.switchTab({
+            url: "/pages/index/index"
+        })
+    },
+    toAudioDetail() {
+        wx.redirectTo({
+            url: `/pages/audio_detail/audio_detail?pid=${this.data.productId}`
+        })
+    },
+    toDailyTask() {
+        wx.navigateTo({
+            url: "/pages/daily_task/daily_task"
+        })
+    },
+    // 书架页面
+    toBookShelf() {
+        wx.navigateTo({
+            url: "/pages/orderlist/orderlist"
+        })
+    },
+    onCloseModal() {
+        this.setData({
+            EvegoldModal: false
         })
     }
 })

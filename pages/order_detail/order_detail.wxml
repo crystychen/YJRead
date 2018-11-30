@@ -1,6 +1,6 @@
 <!--pages/order_detail/order_detail.wxml-->
 <view class='container' style="height: {{windowHeight}}px">
-  <view class="status-wrap">
+  <view class="status-wrap" wx:if="{{orderInfo.receiverName}}">
     <image class='statusImg' wx:if="{{orderInfo.orderState == 2}}" src="/images/todoStatus.png"></image>
     <image class='statusImg' wx:if="{{orderInfo.orderState == 4 || orderInfo.orderState == 3 }}" src="/images/doingStatus.png"></image>
     <image class='statusImg' wx:if="{{orderInfo.orderState >= 5}}" src="/images/doneStatus.png"></image>
@@ -27,7 +27,7 @@
           </view>
         </view>
       </view>
-      <view class="address-wrap">
+      <view class="address-wrap" wx:if="{{orderInfo.receiverName}}">
         <view class='address-title'>收货信息</view>
         <view class='address-info'>
           <text>{{orderInfo.receiverName}}　</text>

@@ -21,7 +21,7 @@
         <view class="title">{{book.bookName}}</view>
         <view class="author">{{book.author}}</view>
       </view>
-      <view wx:if="{{isVip || product.exchanged}}">
+      <view wx:if="{{isVip || book.isBuy}}">
         <view class="slider-container">
           <text class="slider-time">{{currentPosition === 0 ? '00:00' : currentPosition}}</text>
           <slider value="{{sliderValue}}" bindchange="bindSliderchange" activeColor="#1393FC" backgroundColor="#E2E2E2" style="width: 64%;margin: 0;" block-size="8" block-color="#fff" />
@@ -118,7 +118,7 @@
       </view>
     </view>
   </view>
-  <view class="btn-container fixed bottom" wx:if="{{!product.exchanged && !isVip}}">
+  <view class="btn-container fixed bottom" wx:if="{{!book.isBuy && !isVip}}">
     <view class="row" wx:if="{{product.gold}}">
       <view class="share-btn">
         <image class="sm_icon" src="/images/share-icon.png"></image>
@@ -136,13 +136,13 @@
     </view>
     <view wx:else class="btn full-btn orange">
       <button open-type="share" id="free-share"></button>
-      分享
+      分享立刻解锁
     </view>
   </view>
 </view>
 <!-- // wx:if="{{isVip}}" -->
-<view class="float-board" wx:if="{{!product.exchanged && !isVip}}">
-  <block wx:if="{{currentAudio.length}}">
+<view class="float-board" wx:if="{{!book.isBuy && !isVip}}">
+  <block wx:if="{{currentAudio}}">
     <view class="bcg"></view>
     <view class="wrap">
       <view class="float-icon-wrap" bindtap="switchPlayStatus">
@@ -159,7 +159,9 @@
     </view>
   </block>
 </view>
+<!-- 领取会员卡 -->
+<popupMemCard modal-hidden="{{isMenCard}}" ></popupMemCard>
 <!-- 书签不足 -->
-<popupPro modal-hidden="{{EvegoldModal}}" modal-title="解锁失败" tips="你的书签不足" modal-type="fail" bindtoMyCutDown="toCutDown" bindtoMycenter="toMyCenter"></popupPro>
+<popupPro modal-hidden="{{EvegoldModal}}" modal-title="解锁失败" tips="你的书签不足" modal-type="fail" bindtoMyCutDown="toCutDown" bindonMemCard="onMemCard"></popupPro>
 <!-- 兑换成功 -->
 <popupPro modal-hidden="{{successModal}}" modal-title="解锁成功" tips="书籍已放入【我的书架】" modal-type="success" bindonPlayNow="playNow" bindtoBookShelf="toBookShelf"></popupPro>

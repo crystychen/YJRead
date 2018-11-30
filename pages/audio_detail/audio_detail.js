@@ -66,7 +66,8 @@ Page({
                 // console.log(res)
                 let { bookId, product } = res.product
                 that.setData({
-                    product: res.product
+                    product: res.product,
+                    pid: pid
                 })
                 that.bookDetail(bookId).then((res) => {
                     // console.log("图书详情", res)
@@ -83,7 +84,7 @@ Page({
                         book: res.book,
                         sections,
                         audioList,
-                        currentAudio: audioList[0] || []
+                        currentAudio: audioList[0] || ""
                     })
                 })
             })
@@ -333,11 +334,11 @@ Page({
         })
         backAudio.onTimeUpdate(this.onTimeUpdate)
     },
-    onPlay() {
-        this.setData({
-            pause
-        })
-    },
+    // onPlay() {
+    //     this.setData({
+    //         pause
+    //     })
+    // },
     onTimeUpdate() {
         const backgroundAudioManager = wx.getBackgroundAudioManager()
         let sliderValue = backgroundAudioManager.currentTime / backgroundAudioManager.duration * 100
@@ -441,7 +442,7 @@ Page({
         let postorderType = orderType ? orderType : 0
         let { product } = this.data
             // 判断金币不足
-        if (this.data.gold < product.gold && orderType == 0) {
+        if (this.data.gold < product.gold && postorderType == 0) {
             this.setData({
                 EvegoldModal: true
             })
@@ -493,33 +494,97 @@ Page({
         })
     },
     // 领取会员卡 
-    toMyCenter() {
+    onMemCard() {
         console.log("领取会员卡")
-    },
-    // 砍价页面
-    toCutDown() {
-        console.log("砍价页面")
+        this.setData({
+            EvegoldModal: false,
+            isMenCard: true
+        })
     },
     // 书架页面
     toBookShelf() {
         console.log("书架页面")
+        wx.navigateTo({
+            url: "/pages/orderlist/orderlist"
+        })
     },
     // 立即播放
     playNow() {
         console.log("立即播放")
+        this.switchPlayStatus()
     },
     // 砍价
     toCutDown(e) {
-        // 
+        console.log("砍价页面")
         let that = this
-        this.postOrderSubmit([], 2, (res) => {
-            console.log("砍价发起", res)
-            wx.navigateTo({
-                url: `/pages/cut_down/cut_down?orderid=${res.data.orderId}`
-            })
-            that.orderBargain(res.data.orderId, 1)
-
+            // 判断是否已经发起过砍价
+        that.getIsCutting(that.data.pid).then((res) => {
+            if (res.data.orderNo) {
+                wx.navigateTo({
+                    url: `/pages/cut_down/cut_down?orderid=${res.data.orderNo}`
+                })
+                return;
+            } else {
+                that.postOrderSubmit([], 2, (res) => {
+                    console.log("砍价发起", res)
+                    wx.navigateTo({
+                        url: `/pages/cut_down/cut_down?orderid=${res.data.orderId}`
+                    })
+                    that.orderBargain(res.data.orderId, 1) // 砍第一刀
+                })
+            }
         })
+
+        // this.postOrderSubmit([], 2, (res) => {
+        //     console.log("砍价发起", res)
+        //     wx.navigateTo({
+        //         url: `/pages/cut_down/cut_down?orderid=${res.data.orderId}`
+        //     })
+        //     that.orderBargain(res.data.orderId, 1) // 砍第一刀
+        // })
+    },
+    getIsCutting(pid) {
+        return new Promise((resolve, reject) => {
+                postAjax({
+                    url: "interfaceAction",
+                    method: 'POST',
+                    data: {
+                        interId: '20111',
+                        version: 1,
+                        authKey: wx.getStorageSync('authKey'),
+                        method: 'p-bargain-order',
+                        params: {
+                            productId: pid
+                        }
+                    },
+                }).then((res) => {
+                    if (res.data.status == "00") {
+                        resolve(res);
+                    } else {
+                        reject(res.data.resultMsg)
+                    }
+                })
+            })
+            // postAjax({
+            //     url: "interfaceAction",
+            //     method: 'POST',
+            //     data: {
+            //         interId: '20111',
+            //         version: 1,
+            //         authKey: wx.getStorageSync('authKey'),
+            //         method: 'p-bargain-order',
+            //         params: {
+            //             productId: pid
+            //         }
+            //     },
+            // }).then((res) => {
+            //     if (res.status == "00") {
+            //         // callback && callback(res)
+            //         return res.orderNo
+            //     } else {
+            //         // utils.alert(res.data.msg)
+            //     }
+            // })
     },
     //  砍价砍一刀
     orderBargain(orderid, bargainType) {

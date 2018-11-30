@@ -9,15 +9,26 @@
       <!-- 弹窗类型 -->
       <block wx:if="{{modalType == 'fail'}}">
         <button class='btn active' bindtap="toMyCutDown">立刻0书签解锁</button>
-        <button bindtap="" class='btn border' bindtap="toMyCenter">领7天会员卡</button>
+        <button bindtap="" class='btn border' bindtap="onMemCard">领7天会员卡</button>
       </block>
       <block wx:elif="{{modalType == 'success'}}">
         <!-- <button class='btn active' wx:if="{{btnType == 2}}" data-ruleid="{{recordRead.ruleid}} " data-id="{{recordRead.id}} " data-url="{{recordRead.url}}" catch:tap='NumTap'>
           重新阅读
         </button> -->
         <button class='btn active' bindtap="onPlayNow">立刻播放</button>
-        <button bindtap="" class='btn border' bindtap="toBookShelf">去书架</button>
+        <button class='btn border' bindtap="toBookShelf">去书架</button>
       </block>
+      <block wx:elif="{{modalType == 'sharePass'}}">
+        <button class='btn active' open-type="share" data-sharetime="3" id="share-cut">
+          邀请好友帮忙砍价
+        </button>
+        <button class='btn border' bindtap="closeModal">放弃分享砍价</button>
+      </block>
+      <block wx:elif="{{modalType == 'helpCut'}}">
+        <button class='btn active' bindtap="onConfirm">我也要砍</button>
+        <button bindtap="onCancel" class='btn border'>去首页看看</button>
+      </block>
+      <slot></slot>
       <!-- <button bindtap="closeModal" class='btn border {{btnType == 3?"active":""}}'>知道了</button> -->
       <!-- <button bindtap="" class='btn border {{btnType == 3?"active":""}}'>领7天会员卡</button> -->
       <view class="swtich-wrap" wx:if="{{modalType == 0}}" bindtap="" style="">

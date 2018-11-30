@@ -67,11 +67,11 @@ Component({
             this.triggerEvent('toMyCutDown');
         },
         // 领会员
-        toMyCenter() {
+        onMemCard() {
             // wx.switchTab({
             //     url: '/pages/my/my'
             // })
-            this.triggerEvent('toMycenter');
+            this.triggerEvent('onMemCard');
         },
         // 去书架
         toBookShelf() {
@@ -80,6 +80,16 @@ Component({
         // 立刻播放
         onPlayNow() {
             this.triggerEvent('onPlayNow');
+
+        },
+        // 确定按钮
+        onConfirm() {
+            this.triggerEvent('onConfirm');
+
+        },
+        // 取消按钮
+        onCancel() {
+            this.triggerEvent('onCancel');
 
         }
 
