@@ -22,7 +22,7 @@
       </view>
       <view class='btn-wrap'>
         <view class='xs-btn btn disabled' wx:if="{{!isSigned && authLevel == 2}}">已签到</view>
-        <view class='xs-btn btn active' wx:else bindtap="showSignModal">去完成</view>
+        <view class='xs-btn btn blue-color' wx:else bindtap="showSignModal">去完成</view>
       </view>
     </view>
     <!-- 奖励规则 -->
@@ -36,7 +36,7 @@
         </view>
         <view class='btn-wrap'>
           <view class='xs-btn btn disabled' wx:if="{{item[5] >= item[4]}}">已完成</view>
-          <view class='xs-btn btn active' wx:else bindtap='toIndex'>去完成</view>
+          <view class='xs-btn btn blue-color' wx:else bindtap='toIndex'>去完成</view>
         </view>
       </view>
     </block>
@@ -50,8 +50,8 @@
         </view>
         <view class='btn-wrap'>
           <view class='xs-btn btn disabled' wx:if="{{item[10] == 1}}">已领取</view>
-          <view class='xs-btn btn active' data-taskId="{{item[0]}}" data-award="{{item[8] || item[9]}}" wx:if="{{item[10] == 0 && item[4] >= item[3]}}" bindtap="onReceive">领取</view>
-          <view class='xs-btn btn active' bindtap='showInviteList' wx:if="{{item[4] < item[3]}}">
+          <view class='xs-btn btn blue-color' data-taskId="{{item[0]}}" data-award="{{item[8] || item[9]}}" wx:if="{{item[10] == 0 && item[4] >= item[3]}}" bindtap="onReceive">领取</view>
+          <view class='xs-btn btn blue-color' bindtap='showInviteList' wx:if="{{item[4] < item[3]}}">
             去完成
             <!-- <button open-type="share" class='share-btn'></button> -->
           </view>
@@ -74,14 +74,14 @@
             <text>{{item[1]}}</text>
           </view>
           <view class='btn-wrap' data-shareurl="{{item[8]}}" data-shareArtid="{{item[0]}}" catchtap="showShareBoard">
-            <view class='right-btn'>去邀請</view>
+            <view class='btn blue-color right-btn'>去邀請</view>
             <!-- <button class="share-btn" open-type='share'></button> -->
           </view>
         </view>
       </block>
     </view>
   </scroll-view>
-  <view class='btn active w-vertical-align-l more-btn' bindtap='toIndex'>更多精彩文章</view>
+  <view class='btn active w-vertical-align-l more-btn blue-color' bindtap='toIndex'>更多精彩文章</view>
 </view>
 
 

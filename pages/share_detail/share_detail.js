@@ -360,14 +360,14 @@ Page({
                             //         _this.data.isshare = 0;
                             //     }
                             // }
-                            wx.showToast({
-                                title: '分享成功',
-                            })
+                            // wx.showToast({
+                            //     title: '分享成功',
+                            // })
                             that.postOrder(pid)
                         } else {
-                            wx.showToast({
-                                title: '分享失败',
-                            })
+                            // wx.showToast({
+                            //     title: '分享失败',
+                            // })
                         }
                     }
                 }

@@ -419,7 +419,18 @@ Page({
                     complete: res => {
                         console.log(res)
                         if (res.errMsg == 'shareAppMessage:ok') {
-
+                            // that.setData({
+                            //     firstPopup: false
+                            // })
+                            // that.getCutDetail(that.data.orderid);
+                            that.orderBargain(that.data.orderid, sharetime, (res) => {
+                                // 分享成功后提示操作并刷新页面
+                                that.setData({
+                                    firstPopup: false,
+                                    cutGold: res.data.gold
+                                })
+                                that.getCutDetail(that.data.orderid);
+                            })
                         }
                     }
                 }
@@ -537,16 +548,21 @@ Page({
     },
     // 好友帮砍价
     helpCut() {
-        this.orderBargain(this.data.orderid, 3, (res) => {
+        let that = this
+        that.orderBargain(this.data.orderid, that.data.sharetime, (res) => {
             // 提示砍价成功
-            that.orderBargain(that.data.orderid, sharetime, (res) => {
-                // 分享成功后提示操作并刷新页面
+            // 分享成功后提示操作并刷新页面
+            if (res.data.success) {
                 that.setData({
                     helpCutPopup: true,
                     cutGold: res.data.gold
                 })
-
-            })
+            } else {
+                wx.showToast({
+                    title: "你已经帮忙砍过价啦",
+                    icon: "none"
+                })
+            }
         })
     },
     toIndex() {
