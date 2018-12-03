@@ -1,7 +1,7 @@
 <!-- pages/share_detail/share_detail.wxml -->
 <view class="container" style="height: {{windowHeight}}px">
   <view class="main-title">{{gtitle}}</view>
-  <view class="sec-title">每个用户每周仅限领取一本</view>
+  <view class="sec-title">每周仅限领取一本</view>
   <view class="books-list">
     <wux-row>
       <wux-col span="6" wx:for="{{products}}" wx:key="key">

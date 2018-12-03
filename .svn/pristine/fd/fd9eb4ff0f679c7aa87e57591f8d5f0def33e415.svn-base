@@ -1,0 +1,7 @@
+{
+    "usingComponents": {
+        "wux-media": "../../components/dist/media/index",
+        "wux-badge": "../../components/dist/badge/index",
+        "popupMemCard": "../../components/popupMemCard/index"
+    }
+}

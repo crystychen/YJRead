@@ -1,0 +1,197 @@
+    /* pages/cut_down/cut_down.wxss */
+    
+    .container {
+        padding-bottom: 30rpx;
+    }
+    
+    .pro-info-wrap {
+        width: 100%;
+        box-sizing: border-box;
+        /* display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; */
+    }
+    
+    .pro-info {
+        margin: 0 30rpx;
+        display: flex;
+        flex-direction: row;
+        border-bottom: 1rpx solid #C0C2D6;
+        padding: 40rpx 0;
+        /* width: 100%; */
+        position: relative;
+        justify-content: space-between;
+    }
+    
+    .img {
+        width: 180rpx;
+        height: 250rpx;
+        background: #C0C2D6;
+        border-radius: 20rpx;
+        /* position: absolute;
+        left: 0; */
+    }
+    
+    .info-body {
+        padding: 0 20rpx;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        width: 500rpx;
+    }
+    
+    .info-body .name {
+        font-weight: bold;
+        font-size: 32rpx;
+        margin-bottom: 10rpx;
+    }
+    
+    .info-body .desc {
+        margin-bottom: 10rpx;
+        color: #C0C2D6;
+        line-height: 1.2;
+    }
+    
+    .count-time {}
+    
+    .time-num {
+        border-radius: 10rpx;
+        background: #CF3B32;
+        color: #fff;
+        text-align: center;
+        margin: 0 10rpx;
+        padding: 0 2rpx;
+        position: relative;
+        width: 36rpx;
+        height: 36rpx;
+    }
+    
+    .time-num::before {
+        content: ":";
+        color: #000;
+        position: absolute;
+        left: -10rpx;
+    }
+    
+    .time-num:first-child::before {
+        color: red;
+        content: " ";
+    }
+    
+    .operation-wrap {
+        margin: 60rpx 0;
+    }
+    
+    .slider {
+        margin: 0 90rpx;
+    }
+    
+    .slider-text {
+        text-align: center;
+        height: 60rpx;
+    }
+    
+    .btn-cointainer {
+        margin: 60rpx 0;
+        position: relative;
+    }
+    
+    .openbtn {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: transparent;
+        z-index: 1;
+    }
+    
+    .main-btn {
+        width: 500rpx;
+        margin: 30rpx auto;
+        border-radius: 50rpx;
+        position: relative;
+    }
+    
+    .share-btn>button {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    /* 砍价记录 */
+    
+    .record-wrap {
+        margin: 0 30rpx;
+        background: #F6F6F6;
+        border-radius: 20rpx;
+    }
+    
+    .record-title {
+        height: 100rpx;
+        line-height: 100rpx;
+        text-align: center;
+        border-bottom: 1rpx solid #E1E1E1;
+        color: #232E78;
+        font-size: 36rpx;
+        font-weight: bold;
+    }
+    /* 媒体对象自定义内容 */
+    
+    .media-title {
+        color: #808080;
+        font-size: 32rpx !important;
+        /* font-weight: normal !important; */
+    }
+    
+    .center-right {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    
+    .label {
+        padding-right: 30rpx;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #232E78;
+        font-size: 30rpx;
+    }
+    
+    .time {
+        /* color: rgb(136, 136, 136); */
+        color: #AFB4CD;
+        font-size: 24rpx;
+        margin-top: 10rpx;
+    }
+    /* 列表媒体对象end */
+    /* 弹窗按钮 */
+    
+    .modal-content .btn {
+        width: 384rpx;
+        height: 80rpx;
+        line-height: 80rpx;
+        color: #fff;
+        font-size: 30rpx;
+        border-radius: 50rpx;
+        margin: 30rpx auto;
+        text-align: center;
+    }
+    
+    .modal-content .btn.active {
+        /* background: linear-gradient(to right, #e2c597, #cf9f73); */
+        background: #FFAA0F;
+        color: #fff;
+        border: none;
+    }
+    
+    .modal-content .btn.border {
+        border: 1rpx solid #FFAA0F;
+        color: #FFAA0F;
+    }

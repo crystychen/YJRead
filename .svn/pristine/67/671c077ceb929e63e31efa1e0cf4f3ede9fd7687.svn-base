@@ -1,0 +1,35 @@
+<!-- components/popup/popup.wxml -->
+<view class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closeModal" hidden="{{!modalHidden}}"></view>
+<view class='modal' catchtouchmove="preventTouchMove" hidden="{{!modalHidden}}">
+  <!-- <view bindtap="hideModal" class="mid_icon close"></view> -->
+  <!-- <view class='modal-header'>
+    <image class="" src='/images/bookMark_active.png'></image>
+  </view> -->
+  <image class="bcgImg" src="/images/popupbcg.png"></image>
+  <view class='modal-content'>
+    <text class='title'>{{modalTitle}}</text>
+    <text class='desc' wx:if="{{award.gold > 0}}">获得书签<text class='num'>{{award.gold}}</text>张</text>
+    <text class='desc' wx:if="{{award.money > 0}}">获得红包<text class='num'>{{award.money}}</text>元</text>
+    <text class="desc">{{tips}}</text>
+    <view class='btn-container'>
+      <!-- 抽奖中奖弹窗 -->
+      <block wx:if="{{modalType == 2 }}">
+        <button class='btn active' bindtap="toMyCenter">查看我的书签</button>
+      </block>
+      <block wx:else>
+        <button class='btn active' wx:if="{{btnType == 2}}" data-ruleid="{{recordRead.ruleid}} " data-id="{{recordRead.id}} " data-url="{{recordRead.url}}" catch:tap='NumTap'>
+          重新阅读
+        </button>
+        <button wx:elif="{{btnType != 3}}" class='btn active' data-opt="awardId " bindtap="jumpTo">做任务赚书签</button>
+      </block>
+      <button bindtap="closeModal" class='btn border {{btnType == 3?"active":""}}'>知道了</button>
+      <view class="swtich-wrap" wx:if="{{modalType == 0}}" bindtap="" style="">
+        <form bindsubmit="formSubmit" style="margin: 0 auto;" report-submit="true ">
+          <button formType="submit">
+            <text>不再提示</text>
+          </button>
+        </form>
+      </view>
+    </view>
+  </view>
+</view>

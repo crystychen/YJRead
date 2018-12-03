@@ -1,0 +1,357 @@
+/**index.wxss**/
+
+.share>button {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+.container {
+    background: #F6F6F6;
+}
+
+
+/* 轮播图 */
+
+.banner-wrap {
+    width: 100%;
+    height: 100%;
+    /* padding: 30rpx; */
+    box-sizing: border-box;
+    /* padding-bottom: 40rpx; */
+}
+
+.banner {
+    width: 100%;
+    height: 100%;
+    padding: 40rpx 0;
+    box-sizing: border-box;
+}
+
+.card-wrap {
+    margin: 0 16rpx;
+    padding: 30rpx 20rpx;
+    background: #fff;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 30rpx;
+    box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233);
+    position: relative;
+}
+
+.card-wrap .btn-container {
+    position: absolute;
+    bottom: 40rpx;
+    left: 0
+}
+
+.large-btn {
+    /* width: 100%; */
+    margin: 0 42rpx;
+    height: 90rpx;
+    line-height: 90rpx;
+    text-align: center;
+    font-size: 30rpx;
+    border-radius: 10rpx;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-title {
+    width: 100%;
+    height: 90rpx;
+    line-height: 90rpx;
+    text-align: left;
+    font-size: 40rpx;
+    padding: 0 20rpx;
+}
+
+.link-wrap {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.link-item {
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    color: #39A7F7;
+    text-align: center;
+    height: 30rpx;
+    line-height: 30rpx;
+}
+
+.link-item:first-child {
+    border-right: 4rpx solid #39A7F7;
+}
+
+
+/* ---列表---- */
+
+.list {
+    /* padding: 20rpx;  */
+    box-sizing: border-box;
+    display: inline-block;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.list-item {
+    width: 50%;
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 10rpx 0;
+}
+
+.col-wrap {
+    width: 250rpx;
+    height: 340rpx;
+    /* margin: 20rpx; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.col-wrap>.img {
+    width: 250rpx;
+    height: 340rpx;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #cecece;
+}
+
+.label-wrap {
+    width: 100%;
+    height: 40rpx;
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    padding: 0 10rpx;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.5)
+}
+
+
+/* ---单个信息排列---- */
+
+.card-infos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80rpx 0 20rpx 0rpx
+}
+
+.card-infos .img {
+    width: 250rpx;
+    height: 340rpx;
+    margin: 20rpx 0;
+}
+
+.card-infos .title {
+    font-size: 32rpx;
+    font-weight: bold;
+    margin: 20rpx 0;
+}
+
+.card-infos .author {
+    color: #A5A09F;
+    margin: 10rpx 0;
+}
+
+.card-infos .price {
+    color: #3772FB;
+    margin: 10rpx 0;
+}
+
+.card-infos .desc {
+    width: 80%;
+    color: #A5A09F;
+    margin: 10rpx 0;
+    overflow: hidden;
+    display: -webkit-box;
+    white-space: initial;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+
+/* 轮播图end */
+
+
+/* 弹窗 */
+
+.modal-mask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #000;
+    opacity: 0.7;
+    /* overflow: hidden; */
+    z-index: 888;
+    color: #fff;
+}
+
+.modal.modal-read-tips {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 500rpx;
+    /* height: 566rpx; */
+    height: 410rpx;
+    background: #fff;
+    border-radius: 30rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-title {
+    height: 110rpx;
+    width: 100%;
+    line-height: 110rpx;
+    text-align: center;
+    color: #cf9e73;
+    font-size: 36rpx;
+    font-weight: bold;
+}
+
+.modal-content>text {
+    color: #8f8f93;
+    padding: 0 30rpx;
+    width: 90%;
+    display: block;
+    margin: 20rpx auto;
+}
+
+.btn-know {
+    width: 226rpx;
+    height: 68rpx;
+    line-height: 68rpx;
+    font-size: 28rpx;
+    text-align: center;
+    border-radius: 50rpx;
+    box-sizing: border-box;
+    color: #fff;
+    background: linear-gradient(to right, #e2c597, #cf9f73);
+    position: absolute;
+    bottom: 40rpx;
+}
+
+
+/* 气泡 */
+
+.bubble-tips-wrap {
+    position: absolute;
+    top: 160rpx;
+    left: 6rpx;
+    /* z-index: 999; */
+    padding: 0 20rpx;
+    box-sizing: border-box;
+}
+
+.bubble-tips-text {
+    /* width: 360rpx; */
+    height: 30rpx;
+    line-height: 30rpx;
+    display: block;
+    color: #ce9c73;
+    position: absolute;
+    left: 80rpx;
+    top: 8rpx;
+    /* transform: translateX(-50%); */
+    text-align: center;
+    font-size: 26rpx;
+}
+
+.bubble-tips {
+    background-color: #fff;
+    border: 4rpx solid #ce9c73;
+    border-radius: 50rpx;
+    width: 280rpx;
+    height: 40rpx;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.bubble-icon-wrap {
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50rpx;
+    border: 1rpx solid #ce9c73;
+    position: relative;
+}
+
+.bubble-icon {
+    width: 30rpx;
+    height: 30rpx;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.caret {
+    width: 20rpx;
+    height: 20rpx;
+    background: #fff;
+    transform: rotate(45deg);
+    position: absolute;
+    left: 120rpx;
+    top: -10rpx;
+    border-top: 4rpx solid #ce9c73;
+    border-left: 4rpx solid #ce9c73;
+}
+
+.close {
+    position: absolute;
+    right: 44rpx;
+    top: 4rpx;
+    text-align: center;
+    z-index: 1;
+    color: #000;
+}
+
+.close::before {
+    content: "\2716";
+}
+
+
+/* .bubble-tips:after {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  top: -12rpx;
+  right: 112rpx;
+  margin-left: -20rpx;
+  width: 0rpx;
+  height: 0rpx;
+  border-style: solid;
+  border-width: 12rpx;
+  border-radius: 1rpx;
+  border-color: #27c6df #27c6df transparent transparent;
+  transform: rotate(-45deg);
+} */

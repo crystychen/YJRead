@@ -1,0 +1,12 @@
+{
+    "usingComponents": {
+        "popup": "../../components/popup/popup",
+        "popupAddr": "../../components/popupAddr/popupAddr",
+        "popupSinProdt": "../../components/popupSinProdt/popupSinProdt",
+        "ui-card": "../../components/card/index",
+        "wux-cell": "../../components/dist/cell/index",
+        "wux-media": "../../components/dist/media/index"
+    },
+    "enablePullDownRefresh": true,
+    "backgroundTextStyle": "dark"
+}
