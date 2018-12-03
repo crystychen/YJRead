@@ -11,7 +11,7 @@
           <view class="book-author">作者</view>
           <view class="book-price line-through">原价: {{item[7]}}</view>
           <button class="btn share-btn disabled" wx:if="{{item[16]}}">已领取</button>
-          <button class="btn share-btn blue-bcg" wx:else catch:tap="preventDefault();" data-pid="{{item[0]}}" id="item-share" open-type="share">分享</button>
+          <button class="btn share-btn blue-bcg" wx:else catch:tap="preventDefault" data-pid="{{item[0]}}" id="item-share" open-type="share">分享</button>
         </view>
       </wux-col>
       <!-- <wux-col span="6">

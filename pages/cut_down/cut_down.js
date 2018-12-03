@@ -23,7 +23,8 @@ Page({
         var that = this
         that.setData({
             orderid: options.orderid,
-            sharetime: options.sharetime || ""
+            sharetime: options.sharetime || "",
+            inviterUserId: options.inviterUserId || ""
         })
         wx.getSystemInfo({
                 success: (res) => {
@@ -388,49 +389,101 @@ Page({
 
             let target_id = res.target.id;
             if (target_id === 'first-share') {
+                that.orderBargain(that.data.orderid, sharetime, (res) => {
+                    // 分享成功后提示操作并刷新页面
+                    setTimeout(function() {
+                        that.setData({
+                            firstPopup: true,
+                            cutGold: res.data.gold
+                        })
+                        that.getCutDetail(that.data.orderid);
+                    }, 2000)
+                })
                 return {
                     title: that.data.shareData[0][1],
-                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&orderid=${that.data.orderid}&sharetime=${sharetime}`,
+                    path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&orderid=${that.data.orderid}&sharetime=3`,
                     imageUrl: that.data.shareData[0][3],
                     complete: res => {
                         console.log(res)
                         if (res.errMsg == 'shareAppMessage:ok') {
                             console.log("首次分享成功")
-                            that.orderBargain(that.data.orderid, sharetime, (res) => {
-                                // 分享成功后提示操作并刷新页面
-                                that.setData({
-                                    firstPopup: true,
-                                    cutGold: res.data.gold
-                                })
-                                that.getCutDetail(that.data.orderid);
-                            })
+                                // that.orderBargain(that.data.orderid, sharetime, (res) => {
+                                //     // 分享成功后提示操作并刷新页面
+                                //     that.setData({
+                                //         firstPopup: true,
+                                //         cutGold: res.data.gold
+                                //     })
+                                //     that.getCutDetail(that.data.orderid);
+                                // })
                         } else {
                             console.log("分享失败")
                         }
                     }
                 }
             }
-            // 好友帮砍分享
-            if (target_id === 'share-cut') {
+            // 继续分享砍价
+            if (target_id === 'share-again') {
+                that.orderBargain(that.data.orderid, sharetime, (res) => {
+                    // 分享成功后提示操作并刷新页面
+                    setTimeout(function() {
+                        that.setData({
+                            firstPopup: false,
+                            AgainPopup: true,
+                            cutGold: res.data.gold
+                        })
+                        that.getCutDetail(that.data.orderid);
+                    }, 2000)
+                })
                 return {
                     title: that.data.shareData[0][1],
-                    path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=${sharetime}`,
+                    path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
                     imageUrl: that.data.shareData[0][3],
                     complete: res => {
                         console.log(res)
                         if (res.errMsg == 'shareAppMessage:ok') {
-                            // that.setData({
-                            //     firstPopup: false
+
+                            // that.orderBargain(that.data.orderid, sharetime, (res) => {
+                            //     // 分享成功后提示操作并刷新页面
+                            //     that.setData({
+                            //         firstPopup: false,
+                            //         cutGold: res.data.gold
+                            //     })
+                            //     that.getCutDetail(that.data.orderid);
                             // })
-                            // that.getCutDetail(that.data.orderid);
-                            that.orderBargain(that.data.orderid, sharetime, (res) => {
-                                // 分享成功后提示操作并刷新页面
-                                that.setData({
-                                    firstPopup: false,
-                                    cutGold: res.data.gold
-                                })
-                                that.getCutDetail(that.data.orderid);
-                            })
+                        }
+                    }
+                }
+            }
+            // 好友帮砍分享
+            if (target_id === 'share-cut') {
+                // that.orderBargain(that.data.orderid, sharetime, (res) => {
+                //     // 分享成功后提示操作并刷新页面
+                //     that.setData({
+                //         firstPopup: false,
+                //         AgainPopup: true,
+                //         cutGold: res.data.gold
+                //     })
+                //     that.getCutDetail(that.data.orderid);
+                // })
+                that.setData({
+                    AgainPopup: false
+                })
+                return {
+                    title: that.data.shareData[0][1],
+                    path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
+                    imageUrl: that.data.shareData[0][3],
+                    complete: res => {
+                        console.log(res)
+                        if (res.errMsg == 'shareAppMessage:ok') {
+
+                            // that.orderBargain(that.data.orderid, sharetime, (res) => {
+                            //     // 分享成功后提示操作并刷新页面
+                            //     that.setData({
+                            //         firstPopup: false,
+                            //         cutGold: res.data.gold
+                            //     })
+                            //     that.getCutDetail(that.data.orderid);
+                            // })
                         }
                     }
                 }
@@ -586,9 +639,22 @@ Page({
             url: "/pages/orderlist/orderlist"
         })
     },
-    onCloseModal() {
+    // 金币不足关闭
+    onCloseEvegoldModal() {
         this.setData({
             EvegoldModal: false
         })
-    }
+    },
+    // 首次分享关闭
+    onClosefirstPopupModal() {
+        this.setData({
+            firstPopup: false
+        })
+    },
+    // 再次分享关闭 
+    onCloseAgainPopupModal() {
+        this.setData({
+            AgainPopup: false
+        })
+    },
 })

@@ -16,7 +16,8 @@
                 <view class="status doing" wx:if='{{item[2] == 2 || item[2] == 4}}'>进行中</view>
                 <view class="status done" wx:elif='{{item[2] == 5}}'>已完成</view>
                 <view class="status done" wx:elif='{{item[2] == 13 || item[2] == 12 }}'>已完成</view>
-                <view class="status conment" wx:elif='{{item[2] == 14 }}'>砍价中</view>
+                <view class="status conment" wx:elif='{{item[2] == 14 && !item[15] }}'>砍价中</view>
+                <view class="status conment" wx:elif='{{item[2] == 14 && item[15] }}'>砍价结束</view>
               </view>
               <view class="item-body">
                 <image class="img" src="{{item[5]}}" mode='scaleToFill' />

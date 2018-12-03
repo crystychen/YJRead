@@ -54,9 +54,9 @@
           支付{{bargain.gold - bargain.haveBargainGold}}书签解锁
         </view>
       </block>
-      <block wx:elif="{{bargainDetails.length > 1 && sharetime != 3 && !timeOver && percent < 100}}">
+      <block wx:elif="{{bargainDetails.length > 1 && !timeOver && percent < 100 && !inviterUserId || inviterUserId == userInfo.userId}}">
         <view class="a" style="text-align: center">
-          可再邀请{{bargain.estimatedNumber}}人帮忙砍价, 即可免费领取
+          预计再邀请{{bargain.estimatedNumber}}人帮忙砍价, 即可免费领取
         </view>
         <view class="btn orange main-btn share-btn">
           邀请好友
@@ -66,7 +66,8 @@
           {{bargain.gold - bargain.haveBargainGold}}书签立刻解锁
         </view>
       </block>
-      <block wx:elif="{{sharetime == 3 && !timeOver && percent < 100}}">
+      <!-- sharetime == 3  -->
+      <block wx:elif="{{sharetime == 3 && inviterUserId != userInfo.userId && !timeOver && percent < 100}}">
         <view class="a" style="text-align: center">
           预计还需{{bargain.estimatedNumber}}人帮忙砍价, 即可免费解锁
         </view>
@@ -102,12 +103,24 @@
   </view>
 </view>
 <!-- 首次分享窗口firstPopup -->
-<popupPro modal-hidden="{{firstPopup}}" modal-title="首次分享成功" tips="多砍了{{cutGold}}标签" modal-type="sharePass"></popupPro>
+<popupPro modal-hidden="{{firstPopup}}" modal-title="首次分享成功" tips="多砍了{{cutGold}}标签" modal-type="1">
+  <view class="modal-content" slot hover-class="none" hover-stop-propagation="false">
+    <button class='btn active' open-type="share" data-sharetime="3" id="share-again">继续分享,还可砍一刀</button>
+    <button class='btn border' bindtap="onClosefirstPopupModal">放弃分享砍价</button>
+  </view>
+</popupPro>
+<!-- 再次分享AgainPopup -->
+<popupPro modal-hidden="{{AgainPopup}}" modal-title="再次分享成功" tips="多砍了{{cutGold}}标签" modal-type="1">
+  <view class="modal-content" slot hover-class="none" hover-stop-propagation="false">
+    <button class='btn active' open-type="share" data-sharetime="3" id="share-cut">邀请好友帮忙砍价</button>
+    <button class='btn border' bindtap="onCloseAgainPopupModal">我知道了</button>
+  </view>
+</popupPro>
 <!-- 书签不足 -->
 <popupPro modal-hidden="{{EvegoldModal}}" modal-title="解锁失败" tips="你的书签不足" modal-type="1">
   <view class="modal-content" slot hover-class="none" hover-stop-propagation="false">
     <button class='btn active' bindtap="toDailyTask">做任务赚书签</button>
-    <button bindtap="onCloseModal" class='btn border'>我知道了</button>
+    <button bindtap="onCloseEvegoldModal" class='btn border'>我知道了</button>
   </view>
 </popupPro>
 <!-- 兑换成功 -->

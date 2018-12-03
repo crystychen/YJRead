@@ -16,7 +16,6 @@ Page({
         hasMoreData: true,
         loadingImgHidden: true,
         isSignedModal: false,
-        passTipschecked: true,
         // isShareBoard: false
     },
     onLoad: function(options) {
@@ -335,6 +334,8 @@ Page({
 
             let target_id = res.target.id;
             if (target_id === 'item-share') {
+                that.postOrder(pid)
+
                 return {
                     title: that.data.shareData[0][1],
                     path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}`,
@@ -363,7 +364,7 @@ Page({
                             // wx.showToast({
                             //     title: '分享成功',
                             // })
-                            that.postOrder(pid)
+                            // that.postOrder(pid)
                         } else {
                             // wx.showToast({
                             //     title: '分享失败',

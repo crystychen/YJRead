@@ -25,6 +25,12 @@ Page({
                 })
             }
         })
+        if (wx.getStorageSync('passTips')) {
+            app.globalData.passTips = wx.getStorageSync('passTips')
+        }
+        if (wx.getStorageSync('failTips')) {
+            app.globalData.failTips = wx.getStorageSync('failTips')
+        }
         app.getShareData(4) // 分享转发语
     },
 

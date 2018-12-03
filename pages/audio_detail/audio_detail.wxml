@@ -13,7 +13,7 @@
       <!-- 旋转图 -->
       <view class="rotate-disk-container">
         <view class="rotate-disk ">
-          <image class="poster" mode="" src="{{book.img}}"></image>
+          <image class="poster" mode="" src="{{product.swiperImgs[0]}}"></image>
         </view>
       </view>
       <!-- 操作 -->

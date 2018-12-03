@@ -67,7 +67,8 @@ Page({
                 let { bookId, product } = res.product
                 that.setData({
                     product: res.product,
-                    pid: pid
+                    pid: pid,
+                    bookId
                 })
                 that.bookDetail(bookId).then((res) => {
                     // console.log("图书详情", res)
@@ -181,6 +182,32 @@ Page({
 
             let target_id = res.target.id;
             if (target_id === 'free-share') {
+                // 分享立刻解锁
+                that.postOrderSubmit([], 0, (res) => {
+
+                    setTimeout(function() {
+                        that.setData({
+                            successModal: true
+                        })
+                    }, 2000)
+
+                    that.bookDetail(that.data.bookId).then(() => {
+                        let sections = res.book.sections.map((element, index) => {
+                            element.sectionSec = utils.formatSeconds(element.sectionSec)
+                            return element
+                        })
+                        let audioList = sections.filter((element) => {
+                            return element.sectionUrl != "";
+                        })
+                        that.setData({
+                            book: res.book,
+                            sections,
+                            audioList,
+                            currentAudio: audioList[0] || ""
+                        })
+                    })
+
+                })
                 return {
                     title: that.data.shareData[0][1],
                     path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}`,
@@ -207,7 +234,7 @@ Page({
                             //     }
                             // }
                             console.log("分享成功")
-                            that.postOrderSubmit()
+                                // that.postOrderSubmit()
                         } else {
                             console.log("分享失败")
                         }
@@ -480,14 +507,17 @@ Page({
                         })
                     })
                 } else {
-                    if (orderType != 2) {
-                        // 兑换成功
-                        that.setData({
-                            successModal: true
-                        })
-                    }
+                    // if (orderType != 2) {
+                    //     // 兑换成功
+                    //     setTimeout(function() {
+                    //         that.setData({
+                    //             successModal: true
+                    //         })
+                    //     }, 1000)
+                    // }
+                    callback && callback(res)
                 }
-                callback && callback(res)
+                // callback && callback(res)
             } else {
                 utils.alert(res.data.msg)
             }
@@ -512,6 +542,9 @@ Page({
     playNow() {
         console.log("立即播放")
         this.switchPlayStatus()
+        this.setData({
+            successModal: false
+        })
     },
     // 砍价
     toCutDown(e) {
@@ -525,12 +558,17 @@ Page({
                 })
                 return;
             } else {
-                that.postOrderSubmit([], 2, (res) => {
-                    console.log("砍价发起", res)
+                that.postOrderSubmit([], 2, (data) => {
+                    console.log("砍价发起", data)
+                    let orderid = data.data.orderId
+                    that.orderBargain(orderid, 1, (data) => {
+                            // wx.navigateTo({
+                            //     url: `/pages/cut_down/cut_down?orderid=${orderid}`
+                            // })
+                        }) // 砍第一刀完后再跳
                     wx.navigateTo({
-                        url: `/pages/cut_down/cut_down?orderid=${res.data.orderId}`
+                        url: `/pages/cut_down/cut_down?orderid=${orderid}`
                     })
-                    that.orderBargain(res.data.orderId, 1) // 砍第一刀
                 })
             }
         })
@@ -587,7 +625,7 @@ Page({
             // })
     },
     //  砍价砍一刀
-    orderBargain(orderid, bargainType) {
+    orderBargain(orderid, bargainType, callback) {
         postAjax({
             url: "interfaceAction",
             method: 'POST',
@@ -603,7 +641,7 @@ Page({
             },
         }).then((res) => {
             if (res.success) {
-                // callback && callback(res)
+                callback && callback(res)
             } else {
                 // utils.alert(res.data.msg)
             }
