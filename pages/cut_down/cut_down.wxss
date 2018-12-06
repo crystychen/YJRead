@@ -147,9 +147,10 @@
         font-size: 30rpx !important;
         font-weight: normal !important;
     }
+    
     .headimg {
-      width: 100rpx !important;
-      height: 100rpx !important;
+        width: 100rpx !important;
+        height: 100rpx !important;
     }
     
     .center-right {
@@ -199,4 +200,42 @@
     .modal-content .btn.border {
         border: 1rpx solid #FFAA0F;
         color: #FFAA0F;
+    }
+    
+    .account-wrap {
+        width: 100%;
+        margin: 10rpx 0;
+    }
+    
+    .account {
+        margin: 0 40rpx;
+        padding: 0 20rpx;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 10rpx;
+        background: #F6F6F6;
+        height: 100rpx;
+    }
+    
+    .tag {
+        font-family: Monospaced Number, Chinese Quote, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 28rpx;
+        line-height: 1.5;
+        color: #1193EE;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        line-height: 34rpx;
+        height: 34rpx;
+        padding: 0rpx 12rpx;
+        border-radius: 8rpx;
+        border: 2rpx solid #E7F4FF;
+        background: #E7F4FF;
+        font-size: 26rpx;
+        /* margin-right: 16rpx; */
+        cursor: pointer;
+        white-space: nowrap
     }
