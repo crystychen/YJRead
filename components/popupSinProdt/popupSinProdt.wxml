@@ -22,9 +22,6 @@
     <view class='btn-container'>
       <button class='btn orange' open-type="share" data-pid="{{sinProdt.id}}" id='{{shareId}}' wx:if="{{sinProdt.exchangedCount > 0}}">发给朋友一起领</button>
       <button class='btn orange' wx:else bindtap="postOrder" data-id="{{sinProdt.id}}" data-gold="{{sinProdt.gold}}">立刻兑换</button>
-      <!-- <navigator class='btn orange' wx:else data-id="{{sinProdt.id}}" data-gold="{{sinProdt.gold}}" target="miniProgram" open-type="navigate" app-id='{{sinProdt.appid}}' path='{{sinProdt.linkUrl}}' catch:tap='postOrder'>
-        立刻兑换
-      </navigator> -->
       <button class='btn blue' bindtap="showInvitImg" wx:if="{{sinProdt.exchangedCount > 0}}">生成邀请图片</button>
       <button class='btn blue' open-type="share" data-pid="{{sinProdt.id}}" id='{{shareId}}' wx:else>发给朋友一起领</button>
     </view>

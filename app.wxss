@@ -96,7 +96,7 @@ button {
 }
 
 .btn.active {
-    background: linear-gradient(to right, #e2c597, #cf9f73);
+    background: linear-gradient(to right, #7B47F2, #1690FF);
     color: #fff;
 }
 
@@ -106,8 +106,10 @@ button {
 }
 
 .btn.border {
-    border: 1rpx solid #FEA90E;
-    color: #FEA90E;
+    /* border: 1rpx solid #FEA90E;
+    color: #FEA90E; */
+    border: 1rpx solid #1392FD;
+    color: #1693FF;
 }
 
 .btn.blue-bcg {

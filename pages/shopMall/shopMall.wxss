@@ -18,7 +18,7 @@
     width: 100%;
     height: 100%;
     background: #fff;
-    padding-top: 10rpx;
+    /* padding-top: 10rpx; */
 }
 
 ::-webkit-scrollbar {
@@ -402,7 +402,7 @@
     margin: 20rpx auto;
     border-radius: 20rpx;
     width: 90%;
-    box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233);
+    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
 }
 
 
@@ -431,3 +431,51 @@
 
 
 /* 列表媒体对象end */
+
+
+/* 横向滚动 */
+
+.nav {
+    height: 90rpx;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    line-height: 90rpx;
+    background: #fff;
+    font-size: 32rpx;
+    white-space: nowrap;
+    box-shadow: 0rpx 0rpx 30rpx 0rpx rgba(96, 96, 96, 0.2);
+}
+
+.nav-item {
+    width: 23%;
+    display: inline-block;
+    text-align: center;
+    border-bottom: 1rpx solid #cf9e73;
+    position: relative;
+}
+
+.nav-item.active {
+    color: #3772FB;
+    /* font-weight: bold; */
+}
+
+.slider-wrap {
+    width: 80rpx;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.navbar_slider {
+    background: #3772FB;
+    height: 8rpx;
+    width: 80rpx;
+    margin: 0 auto;
+}
+
+.tab-content {
+    overflow-y: scroll;
+    background: #ffffff;
+}

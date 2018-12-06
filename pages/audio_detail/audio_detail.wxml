@@ -20,8 +20,18 @@
       <view class="title-container">
         <view class="title">{{book.bookName}}</view>
         <view class="author">{{book.author}}</view>
+        <!-- 章节滚动 -->
+        <view class="row center" hover-class="none" hover-stop-propagation="false" wx:if="{{playStatus}}">
+          <view class="tag" wx:if="{{currentAudio.isAudition}}">试听</view>
+          <view class="desc">
+              <i-notice-bar loop="{{playStatus}}" backgroundcolor="#fff" color="#ccc">
+                {{currentAudio.sectionName}}        {{currentAudio.sectionName}}
+              </i-notice-bar>
+          </view>
+        </view>
       </view>
-      <view wx:if="{{isVip || book.isBuy}}">
+      <!-- wx:if="{{isVip || book.isBuy}}" -->
+      <view>
         <view class="slider-container">
           <text class="slider-time">{{currentPosition === 0 ? '00:00' : currentPosition}}</text>
           <slider value="{{sliderValue}}" bindchange="bindSliderchange" activeColor="#1393FC" backgroundColor="#E2E2E2" style="width: 64%;margin: 0;" block-size="8" block-color="#fff" />
@@ -50,7 +60,6 @@
           </view>
         </view>
       </view>
-      <view class="desc">{{}}</view>
     </view>
   </view>
   <view class="nav">
@@ -67,9 +76,11 @@
     <view class="" hidden="{{currentTabKey == 1?false:true}}">
       <view class="accordion-group-wrap" wx:if="{{book.anchors.length}}">
         <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
-          <wux-media wux-class-body="media-body" thumb="{{book.anchors[0].anchorHeadImg}}" thumb-style="border-radius: 300rpx" title="{{book.anchors[0].anchorName}}" label="{{book.anchors[0].anchorIntro}}">
+          <wux-media wux-class-body="media-body" wux-class-desc="{{anchorClass}}" thumb="{{book.anchors[0].anchorHeadImg}}" thumb-style="border-radius: 300rpx" title="{{book.anchors[0].anchorName}}" label="{{book.anchors[0].anchorIntro}}">
             <view class="btn-wrap center-right" slot>
-              <view class="sm-btn btn" bindtap="bindAnchorsMore">更多</view>
+              <view class="sm-btn btn active" wx:if="{{anchorClass=='ellipsis'}}" bindtap="bindAnchorsMore">
+                更多
+              </view>
             </view>
           </wux-media>
         </view>
@@ -119,7 +130,7 @@
     </view>
   </view>
   <view class="btn-container fixed bottom" wx:if="{{!book.isBuy && !isVip}}">
-    <view class="row" wx:if="{{product.gold}}">
+    <!-- <view class="row" wx:if="{{product.gold}}">
       <view class="share-btn">
         <image class="sm_icon" src="/images/share-icon.png"></image>
         <text class="" style="margin-top: 10rpx">分享</text>
@@ -133,15 +144,15 @@
         <view class="">0书签解锁</view>
         <view class="" style="margin-top: 4rpx;font-size: 30rpx">立刻砍书签</view>
       </view>
-    </view>
-    <view wx:else class="btn full-btn orange">
-      <button open-type="share" id="free-share"></button>
-      分享立刻解锁
+    </view> -->
+    <view class="btn large-btn active" bindtap="showBoard">
+      <!-- <button open-type="share" id="free-share"></button> -->
+      书签换书
     </view>
   </view>
 </view>
-<!-- // wx:if="{{isVip}}" -->
-<view class="float-board" wx:if="{{!book.isBuy && !isVip}}">
+<!-- 播放器小窗口 -->
+<!-- <view class="float-board" wx:if="{{!book.isBuy && !isVip}}">
   <block wx:if="{{currentAudio}}">
     <view class="bcg"></view>
     <view class="wrap">
@@ -158,10 +169,56 @@
       </view>
     </view>
   </block>
-</view>
+</view> -->
 <!-- 领取会员卡 -->
-<popupMemCard modal-hidden="{{isMenCard}}" ></popupMemCard>
+<popupMemCard modal-hidden="{{isMenCard}}"></popupMemCard>
 <!-- 书签不足 -->
 <popupPro modal-hidden="{{EvegoldModal}}" modal-title="解锁失败" tips="你的书签不足" modal-type="fail" bindtoMyCutDown="toCutDown" bindonMemCard="onMemCard"></popupPro>
 <!-- 兑换成功 -->
 <popupPro modal-hidden="{{successModal}}" modal-title="解锁成功" tips="书籍已放入【我的书架】" modal-type="success" bindonPlayNow="playNow" bindtoBookShelf="toBookShelf"></popupPro>
+<!-- 弹出兑换方式面板 -->
+<view class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closeConfirmModal" hidden="{{!confirmModal}}"></view>
+<view class='modal' catchtouchmove="preventTouchMove" hidden="{{!confirmModal}}">
+  <view class="vertical-item" data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
+    <image class="img" src='{{item.thumbImg}}'></image>
+    <view class='info'>
+      <view class='title'>{{book.bookName}}</view>
+      <view style="color: #CECED6;height: 50rpx;" wx:if="{{book.author}}">{{item.author}}</view>
+      <view class='desc'>
+        <template is="wxParse" data="{{wxParseData:about.nodes}}" />
+      </view>
+      <view class='infos-desc' style="width: 100%;position: absolute;bottom:0rpx;">
+        <text class="num">{{product.gold}}</text>
+        <text>书签</text>
+      </view>
+    </view>
+  </view>
+  <wux-cell>
+    <view class="cell-wrap" slot="">
+      <view>
+        <text style="color: #8C8C94">我的余额:</text>
+        <text style="padding-left: 20rpx;color: #000;font-weight: bold;">{{gold}}书签</text>
+      </view>
+      <view class="extra" style="color: #1193EE">什么是书签?</view>
+    </view>
+  </wux-cell>
+  <wux-radio-group name="a" value="{{valueRadio}}" title="" bind:change="onChangeRadio">
+    <wux-radio color="calm" title="" value="2">
+      <view slot class="slot-cell">
+        <view class="cell-title">邀好友助力，立免20书签</view>
+        <view class="tag">推荐</view>
+      </view>
+    </wux-radio>
+    <wux-radio color="calm" disabled="{{gold < product.gold?true:false}}" title="" value="0">
+      <view slot class="slot-cell">
+        <view class="cell-title {{gold < product.gold?'disabled':'' }}" wx:if="{{gold < product.gold }}">
+          {{product.gold}}书签换书(书签不足)
+        </view>
+        <view class="cell-title" wx:else>{{product.gold}}书签换书</view>
+      </view>
+    </wux-radio>
+  </wux-radio-group>
+  <view class="btn-container">
+    <view class="btn large-btn active" bindtap="confirmOrder">确认</view>
+  </view>
+</view>

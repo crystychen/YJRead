@@ -32,6 +32,8 @@ Page({
 
         ],
         currentTabKey: "1",
+        anchorClass: "ellipsis",
+        valueRadio: 2
     },
 
     /**
@@ -494,8 +496,6 @@ Page({
                 // 判断是否需要支付，true调起支付
                 if (res.data.pay) {
                     that.PayFor(res.data.orderId).then(function(data) {
-                        // that.pDetail(pid);
-                        // that.getProductDetail(that.data.productId);
                         wx.showToast({
                             title: '兑换成功，商品即将出库',
                             icon: "none",
@@ -583,46 +583,26 @@ Page({
     },
     getIsCutting(pid) {
         return new Promise((resolve, reject) => {
-                postAjax({
-                    url: "interfaceAction",
-                    method: 'POST',
-                    data: {
-                        interId: '20111',
-                        version: 1,
-                        authKey: wx.getStorageSync('authKey'),
-                        method: 'p-bargain-order',
-                        params: {
-                            productId: pid
-                        }
-                    },
-                }).then((res) => {
-                    if (res.data.status == "00") {
-                        resolve(res);
-                    } else {
-                        reject(res.data.resultMsg)
+            postAjax({
+                url: "interfaceAction",
+                method: 'POST',
+                data: {
+                    interId: '20111',
+                    version: 1,
+                    authKey: wx.getStorageSync('authKey'),
+                    method: 'p-bargain-order',
+                    params: {
+                        productId: pid
                     }
-                })
+                },
+            }).then((res) => {
+                if (res.data.status == "00") {
+                    resolve(res);
+                } else {
+                    reject(res.data.resultMsg)
+                }
             })
-            // postAjax({
-            //     url: "interfaceAction",
-            //     method: 'POST',
-            //     data: {
-            //         interId: '20111',
-            //         version: 1,
-            //         authKey: wx.getStorageSync('authKey'),
-            //         method: 'p-bargain-order',
-            //         params: {
-            //             productId: pid
-            //         }
-            //     },
-            // }).then((res) => {
-            //     if (res.status == "00") {
-            //         // callback && callback(res)
-            //         return res.orderNo
-            //     } else {
-            //         // utils.alert(res.data.msg)
-            //     }
-            // })
+        })
     },
     //  砍价砍一刀
     orderBargain(orderid, bargainType, callback) {
@@ -646,5 +626,66 @@ Page({
                 // utils.alert(res.data.msg)
             }
         })
+    },
+    // 播音员更多
+    bindAnchorsMore() {
+        this.setData({
+            anchorClass: "open-ellipsis"
+        })
+    },
+    closeConfirmModal() {
+        this.setData({
+            confirmModal: false
+        })
+    },
+    // 展示兑换方式选择面板
+    showBoard() {
+        this.setData({
+            confirmModal: true
+        })
+    },
+    // 切换兑换方式
+    onChangeRadio(e) {
+        console.log(e)
+        let value = e.detail.value
+        this.setData({
+            valueRadio: value
+        })
+    },
+    preventTouchMove() {
+        return false
+    },
+    // 确认提交订单
+    confirmOrder(e) {
+        let that = this
+        this.setData({
+            confirmModal: false
+        })
+        if (this.data.valueRadio == 2) { // 砍价提交  
+            that.toCutDown()
+        } else if (this.data.valueRadio == 0) { // 书签兑换
+            that.postOrderSubmit([], 0, (res) => {
+                that.setData({
+                    successModal: true
+                })
+                app.getAccount()
+                that.bookDetail(that.data.bookId).then(() => {
+                    let sections = res.book.sections.map((element, index) => {
+                        element.sectionSec = utils.formatSeconds(element.sectionSec)
+                        return element
+                    })
+                    let audioList = sections.filter((element) => {
+                        return element.sectionUrl != "";
+                    })
+                    that.setData({
+                        book: res.book,
+                        sections,
+                        audioList,
+                        currentAudio: audioList[0] || ""
+                    })
+                })
+
+            })
+        }
     }
 })

@@ -6,6 +6,7 @@ import {
     postAjaxS
 } from '../../utils/ajax.js';
 const utils = require('../../utils/util.js');
+// var WxParse = require('../../wxParse/wxParse.js');
 const app = getApp()
 
 Page({
@@ -430,15 +431,30 @@ Page({
                 authKey: wx.getStorageSync('authKey'),
                 method: 'p-group',
                 params: {
-                    // groupProductCount: 4  查询全部
+                    groupProductCount: 20
                 }
             }
         }).then((res) => {
             console.log(res);
             if (res.data.status == '00') {
-                that.setData({
-                    bannerData: res.data.infos
+                // WxParse.wxParse('about', 'html', res.book.about, that, 5);
+                // WxParse.wxParse('goldWord', 'html', res.book.goldWord, that, 5);
+                let [...bannerData] = res.data.infos.map((element, index) => {
+                    console.log(element)
+                    element.children.map((ele, idx) => {
+                        // let str = "<p>helldf</br><p>gvj</p>dfgoworld</p>";
+                        // var nstr = str.replace(/<[^>^<^\u4e00-\u9fa5]*>/g, "");
+                        // console.log(nstr)
+                        let nohtml = that.delHtmlTag(ele.productIntroduction)
+                        ele.productIntroduction = nohtml
+                        return ele
+                    })
+                    return element
                 })
+                that.setData({
+                    bannerData
+                })
+
             }
         })
     },
@@ -452,5 +468,63 @@ Page({
         wx.switchTab({
             url: "/pages/shopMall/shopMall"
         })
+    },
+    // 放书架
+    postOrderSubmit(e) {
+        console.log(e)
+        let { pid } = e.currentTarget.dataset
+            // 生成订单
+        postAjax({
+            url: "interfaceAction",
+            method: 'POST',
+            data: {
+                interId: '20321',
+                version: 1,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'order-submit',
+                params: {
+                    productId: pid,
+                    orderType: 0,
+                    channelId: app.globalData.channelId
+                }
+            },
+        }).then((res) => {
+            if (res.data.success) {
+                // 判断是否需要支付，true调起支付
+                if (res.data.pay) {
+                    that.PayFor(res.data.orderId).then(function(data) {
+                        wx.showToast({
+                            title: '兑换成功，商品即将出库',
+                            icon: "none",
+                            success: (res) => {
+                                wx.navigateTo({
+                                    url: '/pages/orderlist/orderlist',
+                                })
+                            }
+                        })
+
+                    })
+
+                } else {
+                    // 兑换成功提示加入书架
+                    wx.showToast({
+                        title: '已放入书架',
+                        icon: "none",
+                        success: (res) => {
+                            // wx.navigateTo({
+                            //     url: '/pages/orderlist/orderlist',
+                            // })
+                        }
+                    })
+                }
+            } else {
+                utils.alert(res.data.msg)
+            }
+        })
+    },
+    delHtmlTag(str) {
+        //去掉所有的html标记
+        var nstr = str.replace(/<[^>^<^\u4e00-\u9fa5]*>|[&nbsp;]/g, "");
+        return nstr;
     }
 })

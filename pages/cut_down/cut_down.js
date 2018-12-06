@@ -388,72 +388,6 @@ Page({
             } = res.target.dataset;
 
             let target_id = res.target.id;
-            if (target_id === 'first-share') {
-                that.orderBargain(that.data.orderid, sharetime, (res) => {
-                    // 分享成功后提示操作并刷新页面
-                    setTimeout(function() {
-                        that.setData({
-                            firstPopup: true,
-                            cutGold: res.data.gold
-                        })
-                        that.getCutDetail(that.data.orderid);
-                    }, 2000)
-                })
-                return {
-                    title: that.data.shareData[0][1],
-                    path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&orderid=${that.data.orderid}&sharetime=3`,
-                    imageUrl: that.data.shareData[0][3],
-                    complete: res => {
-                        console.log(res)
-                        if (res.errMsg == 'shareAppMessage:ok') {
-                            console.log("首次分享成功")
-                                // that.orderBargain(that.data.orderid, sharetime, (res) => {
-                                //     // 分享成功后提示操作并刷新页面
-                                //     that.setData({
-                                //         firstPopup: true,
-                                //         cutGold: res.data.gold
-                                //     })
-                                //     that.getCutDetail(that.data.orderid);
-                                // })
-                        } else {
-                            console.log("分享失败")
-                        }
-                    }
-                }
-            }
-            // 继续分享砍价
-            if (target_id === 'share-again') {
-                that.orderBargain(that.data.orderid, sharetime, (res) => {
-                    // 分享成功后提示操作并刷新页面
-                    setTimeout(function() {
-                        that.setData({
-                            firstPopup: false,
-                            AgainPopup: true,
-                            cutGold: res.data.gold
-                        })
-                        that.getCutDetail(that.data.orderid);
-                    }, 2000)
-                })
-                return {
-                    title: that.data.shareData[0][1],
-                    path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
-                    imageUrl: that.data.shareData[0][3],
-                    complete: res => {
-                        console.log(res)
-                        if (res.errMsg == 'shareAppMessage:ok') {
-
-                            // that.orderBargain(that.data.orderid, sharetime, (res) => {
-                            //     // 分享成功后提示操作并刷新页面
-                            //     that.setData({
-                            //         firstPopup: false,
-                            //         cutGold: res.data.gold
-                            //     })
-                            //     that.getCutDetail(that.data.orderid);
-                            // })
-                        }
-                    }
-                }
-            }
             // 好友帮砍分享
             if (target_id === 'share-cut') {
                 // that.orderBargain(that.data.orderid, sharetime, (res) => {
@@ -465,26 +399,16 @@ Page({
                 //     })
                 //     that.getCutDetail(that.data.orderid);
                 // })
-                that.setData({
-                    AgainPopup: false
-                })
+                // that.setData({
+                //     AgainPopup: false
+                // })
                 return {
                     title: that.data.shareData[0][1],
                     path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
                     imageUrl: that.data.shareData[0][3],
                     complete: res => {
                         console.log(res)
-                        if (res.errMsg == 'shareAppMessage:ok') {
-
-                            // that.orderBargain(that.data.orderid, sharetime, (res) => {
-                            //     // 分享成功后提示操作并刷新页面
-                            //     that.setData({
-                            //         firstPopup: false,
-                            //         cutGold: res.data.gold
-                            //     })
-                            //     that.getCutDetail(that.data.orderid);
-                            // })
-                        }
+                        if (res.errMsg == 'shareAppMessage:ok') {}
                     }
                 }
             }
@@ -610,6 +534,7 @@ Page({
                     helpCutPopup: true,
                     cutGold: res.data.gold
                 })
+                that.getCutDetail(that.data.orderid);
             } else {
                 wx.showToast({
                     title: "你已经帮忙砍过价啦",

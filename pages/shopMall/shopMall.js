@@ -18,6 +18,7 @@ Page({
         // page: 1,
         // size: 6,
         // bannerImg: "/images/mall-top-bcg.png",
+        currentTab: 0,
         atAddrObj: {},
     },
 
@@ -68,7 +69,8 @@ Page({
         wx.getSystemInfo({
             success: function(res) {
                 that.setData({
-                    scrollHeight: res.windowHeight
+                    scrollHeight: res.windowHeight,
+                    windowWidth: res.windowWidth
                 });
             }
         });
@@ -92,7 +94,8 @@ Page({
 
         app.visitorLogin(function(obj) {
             // 商品
-            that.pList();
+            // that.pList();
+            that.getGroup()
             app.getShareData(4); // 转发语分享路径
             app.getShareData(20, function(res) { // 换购书签说明(其他广告位置)
                 console.log()
@@ -142,9 +145,9 @@ Page({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function() {
-        let that = this;
-        that.pList();
-        setTimeout(wx.stopPullDownRefresh, 2000);
+        // let that = this;
+        // that.pList();
+        // setTimeout(wx.stopPullDownRefresh, 2000);
     },
 
     /**
@@ -200,7 +203,7 @@ Page({
 
     },
     // 商品列表
-    pList() {
+    pList(bookTypeId) {
         var that = this;
         postAjax({
             url: 'interfaceAction',
@@ -210,7 +213,8 @@ Page({
                 authKey: wx.getStorageSync('authKey'),
                 method: 'p-group',
                 params: {
-                    // groupProductCount: 4  查询全部
+                    groupProductCount: 20, // 查询全部
+                    bookTypeId: bookTypeId
                 }
             }
         }).then((res) => {
@@ -604,6 +608,55 @@ Page({
                 url: `/pages/audio_detail/audio_detail?pid=${id}`
             })
         }
-    }
+    },
+    switchNav(e) {
+        var {
+            current,
+            booktypeid
+        } = e.currentTarget.dataset;
+
+        //每个tab选项宽度占1/4
+        var singleNavWidth = this.data.windowWidth / 4;
+        //tab选项居中                            
+        this.setData({
+            navScrollLeft: (current - 1) * singleNavWidth
+        })
+        if (this.data.currentTab == current) {
+            return false;
+        } else {
+            this.setData({
+                currentTab: current,
+                page: 1,
+                bookTypeId: booktypeid
+            })
+        }
+        // postgroupid 請求列表
+        this.pList(booktypeid)
+    },
+    // 头部分类信息
+    getGroup() {
+        let that = this
+        postAjax({
+            url: 'interSyncAction',
+            data: {
+                interId: '20400',
+                version: 1,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'book-type-list'
+            }
+        }).then((res) => {
+            if (res.data.status == '00') {
+                console.log("res", res)
+                let {
+                    bookTypes
+                } = res.data;
+                that.setData({
+                    bookTypes,
+                    bookTypeId: that.data.bookTypeId || bookTypes[0][0]
+                })
+                that.pList(that.data.bookTypeId) // 默認第一分組的內容列表
+            }
+        })
+    },
 
 })

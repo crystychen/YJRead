@@ -6,6 +6,9 @@
         "wux-accordion": "../../components/dist/accordion/index",
         "wux-accordion-group": "../../components/dist/accordion-group/index",
         "popupPro": "../../components/popupPro/popupPro",
-        "popupMemCard": "../../components/popupMemCard/index"
+        "popupMemCard": "../../components/popupMemCard/index",
+        "wux-radio-group": "../../components/dist/radio-group/index",
+        "wux-radio": "../../components/dist/radio/index",
+        "i-notice-bar": "../../components/dist/notice-bar/index"
     }
 }

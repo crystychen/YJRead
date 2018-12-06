@@ -1,5 +1,27 @@
 /**index.wxss**/
 
+
+/* @import "/wxParse/wxParse.wxss"; */
+
+.wxParse {
+    overflow: hidden;
+    display: -webkit-box;
+    white-space: initial;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.wxParse-p {
+    overflow: hidden;
+    display: -webkit-box;
+    white-space: initial;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    height: 113rpx;
+}
+
 .share>button {
     width: 100%;
     height: 100%;
@@ -17,33 +39,36 @@
 .banner-wrap {
     width: 100%;
     height: 100%;
-    /* padding: 30rpx; */
     box-sizing: border-box;
-    /* padding-bottom: 40rpx; */
 }
 
 .banner {
     width: 100%;
     height: 100%;
-    padding: 40rpx 0;
     box-sizing: border-box;
+    padding-top: 20rpx;
 }
 
 .card-wrap {
     margin: 0 16rpx;
     padding: 30rpx 20rpx;
     background: #fff;
-    height: 100%;
     box-sizing: border-box;
-    border-radius: 30rpx;
-    box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233);
+    border-radius: 20rpx;
+    /* box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233); */
+    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(0, 0, 0, 0.2);
     position: relative;
+    width: 610rpx;
+    height: 1026rpx;
 }
 
 .card-wrap .btn-container {
     position: absolute;
-    bottom: 40rpx;
-    left: 0
+    bottom: 20rpx;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .large-btn {
@@ -53,7 +78,9 @@
     line-height: 90rpx;
     text-align: center;
     font-size: 30rpx;
-    border-radius: 10rpx;
+    border-radius: 50rpx;
+    width: 460rpx;
+    box-shadow: 0rpx 8rpx 28rpx 0rpx rgba(0, 0, 0, 0.3);
 }
 
 .card-body {
@@ -74,7 +101,7 @@
 
 .link-wrap {
     width: 50%;
-    margin: 0 auto;
+    margin: 20rpx auto;
 }
 
 .link-item {
@@ -83,8 +110,9 @@
     box-sizing: border-box;
     color: #39A7F7;
     text-align: center;
+    vertical-align: center;
     height: 30rpx;
-    line-height: 30rpx;
+    line-height: 10rpx;
 }
 
 .link-item:first-child {
@@ -159,8 +187,10 @@
 
 .card-infos .img {
     width: 250rpx;
-    height: 340rpx;
+    height: 346rpx;
     margin: 20rpx 0;
+    border-radius: 10rpx;
+    background: #cecece;
 }
 
 .card-infos .title {
@@ -182,7 +212,7 @@
 .card-infos .desc {
     width: 80%;
     color: #A5A09F;
-    margin: 10rpx 0;
+    /* margin: 10rpx 0; */
     overflow: hidden;
     display: -webkit-box;
     white-space: initial;

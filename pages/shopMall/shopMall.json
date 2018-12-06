@@ -7,6 +7,5 @@
         "wux-cell": "../../components/dist/cell/index",
         "wux-media": "../../components/dist/media/index"
     },
-    "enablePullDownRefresh": true,
     "backgroundTextStyle": "dark"
 }

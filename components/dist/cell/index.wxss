@@ -7,7 +7,8 @@
     font-size: inherit;
     line-height: inherit;
     text-align: inherit;
-    padding: 20rpx 30rpx;
+    /* padding: 20rpx 30rpx; */
+    padding: 30rpx 30rpx;
     position: relative;
     display: -ms-flexbox;
     display: flex;

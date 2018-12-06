@@ -65,10 +65,11 @@
     color: #C8C8C8;
     font-size: 26rpx;
     line-height: 1.2;
-    overflow: hidden;
+    margin-top: 10rpx;
+    /* overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     padding-top: 10rpx;
-    -webkit-box-orient: vertical
+    -webkit-box-orient: vertical */
 }
