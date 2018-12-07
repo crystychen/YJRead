@@ -1,9 +1,12 @@
 /* pages/my/my.wxss */
 
+page {
+    background: #F5F5F5;
+}
+
 .container {
     position: relative;
     overflow: hidden;
-    background: #F5F5F5;
 }
 
 
@@ -42,9 +45,13 @@
     /* height: 130rpx;
     width: 130rpx; */
     position: relative;
-    /* border-radius: 50%; */
+    border-radius: 50%;
     /* overflow: hidden; */
-    /* background: #ccc; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 10rpx solid #fff;
 }
 
 .header_img_wrap .img {
@@ -63,6 +70,7 @@
     position: absolute;
     right: 0;
     bottom: 6rpx;
+    z-index: 1;
     background: #FEAC43;
     color: #ffffff;
     border-radius: 50%;
@@ -135,7 +143,7 @@
     border-radius: 20rpx;
     /* width: 90%; */
     background: #ffffff;
-    box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233);
+    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
 }
 
 
@@ -171,13 +179,13 @@
     /* width: 100%; */
     box-sizing: border-box;
     margin: 30rpx;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .menu {
     background-color: #fff;
-    /* padding-bottom: 20rpx; */
     border-radius: 20rpx;
+    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
 }
 
 .menu-item {

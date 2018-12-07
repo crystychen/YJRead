@@ -11,11 +11,11 @@
     </block>
   </scroll-view>
   <view class="tab-content">
-    <block wx:for="{{products}}" wx:key="index" wx:for-item="proList">
-      <view class="media-wrap" slot="body" wx:if='{{proList.composeType == 1}}'>
-        <wux-media thumb="{{proList.children[0].thumbImg}}" thumb-style="" title="{{proList.name}}" label="每周五12:00更新">
+    <block wx:for="{{freePros}}" wx:key="index" wx:for-item="freePro">
+      <view class="media-wrap" slot="body" >
+        <wux-media thumb="{{freePro.children[0].thumbImg}}" thumb-style="" title="{{freePro.name}}" label="每周五12:00更新">
           <view class="btn-wrap center-right" slot hover-class="none" hover-stop-propagation="false">
-            <view class="sm-btn btn active" data-gtitle="{{proList.name}}" data-groupid="{{proList.id}}" bindtap="viewBookList">
+            <view class="sm-btn btn active" data-gtitle="{{freePro.name}}" data-groupid="{{freePro.id}}" bindtap="viewBookList">
               查看
             </view>
           </view>
@@ -23,13 +23,39 @@
         </wux-media>
       </view>
     </block>
-    <view style="">
+    <!-- <view style=""> -->
       <!-- 福利 -->
       <view style='position: relative;'>
         <view class='order_time' wx:if="{{orderText}}">
           <view class='order_text'>{{orderText}}</view>
         </view>
         <block wx:for="{{products}}" wx:key="index" wx:for-item="proList">
+          <!-- 本周免费 -->
+          <!-- <view class="media-wrap" slot="body" wx:if='{{proList.composeType == 4}}'>
+            <wux-media thumb="{{proList.children[0].thumbImg}}" thumb-style="" title="{{proList.name}}" label="每周五12:00更新">
+              <view class="btn-wrap center-right" slot hover-class="none" hover-stop-propagation="false">
+                <view class="sm-btn btn active" data-gtitle="{{proList.name}}" data-groupid="{{proList.id}}" bindtap="viewBookList">
+                  查看
+                </view>
+              </view>
+              <view class="time">{{item.createTime}}</view>
+            </wux-media>
+          </view> -->
+          <!-- 横向排列 横向滚动区域 -->
+          <view class="banner-scroll" wx:if='{{proList.composeType == 1}}'>
+            <view class='title_wrap row between'>
+              <text class='l-title'>{{proList.name}}</text>
+              <text class='sm-title'>更多</text>
+            </view>
+            <scroll-view class='scroll-view' scroll-x="true">
+              <view class='scroll-item' wx:for="{{proList.children}}" wx:key="index" >
+                <view class="item-wrap"  >
+                  <image class='scroll-img' lazy-load="true" mode='aspectFill' src="{{item.thumbImg}}"></image>
+                  <text class="name">{{item.productName}}</text>
+                </view>
+              </view>
+            </scroll-view>
+          </view>
           <!-- 竖向排列 -->
           <view class='panel-wrap vertical' wx:if='{{proList.composeType == 2}}'>
             <view class='title_wrap'>
@@ -59,13 +85,13 @@
                 </view>
               </block>
             </view>
-            <!-- <navigator wx:if='{{proList.total > proList.children.length}}' class="more" open-type='navigate' url='/pages/productList/productList?pid={{proList.id}}'>
-            <text>更多商品</text>
-          </navigator> -->
+            <view wx:if='{{ proList.total > proList.children.length }}' class="more-btn" data-pid="{{proList.id}}" bindtap="loadMoreDataBypid">
+              更多商品
+            </view>
           </view>
         </block>
       </view>
-    </view>
+    <!-- </view> -->
   </view>
 </view>
 <!-- 书签不足 -->

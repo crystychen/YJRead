@@ -92,10 +92,18 @@ const formatSeconds = value => {
     }
 }
 
+//去掉所有的html标记
+const delHtmlTag = str => {
+
+    var nstr = str.replace(/<[^>^<^\u4e00-\u9fa5]*>|[&nbsp;]/g, "");
+    return nstr;
+}
+
 module.exports = {
     formatTime: formatTime,
     isEmptyObject,
     alert,
     getReadTime,
-    formatSeconds
+    formatSeconds,
+    delHtmlTag
 }

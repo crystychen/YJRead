@@ -33,13 +33,13 @@
       </view>
     </view>
   </view>
-  <view class="account-wrap">
+  <view class="account-wrap" wx:if="{{!inviterUserId || inviterUserId == userInfo.userId}}">
     <view class="account">
       <view class="" selectable="false" space="false" decode="false">
-        <text class="a" style="color: #ccc;">我的余额:</text>
-        <text style="margin-left: 10rpx;color: #000">{{gold}}书签</text>
+        <text class="" style="color: #949494;">我的余额:</text>
+        <text class="gold-num">{{gold}}书签</text>
       </view>
-      <view class="tag btn blue-color" selectable="false" space="false" decode="false">赚书签</view>
+      <view class="xs-btn btn blue-color" bindtap="toDailyTask">赚书签</view>
     </view>
   </view>
   <view class="operation-wrap">

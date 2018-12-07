@@ -78,11 +78,14 @@
 }
 
 .nav-item {
-    width: 23%;
+    width: 18%;
+    /* width: 23%; */
     display: inline-block;
     text-align: center;
-    border-bottom: 1rpx solid #cf9e73;
+    /* border-bottom: 1rpx solid #cf9e73; */
     position: relative;
+    font-size: 30rpx;
+    color: #c0c0c0;
 }
 
 .nav-item.active {
@@ -93,7 +96,7 @@
 .slider-wrap {
     width: 80rpx;
     position: absolute;
-    bottom: 0;
+    bottom: 4rpx;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -101,8 +104,9 @@
 .navbar_slider {
     background: #3772FB;
     height: 8rpx;
-    width: 80rpx;
+    width: 38rpx;
     margin: 0 auto;
+    border-radius: 50rpx;
 }
 
 

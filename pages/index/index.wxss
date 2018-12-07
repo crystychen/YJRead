@@ -64,11 +64,15 @@
 
 .card-wrap .btn-container {
     position: absolute;
-    bottom: 20rpx;
+    /* bottom: 40rpx; */
     left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.card-wrap .btn-container.free-card {
+    bottom: 40rpx;
 }
 
 .large-btn {
@@ -80,7 +84,7 @@
     font-size: 30rpx;
     border-radius: 50rpx;
     width: 460rpx;
-    box-shadow: 0rpx 8rpx 28rpx 0rpx rgba(0, 0, 0, 0.3);
+    box-shadow: 0rpx 4rpx 14rpx 0rpx rgba(0, 0, 0, 0.3);
 }
 
 .card-body {
@@ -97,6 +101,9 @@
     text-align: left;
     font-size: 40rpx;
     padding: 0 20rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .link-wrap {
@@ -139,7 +146,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    margin: 10rpx 0;
+    margin: 20rpx 0;
 }
 
 .col-wrap {
@@ -161,6 +168,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     background: #cecece;
+    border-radius: 10rpx;
 }
 
 .label-wrap {
@@ -385,3 +393,26 @@
   border-color: #27c6df #27c6df transparent transparent;
   transform: rotate(-45deg);
 } */
+
+
+/* ADD */
+
+.quare {
+    display: flex;
+    flex-direction: row;
+    margin-right: 14rpx;
+}
+
+.quare1 {
+    width: 12rpx;
+    height: 30rpx;
+    background: #FEAA0F;
+    transform: skewX(-20deg)
+}
+
+.quare2 {
+    width: 14rpx;
+    height: 30rpx;
+    background: #1393FC;
+    transform: skewX(-20deg)
+}

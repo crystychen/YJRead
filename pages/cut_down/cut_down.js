@@ -426,13 +426,13 @@ Page({
         let text = ""
         switch (btype) {
             case 1:
-                text = "发起砍价"
+                text = "发起助力"
                 break;
             case 2:
                 text = "首次分享"
                 break;
             case 3:
-                text = "用户帮砍"
+                text = "已助力"
                 break;
             default:
                 break;

@@ -406,8 +406,10 @@ Page({
     // 进入分享页  
     bindClickCard(e) {
         let { id } = e.currentTarget.dataset
-        wx.navigateTo({
-            url: `/pages/audio_detail/audio_detail?pid=${id}`
+        this.postOrderSubmit(id, function() {
+            wx.navigateTo({
+                url: `/pages/audio_detail/audio_detail?pid=${id}`
+            })
         })
     },
     // 轮播滑动完成
@@ -437,15 +439,10 @@ Page({
         }).then((res) => {
             console.log(res);
             if (res.data.status == '00') {
-                // WxParse.wxParse('about', 'html', res.book.about, that, 5);
-                // WxParse.wxParse('goldWord', 'html', res.book.goldWord, that, 5);
                 let [...bannerData] = res.data.infos.map((element, index) => {
                     console.log(element)
                     element.children.map((ele, idx) => {
-                        // let str = "<p>helldf</br><p>gvj</p>dfgoworld</p>";
-                        // var nstr = str.replace(/<[^>^<^\u4e00-\u9fa5]*>/g, "");
-                        // console.log(nstr)
-                        let nohtml = that.delHtmlTag(ele.productIntroduction)
+                        let nohtml = utils.delHtmlTag(ele.productIntroduction)
                         ele.productIntroduction = nohtml
                         return ele
                     })
@@ -469,11 +466,25 @@ Page({
             url: "/pages/shopMall/shopMall"
         })
     },
-    // 放书架
-    postOrderSubmit(e) {
-        console.log(e)
+    putBookshelf(e) {
         let { pid } = e.currentTarget.dataset
-            // 生成订单
+        this.postOrderSubmit(pid, (res) => {
+            // 兑换成功提示加入书架
+            wx.showToast({
+                title: '已放入书架',
+                icon: "none",
+                success: (res) => {
+                    // wx.navigateTo({
+                    //     url: '/pages/orderlist/orderlist',
+                    // })
+                }
+            })
+        })
+    },
+    // 提交订单
+    postOrderSubmit(pid, callback) {
+        // let { pid } = e.currentTarget.dataset
+        // 生成订单
         postAjax({
             url: "interfaceAction",
             method: 'POST',
@@ -507,24 +518,21 @@ Page({
 
                 } else {
                     // 兑换成功提示加入书架
-                    wx.showToast({
-                        title: '已放入书架',
-                        icon: "none",
-                        success: (res) => {
-                            // wx.navigateTo({
-                            //     url: '/pages/orderlist/orderlist',
-                            // })
-                        }
-                    })
+                    // wx.showToast({
+                    //     title: '已放入书架',
+                    //     icon: "none",
+                    //     success: (res) => {
+                    //         // wx.navigateTo({
+                    //         //     url: '/pages/orderlist/orderlist',
+                    //         // })
+                    //     }
+                    // })
+                    callback && callback(res)
                 }
             } else {
                 utils.alert(res.data.msg)
             }
         })
     },
-    delHtmlTag(str) {
-        //去掉所有的html标记
-        var nstr = str.replace(/<[^>^<^\u4e00-\u9fa5]*>|[&nbsp;]/g, "");
-        return nstr;
-    }
+
 })

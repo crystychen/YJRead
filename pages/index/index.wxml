@@ -6,10 +6,49 @@
     <view class='banner-wrap' wx:if="{{bannerData.length}}">
       <swiper class='banner' indicator-dots="{{false}}" autoplay="{{false}}" previous-margin="60rpx" next-margin="60rpx" circular='{{false}}' bindchange="onSwiperChange" bindanimationfinish="onSwiperAnimationFinish">
         <block wx:for="{{bannerData}}" wx:key="">
-          <block wx:if="{{item.composeType == 1}}">
+          <block wx:if="{{item.composeType == 3}}">
+            <swiper-item wx:for="{{item.children}}" wx:key="key" wx:for-item="book" style="padding-top: 20rpx;">
+              <view class="card-wrap">
+                <view class="card-title">
+                  <view class="quare">
+                    <view class="quare1"></view>
+                    <view class="quare2"></view>
+                  </view>
+                  {{item.name}}
+                </view>
+                <view class="card-body">
+                  <view class="card-infos">
+                    <image class="img" src="{{book.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+                    <view class="title">{{book.productName}}</view>
+                    <view class="author">{{book.author}}</view>
+                    <!-- <view class="price">{{item.gold}}书签/本</view> -->
+                    <view class="desc">{{book.productIntroduction}}</view>
+                  </view>
+                </view>
+                <view class="btn-container">
+                  <view class="btn large-btn active" data-id="{{book.id}}" bindtap="bindClickCard">
+                    点击收听
+                  </view>
+                  <view class="link-wrap">
+                    <text class="link-item" data-pid="{{book.id}}" bindtap="postOrderSubmit">
+                      放书架
+                    </text>
+                    <text class="link-item" bindtap="toShopMall">逛书城</text>
+                  </view>
+                </view>
+              </view>
+            </swiper-item>
+          </block>
+          <block wx:if="{{item.composeType == 4}}">
             <swiper-item style="padding-top: 20rpx;">
               <view class="card-wrap">
-                <view class="card-title">{{item.name}}</view>
+                <view class="card-title">
+                  <view class="quare">
+                    <view class="quare1"></view>
+                    <view class="quare2"></view>
+                  </view>
+                  {{item.name}}
+                </view>
                 <view class="card-body">
                   <view class="list">
                     <view class="list-item" wx:for="{{item.children}}" wx:key="key" data-id="{{item.id}}" catch:tap="bindClickCard">
@@ -28,37 +67,9 @@
                     </view>
                   </view>
                 </view>
-                <view class="btn-container">
+                <view class="btn-container free-card">
                   <view class="btn large-btn active" data-gtitle="{{item.name}}" data-groupid="{{item.id}}" catchtap="toShareDetail">
-                    免费领取
-                  </view>
-                </view>
-              </view>
-            </swiper-item>
-          </block>
-          <block wx:if="{{item.composeType != 1}}">
-            <swiper-item wx:for="{{item.children}}" wx:key="key" style="padding-top: 20rpx;">
-              <view class="card-wrap">
-                <view class="card-body">
-                  <view class="card-infos">
-                    <image class="img" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-                    <view class="title">{{item.productName}}</view>
-                    <view class="author">{{item.author}}</view>
-                    <!-- <view class="price">{{item.gold}}书签/本</view> -->
-                    <view class="desc">
-                      {{item.productIntroduction}}
-                    </view>
-                  </view>
-                </view>
-                <view class="btn-container">
-                  <view class="btn large-btn active" data-id="{{item.id}}" bindtap="bindClickCard">
-                    点击收听
-                  </view>
-                  <view class="link-wrap">
-                    <text class="link-item" data-pid="{{item.id}}" bindtap="postOrderSubmit">
-                      放书架
-                    </text>
-                    <text class="link-item" bindtap="toShopMall">逛书城</text>
+                    查看更多
                   </view>
                 </view>
               </view>

@@ -42,7 +42,8 @@ Page({
                 authLevel: wx.getStorageSync('authLevel')
             });
             app.getShareData(4); // 转发语
-            that.getCollectList();
+            that.getCollectList(); // 收藏数
+            that.getTotalOrder() // 书架数量
             if (wx.getStorageSync('authLevel') == 2) {
                 app.getAccount();
                 that.getTodayNumber(); // 今日数量
@@ -168,6 +169,28 @@ Page({
                 that.setData({
                     todaygold: gold
                 })
+            }
+        })
+    },
+    // 书架总数
+    getTotalOrder() {
+        let that = this
+        postAjax({
+            url: 'interfaceAction',
+            data: {
+                interId: '20321',
+                version: 1,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'order-count'
+            }
+        }).then((res) => {
+            if (res.data.status == '00') {
+
+                let ordernum = res.data.count;
+                that.setData({
+                        ordernum
+                    })
+                    // callback && callback()
             }
         })
     },

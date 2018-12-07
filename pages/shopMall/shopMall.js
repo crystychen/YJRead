@@ -16,7 +16,7 @@ Page({
      */
     data: {
         // page: 1,
-        // size: 6,
+        size: 20,
         // bannerImg: "/images/mall-top-bcg.png",
         currentTab: 0,
         atAddrObj: {},
@@ -96,14 +96,15 @@ Page({
             // 商品
             // that.pList();
             that.getGroup()
+            that.pListTotal() // 获取分组
             app.getShareData(4); // 转发语分享路径
-            app.getShareData(20, function(res) { // 换购书签说明(其他广告位置)
-                console.log()
-                that.setData({
-                    ruleDesc: res.data.infos[0]
-                })
-            })
-            that.getAddList(); // 我的地址列表
+            // app.getShareData(20, function(res) { // 换购书签说明(其他广告位置)
+            //     console.log()
+            //     that.setData({
+            //         ruleDesc: res.data.infos[0]
+            //     })
+            // })
+            // that.getAddList(); // 我的地址列表
             app.getUserInfo([wx.getStorageSync('authLevel'), wx.getStorageSync('userInfo')]).then(function(uinfo) {
                 that.setData({
                     authLevel: wx.getStorageSync("authLevel"),
@@ -202,6 +203,34 @@ Page({
         }
 
     },
+    pListTotal() {
+        let that = this
+        postAjax({
+            url: 'interfaceAction',
+            data: {
+                interId: '20111',
+                version: 1,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'p-group',
+                params: {
+                    groupProductCount: 20 // 查询全部
+                        // bookTypeId: bookTypeId
+                }
+            }
+        }).then((res) => {
+            // console.log(res.data.infos);
+            if (res.data.status == '00') {
+                // let products = res.data.infos;
+                let [...freePros] = res.data.infos.filter((element, index) => {
+                    // console.log(element)
+                    return element.composeType == 4
+                })
+                that.setData({
+                    freePros
+                })
+            }
+        })
+    },
     // 商品列表
     pList(bookTypeId) {
         var that = this;
@@ -220,9 +249,18 @@ Page({
         }).then((res) => {
             // console.log(res.data.infos);
             if (res.data.status == '00') {
-                let products = res.data.infos;
+                // let products = res.data.infos;
+                let [...products] = res.data.infos.map((element, index) => {
+                    console.log(element)
+                    element.children.map((ele, idx) => {
+                        let nohtml = utils.delHtmlTag(ele.productIntroduction)
+                        ele.productIntroduction = nohtml
+                        return ele
+                    })
+                    return element
+                })
                 that.setData({
-                    products: res.data.infos
+                    products
                 })
             }
         })
@@ -651,12 +689,87 @@ Page({
                     bookTypes
                 } = res.data;
                 that.setData({
-                    bookTypes,
-                    bookTypeId: that.data.bookTypeId || bookTypes[0][0]
-                })
-                that.pList(that.data.bookTypeId) // 默認第一分組的內容列表
+                        bookTypes,
+                        // bookTypeId: that.data.bookTypeId || bookTypes[0][0]
+                        bookTypeId: bookTypes[0][0],
+                        currentTab: 0,
+                        navScrollLeft: 0
+                    })
+                    // that.pList(that.data.bookTypeId) // 默認第一分組的內容列表
+                that.pList(bookTypes[0][0]) // 默認第一分組的內容列表
             }
         })
     },
+    // 加载更多商品
+    loadMoreDataBypid(e) {
+        let that = this
+        let { pid } = e.currentTarget.dataset;
+        // let value = ['proObj' + pid];
+        // let page = that.data[value].page || 2
+        let page = that.data.page++ || 2
+            // console.log(value)
+        console.log(page)
+        that.setData({
+            // groupObj: {
+            //     pid: page++
+            // }
+            ['proObj' + pid + '.page']: page
+        })
 
+        that.pMoreList(pid, { page: page, size: 20 })
+
+    },
+    pMoreList(groupId, groupObj) {
+        let that = this;
+        postAjax({
+            url: 'interfaceAction',
+            data: {
+                interId: '20111',
+                version: 1,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'p-group',
+                params: {
+                    groupId,
+                    groupProductCount: 0,
+                    page: groupObj.page,
+                    size: that.data.size,
+                    bookTypeId: that.data.bookTypeId
+                }
+            }
+        }).then((res) => {
+            if (res.data.status == '00') {
+                // let [...products] = res.data.products.map((element, index) => {
+                //     console.log(element)
+                //     element[2] = utils.delHtmlTag(element[2])
+                //     return element
+                // })
+                let [...products] = res.data.infos.map((element, index) => {
+                    // console.log(element)
+                    element.children.map((ele, idx) => {
+                        let nohtml = utils.delHtmlTag(ele.productIntroduction)
+                        ele.productIntroduction = nohtml
+                        return ele
+                    })
+                    return element.children
+                })
+                console.log("add", products)
+                let conArr = that.dealMoreData(that.data.products, groupId, products[0])
+                console.log(conArr)
+                that.setData({
+                    products: conArr
+                })
+            }
+        })
+    },
+    dealMoreData(arr, pid, addArr) {
+        let [...products] = arr.map((element, index) => {
+            if (element.id == pid) {
+                element.children = element.children.concat(addArr)
+                console.log(element)
+                return element
+            }
+            return element
+        })
+        return products
+    }
 })
