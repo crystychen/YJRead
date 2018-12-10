@@ -104,9 +104,14 @@ Page({
                     render(date) {
                         // const years = this.leadingZeros(date.years, 4) + ' - '
                         // const days = this.leadingZeros(date.days, 3) + ' - '
+                        console.log(date.sec)
                         const hours = this.leadingZeros(date.hours, 2)
                         const min = this.leadingZeros(date.min, 2)
-                        const sec = this.leadingZeros(date.sec, 2)
+                        let sec = this.leadingZeros(date.sec, 2)
+                            // console.log(sec)
+                        if (isNaN(sec)) {
+                            sec = '00'
+                        }
 
                         that.setData({
                             hours,

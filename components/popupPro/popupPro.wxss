@@ -116,14 +116,17 @@
 
 .modal-content .btn.active {
     /* background: linear-gradient(to right, #e2c597, #cf9f73); */
-    background: #FFAA0F;
+    /* background: #FFAA0F; */
+    background: linear-gradient(to right, #9034F0, #3772FB);
     color: #fff;
     border: none;
 }
 
 .modal-content .btn.border {
-    border: 1rpx solid #FFAA0F;
-    color: #FFAA0F;
+    /* border: 1rpx solid #FFAA0F;
+    color: #FFAA0F; */
+    border: 1rpx solid #1392FD;
+    color: #1693FF;
 }
 
 .bcgImg {

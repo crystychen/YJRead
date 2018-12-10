@@ -306,12 +306,6 @@ view {
     margin: 0;
 }
 
-.active-btn {
-    background: linear-gradient(to right, #23bae0, #31dcdf);
-    color: #fff;
-    /* border: 1rpx solid #fe6e00; */
-}
-
 .nomore-tips {
     text-align: center;
     color: #a1a1a1;

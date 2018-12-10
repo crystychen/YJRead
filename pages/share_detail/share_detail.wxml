@@ -10,28 +10,15 @@
           <view class="book-name">{{item[1]}}</view>
           <view class="book-author">作者</view>
           <view class="book-price line-through">原价: {{item[7]}}</view>
-          <button class="btn share-btn disabled" wx:if="{{item[16]}}">已领取</button>
-          <button class="btn share-btn active" wx:else catch:tap="preventDefault" data-pid="{{item[0]}}" id="item-share" open-type="share">分享</button>
+          <view class="btn-container" hover-class="none" hover-stop-propagation="false" style="position: relative">
+            <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo" catch:tap="preventDefault"></button>
+            <button class="btn share-btn disabled" wx:if="{{item[16]}}">已领取</button>
+            <button class="btn share-btn active" wx:else catch:tap="preventDefault" data-pid="{{item[0]}}" id="item-share" open-type="share">
+              分享
+            </button>
+          </view>
         </view>
       </wux-col>
-      <!-- <wux-col span="6">
-        <view class="book">
-          <image class="book-img"></image>
-          <view class="book-name">疯狂的投资</view>
-          <view class="book-desc">有声小说·中信出版君</view>
-          <view class="book-price line-through">原价: 11.94</view>
-          <button class="share-btn" open-type="share">分享</button>
-        </view>
-      </wux-col>
-      <wux-col span="6">
-        <view class="book">
-          <image class="book-img"></image>
-          <view class="book-name">疯狂的投资</view>
-          <view class="book-desc">有声小说·中信出版君</view>
-          <view class="book-price line-through">原价: 11.94</view>
-          <button class="share-btn" open-type="share">分享</button>
-        </view>
-      </wux-col> -->
     </wux-row>
   </view>
 </view>

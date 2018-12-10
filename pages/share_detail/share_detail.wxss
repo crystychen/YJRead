@@ -54,8 +54,9 @@
 .book .share-btn {
     padding: 0 20rpx;
     font-size: 28rpx;
-    height: 50rpx;
-    line-height: 46rpx;
+    height: 60rpx;
+    line-height: 60rpx;
     margin: 10rpx auto;
     border-radius: 50rpx;
+    width: 160rpx;
 }

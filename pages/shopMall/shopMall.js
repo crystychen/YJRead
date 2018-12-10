@@ -20,6 +20,7 @@ Page({
         // bannerImg: "/images/mall-top-bcg.png",
         currentTab: 0,
         atAddrObj: {},
+        groupObj: {}
     },
 
     /**
@@ -665,7 +666,8 @@ Page({
             this.setData({
                 currentTab: current,
                 page: 1,
-                bookTypeId: booktypeid
+                bookTypeId: booktypeid,
+                groupObj: {}
             })
         }
         // postgroupid 請求列表
@@ -692,6 +694,7 @@ Page({
                         bookTypes,
                         // bookTypeId: that.data.bookTypeId || bookTypes[0][0]
                         bookTypeId: bookTypes[0][0],
+                        groupObj: {},
                         currentTab: 0,
                         navScrollLeft: 0
                     })
@@ -704,19 +707,17 @@ Page({
     loadMoreDataBypid(e) {
         let that = this
         let { pid } = e.currentTarget.dataset;
-        // let value = ['proObj' + pid];
-        // let page = that.data[value].page || 2
-        let page = that.data.page++ || 2
-            // console.log(value)
-        console.log(page)
-        that.setData({
-            // groupObj: {
-            //     pid: page++
-            // }
-            ['proObj' + pid + '.page']: page
-        })
+        let { groupObj } = this.data
 
-        that.pMoreList(pid, { page: page, size: 20 })
+        let prePage = this.data.groupObj['proObj' + pid] ? this.data.groupObj['proObj' + pid].page : 1
+        console.log(prePage)
+        let nowPage = ++prePage
+
+        groupObj['proObj' + pid] = { page: nowPage }
+        that.setData({
+            groupObj
+        })
+        that.pMoreList(pid, { page: nowPage, size: 20 })
 
     },
     pMoreList(groupId, groupObj) {

@@ -121,6 +121,31 @@ Page({
             }
         }
     },
+    // 授权用户登录
+    onGotUserInfo: function(e) {
+        var that = this
+        console.log(e)
+        let { id } = e.currentTarget.dataset
+        if (!e.detail.userInfo) {
+            return;
+        }
+        app.globalData.iv = e.detail.iv; //先放app的全局变量，然后在其他方法解密
+        app.globalData.encryptedData = e.detail.encryptedData; //先放app的全局变量，然后在其他方法解密
+
+        app.uploadUserInfo(function(uinfo) {
+            // uinfo后台返回来的
+            app.globalData.fromauth = 1;
+            console.log("后台返回的unifo:", uinfo)
+            that.setData({
+                userInfo: uinfo,
+                authLevel: wx.getStorageSync('authLevel')
+            });
+
+            that.signIn();
+            app.getAccount(); // 获取账户信息
+
+        });
+    },
     // 获取任务列表
     getTasksList() {
         let that = this
@@ -128,40 +153,33 @@ Page({
             url: 'interfaceAction',
             data: {
                 interId: '20102',
-                version: 1,
+                version: 2,
                 authKey: wx.getStorageSync('authKey'),
                 method: 'task-list'
             }
         }).then((res) => {
             if (res.data.status == '00') {
                 let taskdata = res.data.infos;
-                let tasklistObj = {}
-                let arbitrarily = []
-                let given = []
-                let Invitation = []
-                let tmpCartData = taskdata.map(function(element, index, array) {
-                    // 类型处理
-                    switch (element[1]) {
+                let dailyTasks = []
+                let onceTasks = []
+                taskdata.map(function(element, index, array) {
+                    // 类型处理(单次2与每日1)
+                    switch (element[12]) {
                         case 1:
-                            arbitrarily.push(element)
+                            dailyTasks.push(element)
                             break;
                         case 2:
-                            given.push(element)
-                            break;
-                        case 3:
-                            Invitation.push(element)
+                            onceTasks.push(element)
                             break;
                         default:
                             console.log("default");
                     }
                     return element;
                 });
-                tasklistObj.arbitrarily = arbitrarily
-                tasklistObj.given = given
-                tasklistObj.Invitation = Invitation
+
                 that.setData({
-                    tasklistObj,
-                    tasksLists: taskdata
+                    dailyTasks,
+                    onceTasks
                 })
             }
         })
@@ -215,7 +233,7 @@ Page({
             }
         })
     },
-    toIndex() {
+    toRead() {
         wx.switchTab({
             url: '/pages/reading/reading'
         })
@@ -384,7 +402,10 @@ Page({
             isSignedModal: true
         })
     },
-    toAwardView() {
-
+    toShopMall() {
+        console.log("quduihua")
+        wx.switchTab({
+            url: '/pages/shopMall/shopMall'
+        })
     }
 })

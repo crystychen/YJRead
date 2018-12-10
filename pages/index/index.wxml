@@ -1,6 +1,6 @@
 <!-- index.wxml -->
 <import src="../../wxParse/wxParse.wxml" />
-<view class="container">
+<view class="container" style="height: {{windowHeight}}px;">
   <scroll-view scroll-y="true" style="height: {{windowHeight}}px;" scroll-with-animation="true" bindscrolltolower="loadMoreData" scroll-into-view="{{toView}}">
     <!-- 轮播图 -->
     <view class='banner-wrap' wx:if="{{bannerData.length}}">
@@ -26,14 +26,24 @@
                   </view>
                 </view>
                 <view class="btn-container">
-                  <view class="btn large-btn active" data-id="{{book.id}}" bindtap="bindClickCard">
-                    点击收听
+                  <view class="btn large-btn" hover-class="none" hover-stop-propagation="false">
+                    <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
+                    <view class="btn large-btn active" style="" data-id="{{book.id}}" data-isbuy="{{book.isBuy}}" bindtap="bindClickCard">
+                      点击收听
+                    </view>
                   </view>
+                  <!-- <view class="btn large-btn active" data-id="{{book.id}}" wx:else bindtap="bindClickCard">
+                    点击收听
+                  </view> -->
                   <view class="link-wrap">
-                    <text class="link-item" data-pid="{{book.id}}" bindtap="postOrderSubmit">
+                    <view class="link-item disabled" data-pid="{{book.id}}" wx:if="{{book.isBuy}}" bindtap="">
                       放书架
-                    </text>
-                    <text class="link-item" bindtap="toShopMall">逛书城</text>
+                    </view>
+                    <view class="link-item" wx:else data-pid="{{book.id}}" >
+                      <text bindtap="putBookshelf" style="width: 100%;display: block">放书架</text>
+                      <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
+                    </view>
+                    <view class="link-item" bindtap="toShopMall">逛书城</view>
                   </view>
                 </view>
               </view>
@@ -51,7 +61,7 @@
                 </view>
                 <view class="card-body">
                   <view class="list">
-                    <view class="list-item" wx:for="{{item.children}}" wx:key="key" data-id="{{item.id}}" catch:tap="bindClickCard">
+                    <view class="list-item" wx:for="{{item.children}}" wx:key="key" data-isbuy="{{true}}" data-id="{{item.id}}" catch:tap="bindClickCard">
                       <block wx:if="{{index < 4}}">
                         <view class="col-wrap">
                           <image class="img" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>

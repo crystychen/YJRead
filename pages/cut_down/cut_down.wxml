@@ -3,7 +3,7 @@
 <!-- bargainDetails -->
 <view class="container">
   <view class="" wx:if="{{sharetime == 3}}">
-    <wux-media wux-class-title="media-title" thumb="{{bargainDetails[0].headimgurl}}" thumb-style="border-radius: 50%" title="{{bargainDetails[0].nickName}}" label="我发现了一本好书，一起来砍价0元拿"></wux-media>
+    <wux-media wux-class-title="media-title" thumb="{{bargainDetails[bargainDetails.length-1].headimgurl}}" thumb-style="border-radius: 50%" title="{{bargainDetails[bargainDetails.length-1].nickName}}" label="我发现了一本好书，一起来砍价0元拿"></wux-media>
   </view>
   <view class="pro-info-wrap">
     <view class="pro-info">

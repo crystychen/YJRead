@@ -4,7 +4,7 @@
     width: 100%;
     height: 100%;
     background: #FBFBFB;
-    /* padding-top: 10rpx; */
+    padding-top: 100rpx;
 }
 
 
@@ -31,8 +31,8 @@
 
 .media-wrap {
     margin: 20rpx auto;
-    border-radius: 20rpx;
-    width: 90%;
+    border-radius: 10rpx;
+    width: 690rpx;
     box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233);
 }
 
@@ -74,6 +74,10 @@
     background: #fff;
     font-size: 32rpx;
     white-space: nowrap;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    box-shadow: 0rpx 0rpx 30rpx 0rpx rgba(96, 96, 96, 0.2);
     /* border-bottom: 1rpx solid #e6e6e6; */
 }
 
@@ -96,7 +100,7 @@
 .slider-wrap {
     width: 80rpx;
     position: absolute;
-    bottom: 4rpx;
+    bottom: 6rpx;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -137,7 +141,7 @@
     width: 180rpx;
     height: 180rpx;
     background: #ccc;
-    border-radius: 20rpx;
+    border-radius: 10rpx;
 }
 
 .item-infos {
@@ -150,7 +154,6 @@
 }
 
 .infos-title {
-    font-weight: bold;
     font-size: 32rpx;
 }
 

@@ -16,7 +16,8 @@ page {
     /* width: 100%; */
     /* height: 480rpx; */
     box-sizing: border-box;
-    margin: 30rpx;
+    /* margin: 30rpx; */
+    margin-bottom: 20rpx;
     /* background: linear-gradient(to bottom, #e2c699, #faf8f6); */
 }
 
@@ -25,9 +26,20 @@ page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #fff;
-    border-radius: 20rpx;
+    /* background-color: #fff; */
+    border-radius: 10rpx;
     padding: 30rpx;
+}
+
+.img-bcg {
+    position: absolute;
+    top: 120rpx;
+    width: 700rpx;
+    /* height: 278rpx; */
+    height: 240rpx;
+    z-index: -1;
+    border-radius: 10rpx;
+    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
 }
 
 .openbtn {
@@ -51,10 +63,10 @@ page {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    border: 10rpx solid #fff;
+    border: 6rpx solid #fff;
 }
 
-.header_img_wrap .img {
+.header_img_wrap > .img {
     height: 130rpx;
     width: 130rpx;
     border-radius: 50%;
@@ -69,21 +81,29 @@ page {
     line-height: 50rpx;
     position: absolute;
     right: 0;
-    bottom: 6rpx;
+    bottom: 4rpx;
     z-index: 1;
-    background: #FEAC43;
+    /* background: #FEAC43; */
     color: #ffffff;
-    border-radius: 50%;
+    /* border-radius: 50%; */
     text-align: center;
+}
+
+.vip .img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0
+    backgrou
 }
 
 .user-name {
     font-weight: bold;
     font-size: 30rpx;
     height: 40rpx;
-    margin: 10rpx 0;
+    margin: 20rpx 0;
     width: 100%;
     text-align: center;
+    margin-bottom: 30rpx;
 }
 
 .num {
@@ -100,7 +120,7 @@ page {
 
 .num-row {
     width: 100%;
-    margin-top: 40rpx;
+    /* margin-top: 40rpx; */
 }
 
 .num-item {
@@ -128,6 +148,7 @@ page {
 
 .card-wrap {
     padding: 0 30rpx;
+    /* margin-top: 30rpx; */
 }
 
 .media-wrap .btn {
@@ -140,8 +161,9 @@ page {
 
 .media-wrap {
     margin: 0rpx auto;
-    border-radius: 20rpx;
+    border-radius: 10rpx;
     /* width: 90%; */
+    width: 690rpx;
     background: #ffffff;
     box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
 }
@@ -184,7 +206,7 @@ page {
 
 .menu {
     background-color: #fff;
-    border-radius: 20rpx;
+    border-radius: 10rpx;
     box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
 }
 

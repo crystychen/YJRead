@@ -96,7 +96,8 @@ button {
 }
 
 .btn.active {
-    background: linear-gradient(to right, #7B47F2, #1690FF);
+    /* background: linear-gradient(to right, #7B47F2, #1690FF); */
+    background: linear-gradient(to right, #9034F0, #3772FB);
     color: #fff;
 }
 
@@ -156,6 +157,16 @@ button {
     height: 90rpx;
     line-height: 90rpx;
     border-radius: 0;
+}
+
+.openbtn {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: transparent;
+    z-index: 1;
 }
 
 .btn-container {

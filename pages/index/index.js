@@ -83,34 +83,24 @@ Page({
                     })
                     // 通过链接进来重新加载广告, 邀请人id = inviterUserId(不需授权调用)
                 if (!app.globalData.openOnShow || that.data.inviterUserId) {
-                    // wx.showLoading({
-                    //   title: '正在加载中'
-                    // })
-
                     app.getShareData(4); // 转发语
-                    //
-                    that.pList();
-
-                    // setTimeout(function() {
-                    //   wx.hideLoading()
-                    // }, 800)
                 }
 
-
+                that.pList();
                 app.getUserInfo([wx.getStorageSync('authLevel'), wx.getStorageSync('userInfo')]).then(function(uinfo) {
                     that.setData({
-                        authLevel: wx.getStorageSync("authLevel"),
-                        userInfo: wx.getStorageSync('userInfo')
-                    })
-                    that.getSignInfo(function(res) {
-                        console.log("是否需要签到, res为false不需要，true需要签到") // res为false不需要，true需要签到
-                        console.log(res)
-                        if (res && wx.getStorageSync("authLevel") == 1) {
-                            that.setData({
-                                isSignedModal: true // 未签到弹出签到层
-                            })
-                        }
-                    });
+                            authLevel: wx.getStorageSync("authLevel"),
+                            userInfo: wx.getStorageSync('userInfo')
+                        })
+                        // that.getSignInfo(function(res) {
+                        //     console.log("是否需要签到, res为false不需要，true需要签到") // res为false不需要，true需要签到
+                        //     console.log(res)
+                        //     if (res && wx.getStorageSync("authLevel") == 1) {
+                        //         that.setData({
+                        //             isSignedModal: true // 未签到弹出签到层
+                        //         })
+                        //     }
+                        // });
                     if (wx.getStorageSync("authLevel") == 2) {
                         // app.getAccount(); // 获取账户信息      
                     }
@@ -158,6 +148,34 @@ Page({
                     url: `/pages/article_detail/article_detail?url=${that.data.shareurl}`,
                 })
             }
+        });
+    },
+    // 授权用户登录
+    onGotUserInfo: function(e) {
+        var that = this
+        console.log(e)
+        let { id } = e.currentTarget.dataset
+        if (!e.detail.userInfo) {
+            return;
+        }
+        app.globalData.iv = e.detail.iv; //先放app的全局变量，然后在其他方法解密
+        app.globalData.encryptedData = e.detail.encryptedData; //先放app的全局变量，然后在其他方法解密
+
+        app.uploadUserInfo(function(uinfo) {
+            // uinfo后台返回来的
+            app.globalData.fromauth = 1;
+            console.log("后台返回的unifo:", uinfo)
+            that.setData({
+                userInfo: uinfo,
+                authLevel: wx.getStorageSync('authLevel')
+            });
+            // 自动下单进入音频详情页
+            that.postOrderSubmit(id, function() {
+                wx.navigateTo({
+                    url: `/pages/audio_detail/audio_detail?pid=${id}`
+                })
+            })
+
         });
     },
     // 签到
@@ -405,22 +423,38 @@ Page({
     },
     // 进入分享页  
     bindClickCard(e) {
-        let { id } = e.currentTarget.dataset
-        this.postOrderSubmit(id, function() {
+        let {
+            id,
+            isbuy
+        } = e.currentTarget.dataset
+        if (isbuy) {
             wx.navigateTo({
                 url: `/pages/audio_detail/audio_detail?pid=${id}`
             })
-        })
+        } else {
+            this.postOrderSubmit(id, function() {
+                wx.navigateTo({
+                    url: `/pages/audio_detail/audio_detail?pid=${id}`
+                })
+            })
+        }
+
     },
     // 轮播滑动完成
     onSwiperAnimationFinish(e) {
-        let { current, source } = e.detail
+        let {
+            current,
+            source
+        } = e.detail
             // console.log(e)
     },
     // 轮播改变
     onSwiperChange(e) {
         // console.log("轮播改变")
-        let { current, source } = e.detail
+        let {
+            current,
+            source
+        } = e.detail
             // console.log(e)
     },
     pList() {
@@ -456,7 +490,10 @@ Page({
         })
     },
     toShareDetail(e) {
-        let { groupid, gtitle } = e.currentTarget.dataset
+        let {
+            groupid,
+            gtitle
+        } = e.currentTarget.dataset
         wx.navigateTo({
             url: `/pages/share_detail/share_detail?groupid=${groupid}&gtitle=${gtitle}`
         })
@@ -467,7 +504,10 @@ Page({
         })
     },
     putBookshelf(e) {
-        let { pid } = e.currentTarget.dataset
+        let that = this
+        let {
+            pid
+        } = e.currentTarget.dataset
         this.postOrderSubmit(pid, (res) => {
             // 兑换成功提示加入书架
             wx.showToast({
@@ -477,6 +517,7 @@ Page({
                     // wx.navigateTo({
                     //     url: '/pages/orderlist/orderlist',
                     // })
+                    that.pList()
                 }
             })
         })

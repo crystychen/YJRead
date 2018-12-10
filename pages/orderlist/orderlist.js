@@ -159,7 +159,7 @@ Page({
                 // }
                 // let [...arr2] = arr
                 let [...orderInfo] = res.data.infos.map((element, index, Array) => {
-                    let overTime = that.judgeTime(element[14])
+                    let overTime = utils.judgeTime(element[14])
                     element[15] = overTime;
                     return element;
                 })
@@ -205,7 +205,7 @@ Page({
                     if (res.data.status == "00") {
                         if (res.data.infos.length <= that.data.size) {
                             let [...orderInfo] = res.data.infos.map((element, index, Array) => {
-                                let overTime = that.judgeTime(element[14])
+                                let overTime = utils.judgeTime(element[14])
                                 element[15] = overTime;
                                 return element;
                             })
@@ -263,7 +263,7 @@ Page({
                     if (res.data.status == "00") {
                         if (res.data.infos.length <= that.data.size) {
                             let [...orderInfo] = res.data.infos.map((element, index, Array) => {
-                                let overTime = that.judgeTime(element[14])
+                                let overTime = utils.judgeTime(element[14])
                                 element[15] = overTime;
                                 return element;
                             })
@@ -522,15 +522,5 @@ Page({
         wx.navigateTo({
             url: '/pages/cut_down/cut_down?orderid=' + orderid
         })
-    },
-    //判断时间是否过期
-    judgeTime(time) {
-        var strtime = time.replace("/-/g", "/"); //时间转换
-        //时间
-        var date1 = new Date(strtime);
-        //现在时间
-        var date2 = new Date();
-        //判断时间是否过期
-        return date1 < date2 ? true : false;
     }
 })

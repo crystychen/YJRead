@@ -45,29 +45,40 @@ const alert = (opt, success) => {
     })
 }
 const getReadTime = () => {
-    return new Promise((resolve, reject) => {
-        let endTime = new Date().getTime();
-        let id = wx.getStorageSync('timeStart').id;
-        let ruleid = wx.getStorageSync('timeStart').ruleid;
-        let url = wx.getStorageSync('timeStart').url;
-        let startTime = wx.getStorageSync('timeStart').beginTime;
-        var dateDiff = endTime - startTime; //时间差的毫秒数
-        var dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000)); //计算出相差天数
-        var leave1 = dateDiff % (24 * 3600 * 1000) //计算天数后剩余的毫秒数
-        var hours = Math.floor(leave1 / (3600 * 1000)) //计算出小时数
-        var leave2 = leave1 % (3600 * 1000) //计算小时数后剩余的毫秒数
-        var remainMinutes = Math.floor(leave2 / (60 * 1000)) //计算相差分钟数
-        let remainSecond = Math.floor(leave2 % 60); //计算剩余的秒数
-        let minutes = dayDiff * 24 * 60 + hours * 60 + remainMinutes
-        console.log("小时后剩余分钟数", remainMinutes)
-            // let second = Math.floor(dateDiff / 1000)  // 秒数
-            // console.log("second", second)
-        let second = Math.floor(dateDiff / 1000) // 秒数
-        console.log("second", second)
-        console.log("minutes", minutes)
-        resolve({ id, second, ruleid, url })
-    })
-}       
+        return new Promise((resolve, reject) => {
+            let endTime = new Date().getTime();
+            let id = wx.getStorageSync('timeStart').id;
+            let ruleid = wx.getStorageSync('timeStart').ruleid;
+            let url = wx.getStorageSync('timeStart').url;
+            let startTime = wx.getStorageSync('timeStart').beginTime;
+            var dateDiff = endTime - startTime; //时间差的毫秒数
+            var dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000)); //计算出相差天数
+            var leave1 = dateDiff % (24 * 3600 * 1000) //计算天数后剩余的毫秒数
+            var hours = Math.floor(leave1 / (3600 * 1000)) //计算出小时数
+            var leave2 = leave1 % (3600 * 1000) //计算小时数后剩余的毫秒数
+            var remainMinutes = Math.floor(leave2 / (60 * 1000)) //计算相差分钟数
+            let remainSecond = Math.floor(leave2 % 60); //计算剩余的秒数
+            let minutes = dayDiff * 24 * 60 + hours * 60 + remainMinutes
+            console.log("小时后剩余分钟数", remainMinutes)
+                // let second = Math.floor(dateDiff / 1000)  // 秒数
+                // console.log("second", second)
+            let second = Math.floor(dateDiff / 1000) // 秒数
+            console.log("second", second)
+            console.log("minutes", minutes)
+            resolve({ id, second, ruleid, url })
+        })
+    }    
+    //判断时间是否过期
+const judgeTime = time => {
+        var strtime = time.replace("/-/g", "/"); //时间转换
+        //时间
+        var date1 = new Date(strtime);
+        //现在时间
+        var date2 = new Date();
+        //判断时间是否过期
+        return date1 < date2 ? true : false;
+    }
+    // 时间格式化成00:00:00 
 const formatSeconds = value => {
     var secondTime = parseInt(value); // 秒
     var minuteTime = 0; // 分
@@ -105,5 +116,6 @@ module.exports = {
     alert,
     getReadTime,
     formatSeconds,
+    judgeTime,
     delHtmlTag
 }

@@ -19,6 +19,7 @@
     width: 100%;
     height: 100%;
     background: #fff;
+    padding-top: 100rpx;
     /* padding-top: 10rpx; */
 }
 
@@ -320,11 +321,11 @@
 
 .infos-desc {
     display: inline-block;
-    color: #8C8C94;
+    color: #8c8c94;
 }
 
 .num {
-    color: #3773FA;
+    color: #3773fa;
     font-weight: bold;
     padding-right: 8rpx;
 }
@@ -349,7 +350,7 @@
     width: 445rpx;
     height: 85rpx;
     border-radius: 50rpx;
-    background: linear-gradient(to right, #7B47F2, #1690FF);
+    background: linear-gradient(to right, #7b47f2, #1690ff);
     color: #fff;
 }
 
@@ -360,7 +361,7 @@
 /* 列表媒体对象start */
 
 .card-bgc {
-    background: #ffffff !important;
+    background: #fff !important;
 }
 
 .noborder {
@@ -396,7 +397,7 @@
 
 .time {
     /* color: rgb(136, 136, 136); */
-    color: #AFB4CD;
+    color: #afb4cd;
     font-size: 24rpx;
     margin-top: 10rpx;
 }
@@ -417,6 +418,9 @@
     font-size: 32rpx;
     white-space: nowrap;
     box-shadow: 0rpx 0rpx 30rpx 0rpx rgba(96, 96, 96, 0.2);
+    position: fixed;
+    top: 0;
+    z-index: 1;
 }
 
 .nav-item {
@@ -430,20 +434,20 @@
 }
 
 .nav-item.active {
-    color: #3772FB;
+    color: #3772fb;
     /* font-weight: bold; */
 }
 
 .slider-wrap {
     width: 80rpx;
     position: absolute;
-    bottom: 4rpx;
+    bottom: 6rpx;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .navbar_slider {
-    background: #3772FB;
+    background: #3772fb;
     height: 8rpx;
     width: 38rpx;
     margin: 0 auto;
@@ -452,7 +456,7 @@
 
 .tab-content {
     overflow-y: scroll;
-    background: #ffffff;
+    background: #fff;
 }
 
 
@@ -491,6 +495,10 @@
 
 .scroll-item .item-wrap .name {
     font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 .scroll-item:first-child {

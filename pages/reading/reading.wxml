@@ -14,7 +14,7 @@
   <view class="card-wrap">
     <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
       <wux-media thumb="https://soure.chudianad.com/static/welfare/product/thumbImg/201811161207227287.jpg" thumb-style="" title="汗牛书屋7天畅听卡" label="全场书籍免费无限听">
-        <view class="time">{{Vip.endTime}}到期</view>
+        <view class="time">{{VipEndTime?VipEndTime+'  到期':'已过期'}}</view>
         <view class="btn-wrap center-right" slot>
           <view class="sm-btn btn blue-color" wx:if="{{isVip}}">已领取</view>
           <view class="sm-btn btn blue-color" wx:else bindtap="bindReceive">领取</view>
@@ -37,11 +37,11 @@
                 <view class='icon-wrap' data-id="{{item[0]}}" data-iscollected="{{item[10]}}" catchtap='{{isDeal?"preventBubble":"toggleCollect"}}'>
                   <block wx:if="{{item[10] == 0}}">
                     <image class='xs_icon' src="/images/star-icon.png"></image>
-                    <text>16</text>
+                    <!-- <text>16</text> -->
                   </block>
                   <block wx:else>
                     <image class='xs_icon' src="/images/star-icon-collected.png"></image>
-                    <text>17</text>
+                    <!-- <text>17</text> -->
                   </block>
                 </view>
                 <view class='share' data-shareurl="{{item[8]}}" data-shareArtid="{{item[0]}}" catchtap="showShareBoard">

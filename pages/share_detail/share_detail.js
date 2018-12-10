@@ -129,6 +129,29 @@ Page({
             }
         });
     },
+    // 授权用户登录
+    onGotUserInfo: function(e) {
+        var that = this
+        console.log(e)
+        let { id } = e.currentTarget.dataset
+        if (!e.detail.userInfo) {
+            return;
+        }
+        app.globalData.iv = e.detail.iv; //先放app的全局变量，然后在其他方法解密
+        app.globalData.encryptedData = e.detail.encryptedData; //先放app的全局变量，然后在其他方法解密
+
+        app.uploadUserInfo(function(uinfo) {
+            // uinfo后台返回来的
+            app.globalData.fromauth = 1;
+            console.log("后台返回的unifo:", uinfo)
+            that.setData({
+                userInfo: uinfo,
+                authLevel: wx.getStorageSync('authLevel')
+            });
+
+
+        });
+    },
     // 签到
     signIn: function(e) {
         var that = this

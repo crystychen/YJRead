@@ -26,7 +26,7 @@
         "selectedColor": "#3E74F5",
         "list": [{
                 "pagePath": "pages/index/index",
-                "text": "首页",
+                "text": "福利",
                 "iconPath": "images/welfare.png",
                 "selectedIconPath": "images/welfare_active.png"
             },
@@ -50,6 +50,9 @@
             }
         ]
     },
+    "requiredBackgroundModes": [
+      "audio"
+    ],
     "navigateToMiniProgramAppIdList": [
         "wx9ddb22fc5fee2755",
         "wxeb50022be9f0bc35"

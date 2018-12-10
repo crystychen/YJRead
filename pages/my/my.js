@@ -48,10 +48,19 @@ Page({
                 app.getAccount();
                 that.getTodayNumber(); // 今日数量
                 app.getUserVip().then((res) => {
-                    console.log("用户vip", res)
+                    let VipEndTime = "",
+                        overDate = "";
+                    if (res.data.endTime) {
+                        VipEndTime = res.data.endTime.substr(0, 10);
+                        overDate = utils.judgeTime(res.data.endTime)
+                        if (overDate) {
+                            VipEndTime = false
+                        }
+                    }
+
                     that.setData({
                         isVip: res.data.isVip,
-                        Vip: res.data
+                        VipEndTime
                     })
                 })
             }

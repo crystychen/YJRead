@@ -21,12 +21,12 @@
         <view class="title">{{book.bookName}}</view>
         <view class="author">{{book.author}}</view>
         <!-- 章节滚动 -->
-        <view class="row center" hover-class="none" hover-stop-propagation="false" wx:if="{{playStatus}}">
-          <view class="tag" wx:if="{{currentAudio.isAudition}}">试听</view>
+        <view class="row center" hover-class="none" hover-stop-propagation="false" style="visibility: {{playStatus?'visible':'hidden'}}">
+          <view class="tag" wx:if="{{!book.isBuy && !isVip && currentAudio.isAudition}}">试听</view>
           <view class="desc">
-              <i-notice-bar loop="{{playStatus}}" backgroundcolor="#fff" color="#ccc">
-                {{currentAudio.sectionName}}        {{currentAudio.sectionName}}
-              </i-notice-bar>
+            <i-notice-bar loop="{{playStatus}}" backgroundcolor="#fff" color="#ccc">
+              {{currentAudio.sectionName}} {{currentAudio.sectionName}}
+            </i-notice-bar>
           </view>
         </view>
       </view>
@@ -129,25 +129,17 @@
       </view>
     </view>
   </view>
-  <view class="btn-container fixed bottom" wx:if="{{!book.isBuy && !isVip}}">
-    <!-- <view class="row" wx:if="{{product.gold}}">
-      <view class="share-btn">
-        <image class="sm_icon" src="/images/share-icon.png"></image>
-        <text class="" style="margin-top: 10rpx">分享</text>
-        <button open-type="share" id="item-share"></button>
-      </view>
-      <view class="pay-btn-wrap" bindtap="postOrderSubmit" style="background: #FFC557">
-        <view class="a">{{product.gold}}书签</view>
-        <view class="" style="margin-top: 4rpx;font-size: 30rpx">立刻解锁</view>
-      </view>
-      <view class="pay-btn-wrap" catch:tap="toCutDown">
-        <view class="">0书签解锁</view>
-        <view class="" style="margin-top: 4rpx;font-size: 30rpx">立刻砍书签</view>
-      </view>
-    </view> -->
-    <view class="btn large-btn active" bindtap="showBoard">
+  <!-- wx:if="{{!book.isBuy && !isVip}}" -->
+  <view class="btn-container fixed bottom" >
+    <view class="btn large-btn active" wx:if="{{product.gold == 0}}" bindtap="">
+      <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
+      <button open-type="share" id="free-share"></button>
+      分享立刻解锁
+    </view>
+    <view class="btn large-btn active" wx:else >
       <!-- <button open-type="share" id="free-share"></button> -->
-      书签换书
+      <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
+      <text bindtap="showBoard" style="width: 100%;height: 100%;display: block">书签换书</text>
     </view>
   </view>
 </view>

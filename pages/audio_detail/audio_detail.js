@@ -43,16 +43,16 @@ Page({
         // 获取背景音频信息
         const backgroundAudioManager = wx.getBackgroundAudioManager()
         console.log(backgroundAudioManager, 'backgroundAudioManager')
-        this.setData({
-            // playStatus: backgroundAudioManager.paused,
-            // duration: this.stotime(backgroundAudioManager.duration),
-            // currentPosition: this.stotime(backgroundAudioManager.currentTime),
-        })
-        console.log(this.data.playStatus, 'playStatus')
-        backgroundAudioManager.onPlay(this.onPlay) // 监听背景音频播放事件
-        backgroundAudioManager.onPause(this.onPause) // 监听背景音频暂停事件
-        backgroundAudioManager.onTimeUpdate(this.onTimeUpdate) // 监听背景音频播放进度更新事件
-        backgroundAudioManager.onEnded(this.onEnded) // 监听背景音频自然播放结束事件
+            // this.setData({
+            //     // playStatus: backgroundAudioManager.paused,
+            //     // duration: this.stotime(backgroundAudioManager.duration),
+            //     // currentPosition: this.stotime(backgroundAudioManager.currentTime),
+            // })
+            // console.log(this.data.playStatus, 'playStatus')
+            // backgroundAudioManager.onPlay(this.onPlay) // 监听背景音频播放事件
+            // backgroundAudioManager.onPause(this.onPause) // 监听背景音频暂停事件
+            // backgroundAudioManager.onTimeUpdate(this.onTimeUpdate) // 监听背景音频播放进度更新事件
+            // backgroundAudioManager.onEnded(this.onEnded) // 监听背景音频自然播放结束事件
 
         let pid = options.pid // 商品id
         let that = this
@@ -162,6 +162,28 @@ Page({
         //         isShowFloat: false
         //     })
         // }
+    },
+    // 授权用户登录
+    onGotUserInfo: function(e) {
+        var that = this
+        console.log(e)
+        let { id } = e.currentTarget.dataset
+        if (!e.detail.userInfo) {
+            return;
+        }
+        app.globalData.iv = e.detail.iv; //先放app的全局变量，然后在其他方法解密
+        app.globalData.encryptedData = e.detail.encryptedData; //先放app的全局变量，然后在其他方法解密
+
+        app.uploadUserInfo(function(uinfo) {
+            // uinfo后台返回来的
+            app.globalData.fromauth = 1;
+            console.log("后台返回的unifo:", uinfo)
+            that.setData({
+                userInfo: uinfo,
+                authLevel: wx.getStorageSync('authLevel')
+            });
+            app.getAccount()
+        });
     },
     /**
      * 用户点击右上角分享
@@ -298,6 +320,10 @@ Page({
                 // }
         }, 1000)
         wx.setStorageSync('audioIndex', audioIndexNow)
+        wx.setStorageSync('playAudio', {
+            bookid: that.data.bookId,
+            audioIndex: audioIndex
+        })
     },
     bindTapNext: function() {
         console.log('bindTapNext')
@@ -323,6 +349,10 @@ Page({
                 // }
         }, 1000)
         wx.setStorageSync('audioIndex', audioIndexNow)
+        wx.setStorageSync('playAudio', {
+            bookid: that.data.bookId,
+            audioIndex: audioIndex
+        })
     },
     switchPlayStatus: function() {
         console.log('bindTapPlay')
@@ -362,12 +392,16 @@ Page({
             console.log("音乐播放结束");
         })
         backAudio.onTimeUpdate(this.onTimeUpdate)
+        wx.setStorageSync('playAudio', {
+            bookid: that.data.bookId,
+            audioIndex: audioIndex
+        })
     },
-    // onPlay() {
-    //     this.setData({
-    //         pause
-    //     })
-    // },
+    onPlay() {
+        this.setData({
+            pause
+        })
+    },
     onTimeUpdate() {
         const backgroundAudioManager = wx.getBackgroundAudioManager()
         let sliderValue = backgroundAudioManager.currentTime / backgroundAudioManager.duration * 100
@@ -640,9 +674,22 @@ Page({
     },
     // 展示兑换方式选择面板
     showBoard() {
-        this.setData({
-            confirmModal: true
-        })
+        let that = this
+        that.getIsCutting(that.data.pid).then((res) => {
+                if (res.data.orderNo) {
+                    wx.navigateTo({
+                        url: `/pages/cut_down/cut_down?orderid=${res.data.orderNo}`
+                    })
+                    return;
+                } else {
+                    that.setData({
+                        confirmModal: true
+                    })
+                }
+            })
+            // this.setData({
+            //     confirmModal: true
+            // })
     },
     // 切换兑换方式
     onChangeRadio(e) {

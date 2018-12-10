@@ -12,7 +12,7 @@
   </scroll-view>
   <view class="tab-content">
     <block wx:for="{{freePros}}" wx:key="index" wx:for-item="freePro">
-      <view class="media-wrap" slot="body" >
+      <view class="media-wrap" slot="body">
         <wux-media thumb="{{freePro.children[0].thumbImg}}" thumb-style="" title="{{freePro.name}}" label="每周五12:00更新">
           <view class="btn-wrap center-right" slot hover-class="none" hover-stop-propagation="false">
             <view class="sm-btn btn active" data-gtitle="{{freePro.name}}" data-groupid="{{freePro.id}}" bindtap="viewBookList">
@@ -24,14 +24,14 @@
       </view>
     </block>
     <!-- <view style=""> -->
-      <!-- 福利 -->
-      <view style='position: relative;'>
-        <view class='order_time' wx:if="{{orderText}}">
-          <view class='order_text'>{{orderText}}</view>
-        </view>
-        <block wx:for="{{products}}" wx:key="index" wx:for-item="proList">
-          <!-- 本周免费 -->
-          <!-- <view class="media-wrap" slot="body" wx:if='{{proList.composeType == 4}}'>
+    <!-- 福利 -->
+    <view style='position: relative;'>
+      <view class='order_time' wx:if="{{orderText}}">
+        <view class='order_text'>{{orderText}}</view>
+      </view>
+      <block wx:for="{{products}}" wx:key="index" wx:for-item="proList">
+        <!-- 本周免费 -->
+        <!-- <view class="media-wrap" slot="body" wx:if='{{proList.composeType == 4}}'>
             <wux-media thumb="{{proList.children[0].thumbImg}}" thumb-style="" title="{{proList.name}}" label="每周五12:00更新">
               <view class="btn-wrap center-right" slot hover-class="none" hover-stop-propagation="false">
                 <view class="sm-btn btn active" data-gtitle="{{proList.name}}" data-groupid="{{proList.id}}" bindtap="viewBookList">
@@ -41,56 +41,58 @@
               <view class="time">{{item.createTime}}</view>
             </wux-media>
           </view> -->
-          <!-- 横向排列 横向滚动区域 -->
-          <view class="banner-scroll" wx:if='{{proList.composeType == 1}}'>
-            <view class='title_wrap row between'>
-              <text class='l-title'>{{proList.name}}</text>
-              <text class='sm-title'>更多</text>
-            </view>
-            <scroll-view class='scroll-view' scroll-x="true">
-              <view class='scroll-item' wx:for="{{proList.children}}" wx:key="index" >
-                <view class="item-wrap"  >
+        <!-- 横向排列 横向滚动区域 -->
+        <view class="banner-scroll" wx:if='{{proList.composeType == 1}}'>
+          <view class='title_wrap row between'>
+            <text class='l-title'>{{proList.name}}</text>
+            <!-- <text class='sm-title'>更多</text> -->
+          </view>
+          <scroll-view class='scroll-view' scroll-x="true">
+            <block wx:for="{{proList.children}}" wx:key="index">
+              <view class='scroll-item'  data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
+                <view class="item-wrap">
                   <image class='scroll-img' lazy-load="true" mode='aspectFill' src="{{item.thumbImg}}"></image>
                   <text class="name">{{item.productName}}</text>
                 </view>
               </view>
-            </scroll-view>
+            </block>
+          </scroll-view>
+        </view>
+        <!-- 竖向排列 -->
+        <view class='panel-wrap vertical' wx:if='{{proList.composeType == 2}}'>
+          <view class='title_wrap'>
+            <text class='l-title'>{{proList.name}}</text>
+            <!-- <text class='sm-title'>1金币兑换好礼</text> -->
           </view>
-          <!-- 竖向排列 -->
-          <view class='panel-wrap vertical' wx:if='{{proList.composeType == 2}}'>
-            <view class='title_wrap'>
-              <text class='l-title'>{{proList.name}}</text>
-              <!-- <text class='sm-title'>1金币兑换好礼</text> -->
-            </view>
-            <view class='content'>
-              <block wx:for="{{proList.children}}" wx:key="index">
-                <view class="vertical-item" data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
-                  <!-- 没授权 -->
-                  <button class="auth-btn" wx:if='{{authLevel != 2}}' open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
-                  <image class="img" src='{{item.thumbImg}}'></image>
-                  <view class='info'>
-                    <view class='title'>{{item.productName}}</view>
-                    <view style="color: #CECED6;height: 50rpx;" wx:if="{{item.author}}">
-                      {{item.author}}
-                    </view>
-                    <view class='desc'>{{item.productIntroduction}}</view>
-                    <view class='infos-desc' style="width: 100%;position: absolute;bottom:0rpx;">
-                      <text class="num">{{item.gold}}</text>
-                      <text>书签</text>
-                    </view>
-                    <!-- <form report-submit='true' data-id="{{item.id}}" data-protype="{{item.welfareProductType}}" data-needgold="{{item.gold}}" bindsubmit='{{item.welfareProductType == 4?"":"postOrderSubmit"}}'>
+          <view class='content'>
+            <block wx:for="{{proList.children}}" wx:key="index">
+              <view class="vertical-item" data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
+                <!-- 没授权 -->
+                <button class="auth-btn" wx:if='{{authLevel != 2}}' open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
+                <image class="img" src='{{item.thumbImg}}'></image>
+                <view class='info'>
+                  <view class='title'>{{item.productName}}</view>
+                  <view style="color: #CECED6;height: 50rpx;" wx:if="{{item.author}}">
+                    {{item.author}}
+                  </view>
+                  <view class='desc'>{{item.productIntroduction}}</view>
+                  <view class='infos-desc' style="width: 100%;position: absolute;bottom:0rpx;">
+                    <text class="num">{{item.gold}}</text>
+                    <text>书签</text>
+                  </view>
+                  <!-- <form report-submit='true' data-id="{{item.id}}" data-protype="{{item.welfareProductType}}" data-needgold="{{item.gold}}" bindsubmit='{{item.welfareProductType == 4?"":"postOrderSubmit"}}'>
                     <button formType="submit" class='item-btn sm-btn'>兑换</button>
                   </form> -->
-                  </view>
                 </view>
-              </block>
-            </view>
-            <view wx:if='{{ proList.total > proList.children.length }}' class="more-btn" data-pid="{{proList.id}}" bindtap="loadMoreDataBypid">
-              更多商品
-            </view>
+              </view>
+            </block>
           </view>
-        </block>
-      </view>
+          <view wx:if='{{ proList.total > proList.children.length }}' class="more-btn" data-pid="{{proList.id}}" bindtap="loadMoreDataBypid">
+            更多商品
+          </view>
+        </view>
+      </block>
+    </view>
     <!-- </view> -->
   </view>
 </view>
