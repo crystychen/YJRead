@@ -25,7 +25,7 @@
           <view class="tag" wx:if="{{!book.isBuy && !isVip && currentAudio.isAudition}}">试听</view>
           <view class="desc">
             <i-notice-bar loop="{{playStatus}}" backgroundcolor="#fff" color="#ccc">
-              {{currentAudio.sectionName}} {{currentAudio.sectionName}}
+              {{currentAudio.sectionName || sectionName}} {{currentAudio.sectionName || sectionName}}
             </i-notice-bar>
           </view>
         </view>
@@ -130,7 +130,7 @@
     </view>
   </view>
   <!-- wx:if="{{!book.isBuy && !isVip}}" -->
-  <view class="btn-container fixed bottom" >
+  <view class="btn-container fixed bottom" wx:if="{{!book.isBuy && !isVip}}">
     <view class="btn large-btn active" wx:if="{{product.gold == 0}}" bindtap="">
       <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
       <button open-type="share" id="free-share"></button>

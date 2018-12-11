@@ -23,7 +23,8 @@ Page({
         console.log(options)
         this.setData({
             groupid: options.groupid,
-            gtitle: options.gtitle
+            gtitle: options.gtitle,
+            inviterObjId: options.inviterObjId
         })
         wx.getSystemInfo({
             success: (res) => {
@@ -358,7 +359,9 @@ Page({
             let target_id = res.target.id;
             if (target_id === 'item-share') {
                 that.postOrder(pid)
-
+                if (that.data.inviterObjId) {
+                    app.userShareRecord(4, that.data.inviterObjId)
+                }
                 return {
                     title: that.data.shareData[0][1],
                     path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}`,

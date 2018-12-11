@@ -39,7 +39,7 @@
                     <view class="link-item disabled" data-pid="{{book.id}}" wx:if="{{book.isBuy}}" bindtap="">
                       放书架
                     </view>
-                    <view class="link-item" wx:else data-pid="{{book.id}}" >
+                    <view class="link-item" wx:else data-pid="{{book.id}}">
                       <text bindtap="putBookshelf" style="width: 100%;display: block">放书架</text>
                       <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
                     </view>
@@ -89,6 +89,49 @@
       </swiper>
     </view>
   </scroll-view>
+  <wux-tabbar default-current="0" bindchange="onChangeTab" position="bottom">
+    <!-- <navigator> -->
+    <wux-tabbar-item title="福利">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/welfare.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/welfare_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
+    <!-- </navigator> -->
+    <navigator open-type='redirect' url="/pages/shopMall/shopMall">
+      <wux-tabbar-item title="书城">
+        <wux-badge slot="icon-on">
+          <image class="bar-icon" src="/images/books.png"></image>
+        </wux-badge>
+        <wux-badge slot="icon-off">
+          <image class="bar-icon" src="/images/books_active.png"></image>
+        </wux-badge>
+      </wux-tabbar-item>
+    </navigator>
+    <navigator open-type='redirect' url="/pages/reading/reading">
+      <wux-tabbar-item title="阅读">
+        <view slot="icon-on">
+          <image class="bar-icon" src="/images/read.png"></image>
+        </view>
+        <view slot="icon-off">
+          <image class="bar-icon" src="/images/read_active.png"></image>
+        </view>
+      </wux-tabbar-item>
+    </navigator>
+    <navigator open-type='redirect' url="/pages/my/my">
+      <wux-tabbar-item title="我的">
+        <wux-badge dot="{{isToReceive}}" slot="icon-on">
+          <image class="bar-icon" src="/images/my.png"></image>
+        </wux-badge>
+        <wux-badge dot="{{isToReceive}}" slot="icon-off">
+          <image class="bar-icon" src="/images/my_active.png"></image>
+        </wux-badge>
+      </wux-tabbar-item>
+    </navigator>
+
+  </wux-tabbar>
 </view>
 <!-- 签到面板 -->
 <signinmodal modal-hidden="{{isSignedModal}}" bindsignIn="signIn" bindgetUserInfo="getUserInfofromCom" modal-msg="{{signInfo}}" sign-days="{{signDays}}" auth-level="{{authLevel}}" is-signed="{{isSigned}}" />

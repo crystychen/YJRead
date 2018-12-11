@@ -80,8 +80,8 @@ page {
     height: 50rpx;
     line-height: 50rpx;
     position: absolute;
-    right: 0;
-    bottom: 4rpx;
+    right: -6rpx;
+    bottom: -4rpx;
     z-index: 1;
     /* background: #FEAC43; */
     color: #ffffff;

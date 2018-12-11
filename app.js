@@ -1,8 +1,10 @@
 //app.js
-import { postAjax } from './utils/ajax.js'
+import {
+    postAjax
+} from './utils/ajax.js'
 const utils = require('./utils/util.js')
-    // const aldstat = require('./utils/sdk/ald-stat.js'); // 统计生成工具
-    // var startTime = Date.now(); //启动时间
+const aldstat = require('./utils/sdk/ald-stat.js');
+var runTime = Date.now(); //启动时间
 
 App({
     globalData: {
@@ -19,7 +21,7 @@ App({
         totalStep: 0, // 总步数
         unionId: '', // 邀请初始化
         isTaskTips: true,
-        isReAwardTips: true
+        isReAwardTips: true,
     },
     /**
      * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
@@ -29,7 +31,6 @@ App({
         const updateManager = wx.getUpdateManager()
         updateManager.onCheckForUpdate(function(res) {
             // 请求完新版本信息的回调
-            // console.log(res.hasUpdate)
         })
         updateManager.onUpdateReady(function() {
             wx.showModal({
@@ -53,6 +54,13 @@ App({
         })
 
     },
+    onShow: function(options) {
+        // 记录小程序启动时长
+        this.aldstat.sendEvent('小程序的启动时长', {
+            time: Date.now() - runTime
+        })
+    },
+
     // login
     login() {
         var app = this;
@@ -84,6 +92,11 @@ App({
                             success: res => {
                                 console.log('20002')
                                 console.log(res);
+
+                                app.aldstat.sendEvent('小程序登录成功', {
+                                    time: Date.now() - runTime
+                                })
+
                                 if (res.data.status == '00') { //登陆成功记录数据
                                     console.info('登陆成功');
 
@@ -439,6 +452,48 @@ App({
 
                 }
             })
+        })
+    },
+    // 获取任务列表
+    getTasksList(callback) {
+        let app = this
+        postAjax({
+            url: 'interfaceAction',
+            data: {
+                interId: '20102',
+                version: 2,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'task-list'
+            }
+        }).then((res) => {
+            if (res.data.status == '00') {
+                let pages = getCurrentPages();
+                let currPage = pages[pages.length - 1]; //获取当前页面
+
+                let taskdata = res.data.infos;
+                let dailyTasks = []
+                let onceTasks = []
+                let isToReceive = false
+                let undone = false
+                taskdata.map(function(element, index, array) {
+                    // 判断是否有可领取任务
+                    if (element[10] == 0 && element[4] >= element[3]) {
+                        let obj = {}
+                        obj.taskid = element[0]
+                        obj.award = element[8] || element[9];
+                        isToReceive = true
+                    }
+                    if (element[4] < element[3]) {
+                        undone = true
+                    }
+                    return element;
+                });
+                currPage.setData({
+                    isToReceive,
+                    undone
+                })
+                callback && callback()
+            }
         })
     },
 })

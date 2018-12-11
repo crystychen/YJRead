@@ -89,16 +89,17 @@
     padding: 0 20rpx;
 }
 
-.btn.orange {
+.btn.active {
     height: 90rpx;
     line-height: 90rpx;
-    background: #FE9D03;
+    /* background: #FE9D03; */
     color: #fff;
     text-align: center;
     border-radius: 50rpx;
     width: 480rpx;
     font-size: 30rpx;
     position: relative;
+    background: linear-gradient(to right, #9034F0, #3772FB);    
 }
 
 .btn>button {

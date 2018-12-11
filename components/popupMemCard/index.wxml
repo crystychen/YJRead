@@ -11,8 +11,8 @@
       </view>
     </view>
     <view class="btn-container">
-      <view class="btn orange">回复【会员卡】获得链接
-        <button open-type="contact"></button>
+      <view class="btn active">回复【会员卡】获得链接
+        <button open-type="contact" bindtap="onContact"></button>
       </view>
     </view>
   </view>

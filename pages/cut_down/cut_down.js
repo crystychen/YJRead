@@ -1,9 +1,14 @@
 // pages/cut_down/cut_down.js
-import { postAjax } from '../../utils/ajax.js';
+import {
+    postAjax
+} from '../../utils/ajax.js';
 const utils = require('../../utils/util.js');
-import { $wuxCountDown } from '../../components/dist/index'
-
+import {
+    $wuxCountDown
+} from '../../components/dist/index'
 var app = getApp();
+var runTime = Date.now(); //启动时间
+const aldstat = require('../../utils/sdk/ald-stat.js');
 
 Page({
 
@@ -64,7 +69,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-
+        app.aldstat.sendEvent('砍价页加载时间', {
+            time: Date.now() - runTime
+        })
     },
     preventDefault() {
         return false;
@@ -342,8 +349,13 @@ Page({
     },
     // 提交评分
     confirmComment(orderCode) {
-        let { logisticsRate, qualityRate } = this.data
-        let { orderNo } = this.data.orderInfo
+        let {
+            logisticsRate,
+            qualityRate
+        } = this.data
+        let {
+            orderNo
+        } = this.data.orderInfo
         let that = this
 
         postAjax({
@@ -395,21 +407,10 @@ Page({
             let target_id = res.target.id;
             // 好友帮砍分享
             if (target_id === 'share-cut') {
-                // that.orderBargain(that.data.orderid, sharetime, (res) => {
-                //     // 分享成功后提示操作并刷新页面
-                //     that.setData({
-                //         firstPopup: false,
-                //         AgainPopup: true,
-                //         cutGold: res.data.gold
-                //     })
-                //     that.getCutDetail(that.data.orderid);
-                // })
-                // that.setData({
-                //     AgainPopup: false
-                // })
+                // path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
                 return {
                     title: that.data.shareData[0][1],
-                    path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
+                    path: `/pages/shopMall/shopMall?cid=${channelId}&inviterUserId=${userId}&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
                     imageUrl: that.data.shareData[0][3],
                     complete: res => {
                         console.log(res)
@@ -471,7 +472,10 @@ Page({
     postOrderSubmit(e, callback) {
         console.log("解锁订单")
             // 书签判断是否足够
-        let { gold, haveBargainGold } = this.data.bargain;
+        let {
+            gold,
+            haveBargainGold
+        } = this.data.bargain;
         let orderid = this.data.orderid;
         let needgold = gold - haveBargainGold // 还需要支付的书签
         if (this.data.gold < needgold) {
@@ -549,7 +553,7 @@ Page({
         })
     },
     toIndex() {
-        wx.switchTab({
+        wx.redirectTo({
             url: "/pages/index/index"
         })
     },

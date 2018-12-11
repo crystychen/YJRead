@@ -4,10 +4,12 @@
     <view class='user-infos'>
       <button class="openbtn" wx:if='{{authLevel != 2}}' open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
       <image class="img-bcg" src="../../images/my-bcg.png"></image>
-      <view class='header_img_wrap' >
+      <view class='header_img_wrap'>
         <image class="img" src='{{userInfo && userInfo.avatarUrl? userInfo.avatarUrl:"/images/nologinuser.png"}}'></image>
         <!-- wx:if="{{isVip}}" -->
-        <view class="vip" wx:if="{{isVip}}"><image class="img" src="/images/vip.png"></image></view>
+        <view class="vip" wx:if="{{isVip}}">
+          <image class="img" src="/images/vip.png"></image>
+        </view>
       </view>
       <text class='user-name'>{{userInfo.nickName? userInfo.nickName:"点击头像立即登录" }}</text>
       <!-- <view class='row center'>
@@ -37,9 +39,7 @@
   <view class="card-wrap">
     <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
       <wux-media thumb="https://soure.chudianad.com/static/welfare/product/thumbImg/201811161207227287.jpg" thumb-style="" title="汗牛书屋7天畅听卡" label="全场书籍免费无限听">
-        <view class="time" >
-          {{VipEndTime?VipEndTime+'  到期':'已过期'}}
-        </view>
+        <view class="time">{{VipEndTime?VipEndTime+'  到期':'已过期'}}</view>
         <view class="btn-wrap center-right" data-appid="{{item.appid}}" data-path="{{item.path}}" slot>
           <view class="btn blue-color disabled" wx:if="{{isVip}}">已领取</view>
           <view class="btn active" wx:else bindtap="bindReceive">领取</view>
@@ -92,7 +92,46 @@
       </view>
     </view>
   </view>
+  <wux-tabbar default-current="3" bindchange="onChangeTab" position="bottom">
+    <navigator open-type='redirect' url="/pages/index/index">
+    <wux-tabbar-item title="福利">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/welfare.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/welfare_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
+    </navigator>
+    <navigator open-type='redirect' url="/pages/shopMall/shopMall">
+      <wux-tabbar-item title="书城">
+        <wux-badge slot="icon-on">
+          <image class="bar-icon" src="/images/books.png"></image>
+        </wux-badge>
+        <wux-badge slot="icon-off">
+          <image class="bar-icon" src="/images/books_active.png"></image>
+        </wux-badge>
+      </wux-tabbar-item>
+    </navigator>
+    <navigator open-type='redirect' url="/pages/reading/reading">
+      <wux-tabbar-item title="阅读">
+        <view slot="icon-on">
+          <image class="bar-icon" src="/images/read.png"></image>
+        </view>
+        <view slot="icon-off">
+          <image class="bar-icon" src="/images/read_active.png"></image>
+        </view>
+      </wux-tabbar-item>
+    </navigator>
+      <wux-tabbar-item title="我的">
+        <wux-badge dot="{{isToReceive}}" slot="icon-on">
+          <image class="bar-icon" src="/images/my.png"></image>
+        </wux-badge>
+        <wux-badge dot="{{isToReceive}}" slot="icon-off">
+          <image class="bar-icon" src="/images/my_active.png"></image>
+        </wux-badge>
+      </wux-tabbar-item>
+  </wux-tabbar>
 </view>
-
 <!-- 领取会员卡 -->
-<popupMemCard modal-hidden="{{isMenCard}}" ></popupMemCard>
+<popupMemCard modal-hidden="{{isMenCard}}"></popupMemCard>

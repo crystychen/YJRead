@@ -59,6 +59,46 @@
       </view>
     </block>
   </view>
+  <wux-tabbar default-current="2" bindchange="onChangeTab" position="bottom">
+    <navigator open-type='redirect' url="/pages/index/index">
+    <wux-tabbar-item title="福利">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/welfare.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/welfare_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
+    </navigator>
+    <navigator open-type='redirect' url="/pages/shopMall/shopMall">
+      <wux-tabbar-item title="书城">
+        <wux-badge slot="icon-on">
+          <image class="bar-icon" src="/images/books.png"></image>
+        </wux-badge>
+        <wux-badge slot="icon-off">
+          <image class="bar-icon" src="/images/books_active.png"></image>
+        </wux-badge>
+      </wux-tabbar-item>
+    </navigator>
+      <wux-tabbar-item title="阅读">
+        <view slot="icon-on">
+          <image class="bar-icon" src="/images/read.png"></image>
+        </view>
+        <view slot="icon-off">
+          <image class="bar-icon" src="/images/read_active.png"></image>
+        </view>
+      </wux-tabbar-item>
+    <navigator open-type='redirect' url="/pages/my/my">
+      <wux-tabbar-item title="我的">
+        <wux-badge dot="{{isToReceive}}" slot="icon-on">
+          <image class="bar-icon" src="/images/my.png"></image>
+        </wux-badge>
+        <wux-badge dot="{{isToReceive}}" slot="icon-off">
+          <image class="bar-icon" src="/images/my_active.png"></image>
+        </wux-badge>
+      </wux-tabbar-item>
+    </navigator>
+  </wux-tabbar>
 </view>
 <!-- 奖励成功 -->
 <popup modal-hidden="{{showAwardPass}}" modal-title="恭喜" award="{{passAward}}" is-checked="{{passTipschecked}}" bindtoView="toAwardView"></popup>

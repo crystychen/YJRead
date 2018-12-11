@@ -4,6 +4,9 @@ import {
 } from '../../utils/ajax.js';
 const utils = require('../../utils/util.js');
 const app = getApp()
+var runTime = Date.now(); //启动时间
+const aldstat = require('../../utils/sdk/ald-stat.js');
+
 
 Page({
 
@@ -44,6 +47,8 @@ Page({
             app.getShareData(4); // 转发语
             that.getCollectList(); // 收藏数
             that.getTotalOrder() // 书架数量
+            app.getTasksList() // 是否可领取任务
+
             if (wx.getStorageSync('authLevel') == 2) {
                 app.getAccount();
                 that.getTodayNumber(); // 今日数量
@@ -66,6 +71,10 @@ Page({
             }
 
         });
+
+        app.aldstat.sendEvent('我的页面加载时间', {
+            time: Date.now() - runTime
+        })
     },
 
     /**

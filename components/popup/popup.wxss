@@ -90,7 +90,8 @@
 }
 
 .num {
-    color: #cf9f73;
+    /* color: #cf9f73; */
+    color: #3773fa;
     font-weight: bold;
     padding: 0 8rpx;
 }

@@ -49,7 +49,7 @@
           </view>
           <scroll-view class='scroll-view' scroll-x="true">
             <block wx:for="{{proList.children}}" wx:key="index">
-              <view class='scroll-item'  data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
+              <view class='scroll-item' data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
                 <view class="item-wrap">
                   <image class='scroll-img' lazy-load="true" mode='aspectFill' src="{{item.thumbImg}}"></image>
                   <text class="name">{{item.productName}}</text>
@@ -95,6 +95,46 @@
     </view>
     <!-- </view> -->
   </view>
+  <wux-tabbar default-current="1" bindchange="onChangeTab" position="bottom">
+    <navigator open-type='redirect' url="/pages/index/index">
+    <wux-tabbar-item title="福利">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/welfare.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/welfare_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
+    </navigator>
+      <wux-tabbar-item title="书城">
+        <wux-badge slot="icon-on">
+          <image class="bar-icon" src="/images/books.png"></image>
+        </wux-badge>
+        <wux-badge slot="icon-off">
+          <image class="bar-icon" src="/images/books_active.png"></image>
+        </wux-badge>
+      </wux-tabbar-item>
+    <navigator open-type='redirect' url="/pages/reading/reading">
+      <wux-tabbar-item title="阅读">
+        <view slot="icon-on">
+          <image class="bar-icon" src="/images/read.png"></image>
+        </view>
+        <view slot="icon-off">
+          <image class="bar-icon" src="/images/read_active.png"></image>
+        </view>
+      </wux-tabbar-item>
+    </navigator>
+    <navigator open-type='redirect' url="/pages/my/my">
+      <wux-tabbar-item title="我的">
+        <wux-badge dot="{{isToReceive}}" slot="icon-on">
+          <image class="bar-icon" src="/images/my.png"></image>
+        </wux-badge>
+        <wux-badge dot="{{isToReceive}}" slot="icon-off">
+          <image class="bar-icon" src="/images/my_active.png"></image>
+        </wux-badge>
+      </wux-tabbar-item>
+    </navigator>
+  </wux-tabbar>
 </view>
 <!-- 书签不足 -->
 <popup modal-hidden="{{EvegoldModal}}" modal-title="兑换失败" tips="你的书签数量不足" modal-type="1" bindtoView="toAwardView"></popup>

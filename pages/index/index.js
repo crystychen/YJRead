@@ -8,6 +8,8 @@ import {
 const utils = require('../../utils/util.js');
 // var WxParse = require('../../wxParse/wxParse.js');
 const app = getApp()
+var runTime = Date.now() //启动时间
+const aldstat = require('../../utils/sdk/ald-stat.js') // SDK接入
 
 Page({
     data: {
@@ -17,9 +19,10 @@ Page({
         hasMoreData: true,
         loadingImgHidden: true,
         isSignedModal: false,
-        passTipschecked: true,
-        // isShareBoard: false
+        passTipschecked: true
+            // isShareBoard: false
     },
+
     onLoad: function(options) {
         let that = this
         console.log(options)
@@ -58,21 +61,29 @@ Page({
         }
         if (!!options.shareurl && !!options.shareartid) {
             that.setData({
-                shareurl: options.shareurl,
-                shareartid: options.shareartid
-            })
-            if (wx.getStorageSync("authLevel") == 2) {
+                    shareurl: options.shareurl,
+                    shareartid: options.shareartid
+                })
+                // if (wx.getStorageSync("authLevel") == 2) {
                 // 老用户直接跳转
-                that.NumTap(options.shareartid)
-                wx.navigateTo({
+                // that.NumTap(options.shareartid)
+            wx.navigateTo({
                     url: `/pages/article_detail/article_detail?url=${options.shareurl}`,
                 })
-            }
+                // }
         }
     },
     onUnload() {
         app.globalData.openOnShow = false
         wx.removeStorageSync('timeStart');
+    },
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady: function() {
+        app.aldstat.sendEvent('首页初次渲染完成时间', {
+            time: Date.now() - runTime
+        })
     },
     onShow: function() {
         let that = this
@@ -87,6 +98,12 @@ Page({
                 }
 
                 that.pList();
+                app.getTasksList(function() {
+                        that.setData({
+                            undone: app.globalData.undone || true
+                        })
+                    }) // 是否可领取任务
+
                 app.getUserInfo([wx.getStorageSync('authLevel'), wx.getStorageSync('userInfo')]).then(function(uinfo) {
                     that.setData({
                             authLevel: wx.getStorageSync("authLevel"),
@@ -120,6 +137,9 @@ Page({
                     console.log(err);
                 })
         };
+        app.aldstat.sendEvent('首页加载时间', {
+            time: Date.now() - runTime
+        })
     },
     onHide: function() {
         this.setData({
@@ -154,7 +174,9 @@ Page({
     onGotUserInfo: function(e) {
         var that = this
         console.log(e)
-        let { id } = e.currentTarget.dataset
+        let {
+            id
+        } = e.currentTarget.dataset
         if (!e.detail.userInfo) {
             return;
         }
@@ -499,7 +521,7 @@ Page({
         })
     },
     toShopMall() {
-        wx.switchTab({
+        wx.redirectTo({
             url: "/pages/shopMall/shopMall"
         })
     },
@@ -575,5 +597,12 @@ Page({
             }
         })
     },
+    // 底部导航
+    // onChangeTab(e) {
+    //   console.log(e.detail.key)
+    //   wx.redirectTo({
 
+    //   })
+
+    // }
 })

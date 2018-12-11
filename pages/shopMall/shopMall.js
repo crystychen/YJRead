@@ -5,6 +5,8 @@ import {
 } from '../../utils/ajax';
 const utils = require('../../utils/util.js');
 var app = getApp();
+var runTime = Date.now(); //启动时间
+const aldstat = require('../../utils/sdk/ald-stat.js');
 
 // var runTime = Date.now(); //启动时间
 // const aldstat = require('../../utils/sdk/ald-stat.js');
@@ -66,6 +68,16 @@ Page({
         if (!!options.templateSendLogId) {
             that.postTemplateSendLogId(options.templateSendLogId)
         }
+
+        // 帮忙砍价
+        if (!!options.sharetime && options.sharetime == 3) {
+            // 跳转至砍价页面
+            // path: `/pages/shopMall/shopMall?cid=${channelId}&inviterUserId=${userId}&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
+            let { cid, inviterUserId, inviterObjId, orderid, sharetime } = options
+            wx.navigateTo({
+                url: `/pages/cut_down/cut_down?cid=${cid}&inviterUserId=${inviterUserId}&inviterObjId=${inviterObjId}&orderid=${orderid}&sharetime=${sharetime}`,
+            })
+        }
         // 获取屏幕高度
         wx.getSystemInfo({
             success: function(res) {
@@ -99,6 +111,8 @@ Page({
             that.getGroup()
             that.pListTotal() // 获取分组
             app.getShareData(4); // 转发语分享路径
+            app.getTasksList() // 是否可领取任务
+
             // app.getShareData(20, function(res) { // 换购书签说明(其他广告位置)
             //     console.log()
             //     that.setData({
@@ -119,7 +133,9 @@ Page({
             });
 
         })
-
+        app.aldstat.sendEvent('书城页面加载时间', {
+            time: Date.now() - runTime
+        })
 
     },
     // 授权用户登录
@@ -386,7 +402,9 @@ Page({
         let addrId = this.data.atAddrObj.addrId || -1;
         console.log(addrId);
         let postorderType = orderType ? orderType : 0
-        let { orderProt } = this.data
+        let {
+            orderProt
+        } = this.data
 
         // 判断金币不足
         if (this.data.gold < orderProt.needgold) {
@@ -635,13 +653,19 @@ Page({
     // 查看免费书单
     viewBookList(e) {
         console.log("查看免费书单")
-        let { groupid, gtitle } = e.currentTarget.dataset
+        let {
+            groupid,
+            gtitle
+        } = e.currentTarget.dataset
         wx.navigateTo({
             url: `/pages/share_detail/share_detail?groupid=${groupid}&gtitle=${gtitle}`
         })
     },
     toAudioDetail(e) {
-        let { id, welftype } = e.currentTarget.dataset
+        let {
+            id,
+            welftype
+        } = e.currentTarget.dataset
         if (welftype == 6) {
             wx.navigateTo({
                 url: `/pages/audio_detail/audio_detail?pid=${id}`
@@ -706,18 +730,27 @@ Page({
     // 加载更多商品
     loadMoreDataBypid(e) {
         let that = this
-        let { pid } = e.currentTarget.dataset;
-        let { groupObj } = this.data
+        let {
+            pid
+        } = e.currentTarget.dataset;
+        let {
+            groupObj
+        } = this.data
 
         let prePage = this.data.groupObj['proObj' + pid] ? this.data.groupObj['proObj' + pid].page : 1
         console.log(prePage)
         let nowPage = ++prePage
 
-        groupObj['proObj' + pid] = { page: nowPage }
+        groupObj['proObj' + pid] = {
+            page: nowPage
+        }
         that.setData({
             groupObj
         })
-        that.pMoreList(pid, { page: nowPage, size: 20 })
+        that.pMoreList(pid, {
+            page: nowPage,
+            size: 20
+        })
 
     },
     pMoreList(groupId, groupObj) {

@@ -5,6 +5,11 @@
         "share-poster": "../../components/share-poster/share-poster",
         "share-board": "../../components/share-board/share-board",
         "wux-row": "../../components/dist/row/index",
-        "wux-col": "../../components/dist/col/index"
+        "wux-col": "../../components/dist/col/index",
+        "wux-icon": "../../components/dist/icon/index",
+        "wux-badge": "../../components/dist/badge/index",
+        "wux-tabbar": "../../components/dist/tabbar/index",
+        "wux-tabbar-item": "../../components/dist/tabbar-item/index"
+
     }
 }

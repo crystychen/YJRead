@@ -7,6 +7,9 @@ import {
 } from '../../utils/ajax.js';
 const utils = require('../../utils/util.js');
 const app = getApp()
+var runTime = Date.now(); //启动时间
+const aldstat = require('../../utils/sdk/ald-stat.js');
+
 
 Page({
     data: {
@@ -55,16 +58,14 @@ Page({
         }
         if (!!options.shareurl && !!options.shareartid) {
             that.setData({
-                shareurl: options.shareurl,
-                shareartid: options.shareartid
-            })
-            if (wx.getStorageSync("authLevel") == 2) {
-                // 老用户直接跳转
-                that.NumTap(options.shareartid)
-                wx.navigateTo({
-                    url: `/pages/article_detail/article_detail?url=${options.shareurl}`,
+                    shareurl: options.shareurl,
+                    shareartid: options.shareartid
                 })
-            }
+                // 用户直接跳转
+            that.NumTap(options.shareartid)
+            wx.navigateTo({
+                url: `/pages/article_detail/article_detail?url=${options.shareurl}`,
+            })
         }
 
         if (wx.getStorageSync('passTips')) {
@@ -88,6 +89,7 @@ Page({
 
                 app.getShareData(4); // 转发语
                 that.getGroup(); // 文章分組
+                app.getTasksList() // 是否可领取任务
 
                 app.getUserInfo([wx.getStorageSync('authLevel'), wx.getStorageSync('userInfo')]).then(function(uinfo) {
                     that.setData({
@@ -121,12 +123,16 @@ Page({
             utils.getReadTime()
                 .then((data) => {
                     console.log("阅读完的请求数据:", data);
+                    // that.postReadTime(data.id, data.second, data.ruleid, data.url);
                     that.postReadTime(data.id, data.second, data.ruleid, data.url);
                 })
                 .catch((err) => {
                     console.log(err);
                 })
         };
+        app.aldstat.sendEvent('阅读页面加载时间', {
+            time: Date.now() - runTime
+        })
     },
     onHide: function() {
         this.setData({
@@ -363,7 +369,7 @@ Page({
         this.userAction(id, 3)
         if (!!url) {
             wx.navigateTo({
-                url: `/pages/article_detail/article_detail?url=${url}`,
+                url: `/pages/article_detail/article_detail?url=${url}&shareartid=${id}`,
             })
         } else {
             wx.showToast({
@@ -422,12 +428,13 @@ Page({
             beginTime: startTime
         })
     },
-    // 阅读时间
-    postReadTime(id, second, ruleid, url) {
+    // 提交阅读时间
+    postReadTime(id, second, ruleid, url, type) {
         var that = this;
         console.log(id)
         console.log(ruleid)
         console.log(url)
+
         postAjaxS({
                 url: 'interfaceAction',
                 data: {
@@ -487,6 +494,7 @@ Page({
             .catch((err) => {
                 console.log(err);
             })
+
     },
     onShareAppMessage: function(res) {
         var that = this;
@@ -508,7 +516,7 @@ Page({
             if (target_id === 'item-share') {
                 return {
                     title: that.data.shareData[0][1],
-                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterType=5&shareurl=${shareurl}&shareartid=${shareartid}`,
+                    path: `/pages/reading/reading?unionId=${unionId}&cid=${channelId}&inviterType=5&shareurl=${shareurl}&shareartid=${shareartid}`,
                     imageUrl: that.data.shareData[0][3],
                 }
             }
@@ -560,5 +568,35 @@ Page({
         this.setData({
             isMenCard: true
         })
+    },
+    // 缓存已领取过的广告Id
+    saveReceiveAds(advert) {
+        let adverts = []
+        if (wx.getStorageSync("receiveAds")) {
+            let {
+                adverts,
+                beginTime,
+                overTime
+            } = wx.getStorageSync("receiveAds")
+            adverts.push(advert)
+            adverts = Array.from(new Set(adverts)); // 去重         
+            wx.setStorageSync("receiveAds", {
+                adverts,
+                beginTime,
+                overTime
+            })
+        } else {
+            let nowTime = utils.formatDate(new Date());
+            let overTime = new Date()
+            overTime.setDate(new Date().getDate() + 1); // 日期加上一天
+            overTime = utils.formatDate(overTime)
+            adverts.push(advert)
+            wx.setStorageSync("receiveAds", {
+                adverts,
+                beginTime: nowTime,
+                overTime: overTime
+            })
+        }
     }
+
 })

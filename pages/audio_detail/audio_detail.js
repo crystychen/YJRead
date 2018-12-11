@@ -6,6 +6,8 @@ import {
 var WxParse = require('../../wxParse/wxParse.js');
 const app = getApp()
 const utils = require('../../utils/util.js');
+var runTime = Date.now(); //启动时间
+const aldstat = require('../../utils/sdk/ald-stat.js');
 
 
 Page({
@@ -40,24 +42,9 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        // 获取背景音频信息
-        const backgroundAudioManager = wx.getBackgroundAudioManager()
-        console.log(backgroundAudioManager, 'backgroundAudioManager')
-            // this.setData({
-            //     // playStatus: backgroundAudioManager.paused,
-            //     // duration: this.stotime(backgroundAudioManager.duration),
-            //     // currentPosition: this.stotime(backgroundAudioManager.currentTime),
-            // })
-            // console.log(this.data.playStatus, 'playStatus')
-            // backgroundAudioManager.onPlay(this.onPlay) // 监听背景音频播放事件
-            // backgroundAudioManager.onPause(this.onPause) // 监听背景音频暂停事件
-            // backgroundAudioManager.onTimeUpdate(this.onTimeUpdate) // 监听背景音频播放进度更新事件
-            // backgroundAudioManager.onEnded(this.onEnded) // 监听背景音频自然播放结束事件
-
         let pid = options.pid // 商品id
         let that = this
         console.log(pid)
-
         app.loginGetUserInfo(function(uinfo) {
             that.setData({
                 userInfo: uinfo,
@@ -66,12 +53,44 @@ Page({
             // 先通过pid获取商品详情拿到图书bookid,再获取图书明细 
             that.proDetail(pid).then((res) => {
                 // console.log(res)
-                let { bookId, product } = res.product
+                let {
+                    bookId,
+                    product
+                } = res.product
                 that.setData({
                     product: res.product,
                     pid: pid,
                     bookId
                 })
+
+                // 获取背景音频信息
+                if (app.globalData.playAudio) {
+                    // console.log(wx.getStorageSync('playAudio').bookid)
+                    if (bookId == app.globalData.playAudio.bookid) {
+
+                        console.log(that.data.playStatus, 'playStatus')
+
+                        const backgroundAudioManager = wx.getBackgroundAudioManager()
+                        console.log(backgroundAudioManager, 'backgroundAudioManager')
+                        console.log(backgroundAudioManager.paused, 'paused')
+                            // if (backgroundAudioManager.paused != 'undefined' && !backgroundAudioManager.paused) {
+                            //     that.setData({
+                            //         playStatus: true
+                            //     })
+                            // }
+                        that.setData({
+                            sectionName: app.globalData.playAudio.sectionName,
+                            playStatus: !backgroundAudioManager.paused,
+                            // duration: this.stotime(backgroundAudioManager.duration),
+                            // currentPosition: this.stotime(backgroundAudioManager.currentTime),
+                        })
+                        backgroundAudioManager.onPlay(that.onPlay) // 监听背景音频播放事件
+                        backgroundAudioManager.onPause(that.onPause) // 监听背景音频暂停事件
+                        backgroundAudioManager.onTimeUpdate(that.onTimeUpdate) // 监听背景音频播放进度更新事件
+                        backgroundAudioManager.onEnded(that.onEnded) // 监听背景音频自然播放结束事件
+                        backgroundAudioManager.onStop(that.onStop)
+                    }
+                }
                 that.bookDetail(bookId).then((res) => {
                     // console.log("图书详情", res)
                     WxParse.wxParse('about', 'html', res.book.about, that, 5);
@@ -118,7 +137,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-
+        app.aldstat.sendEvent('音频详情页加载时间', {
+            time: Date.now() - runTime
+        })
     },
 
     /**
@@ -167,7 +188,9 @@ Page({
     onGotUserInfo: function(e) {
         var that = this
         console.log(e)
-        let { id } = e.currentTarget.dataset
+        let {
+            id
+        } = e.currentTarget.dataset
         if (!e.detail.userInfo) {
             return;
         }
@@ -315,15 +338,25 @@ Page({
         })
         let that = this
         setTimeout(() => {
-            // if (that.data.playStatus === true) {
-            that.beginPlay()
-                // }
-        }, 1000)
-        wx.setStorageSync('audioIndex', audioIndexNow)
-        wx.setStorageSync('playAudio', {
+                // if (that.data.playStatus === true) {
+                that.beginPlay()
+                    // }
+            }, 1000)
+            // wx.setStorageSync('audioIndex', audioIndexNow)
+            // wx.setStorageSync('playAudio', {
+            //     bookid: that.data.bookId,
+            //     pid: that.data.pid,
+            //     sectionName: audioList[audioIndex].sectionName,
+            //     audioIndex: audioIndexNow
+            // })
+        app.globalData.audioIndex = audioIndexNow
+
+        app.globalData.playAudio = {
             bookid: that.data.bookId,
-            audioIndex: audioIndex
-        })
+            pid: that.data.pid,
+            sectionName: audioList[audioIndex].sectionName,
+            audioIndex: audioIndexNow
+        }
     },
     bindTapNext: function() {
         console.log('bindTapNext')
@@ -344,35 +377,76 @@ Page({
         })
         let that = this
         setTimeout(() => {
-            // if (that.data.playStatus === true) {
-            that.beginPlay()
-                // }
-        }, 1000)
-        wx.setStorageSync('audioIndex', audioIndexNow)
-        wx.setStorageSync('playAudio', {
+                // if (that.data.playStatus === true) {
+                that.beginPlay()
+                    // }
+            }, 1000)
+            // wx.setStorageSync('audioIndex', audioIndexNow)
+            // wx.setStorageSync('playAudio', {
+            //     bookid: that.data.bookId,
+            //     pid: that.data.pid,
+            //     sectionName: audioList[audioIndex].sectionName,
+            //     audioIndex: audioIndexNow
+            // })
+        app.globalData.audioIndex = audioIndexNow
+
+        app.globalData.playAudio = {
             bookid: that.data.bookId,
-            audioIndex: audioIndex
-        })
+            pid: that.data.pid,
+            sectionName: audioList[audioIndex].sectionName,
+            audioIndex: audioIndexNow
+        }
     },
     switchPlayStatus: function() {
         console.log('bindTapPlay')
         console.log(this.data.playStatus)
         const backgroundAudioManager = wx.getBackgroundAudioManager()
         console.log("backgroundAudioManager", backgroundAudioManager)
+            // console.log(backgroundAudioManager.paused)
         if (this.data.playStatus) {
             backgroundAudioManager.pause()
-            this.setData({ playStatus: false })
+            this.setData({
+                playStatus: false
+            })
         } else {
-            if (backgroundAudioManager.paused) {
-                backgroundAudioManager.play()
+            // 获取背景音频信息
+            if (app.globalData.playAudio) {
+                // console.log(wx.getStorageSync('playAudio').bookid)
+                if (this.data.bookId == app.globalData.playAudio.bookid) {
+                    if (backgroundAudioManager.paused) {
+                        backgroundAudioManager.play()
+                    }
+                } else {
+                    console.log("播放下一首111")
+                        // const backgroundAudioManager = wx.getBackgroundAudioManager()
+                    let time = backgroundAudioManager.currentTime
+                    console.log("播放的时间", time)
+                    this.postReadTime(app.globalData.playAudio.pid, time, 5)
+                    this.beginPlay()
+                }
             } else {
+                console.log("播放下一首222")
+                backgroundAudioManager.current
                 this.beginPlay()
             }
-            this.setData({ playStatus: true })
+
+            this.setData({
+                playStatus: true
+            })
         }
+        // if (backgroundAudioManager.paused) {
+        //     backgroundAudioManager.play()
+        //     this.setData({ playStatus: true })
+        // }else {
+        //   this.beginPlay()
+        // }
     },
     beginPlay(e) {
-        let { audioList, audioIndex } = this.data
+        let {
+            audioList,
+            audioIndex
+        } = this.data
+        let that = this
         if (!!e) {
             audioIndex = e.currentTarget.dataset.index
         }
@@ -385,22 +459,51 @@ Page({
         backAudio.src = audioList[audioIndex].sectionUrl
         backAudio.title = audioList[audioIndex].sectionName
         backAudio.play();
-        backAudio.onPlay(() => {
-            console.log("音乐播放开始");
-        })
-        backAudio.onEnded(() => {
-            console.log("音乐播放结束");
-        })
-        backAudio.onTimeUpdate(this.onTimeUpdate)
-        wx.setStorageSync('playAudio', {
+        backAudio.onPlay(that.onPlay)
+        backAudio.onEnded(that.onEnded)
+        backAudio.onTimeUpdate(that.onTimeUpdate)
+            // wx.setStorageSync('playAudio', {
+            //     bookid: that.data.bookId,
+            //     pid: that.data.pid,
+            //     sectionName: audioList[audioIndex].sectionName,
+            //     audioIndex: audioIndex
+            // })
+        app.globalData.audioIndex = audioIndex
+
+        app.globalData.playAudio = {
             bookid: that.data.bookId,
+            pid: that.data.pid,
+            sectionName: audioList[audioIndex].sectionName,
             audioIndex: audioIndex
-        })
+        }
     },
     onPlay() {
+        console.log("onPlay")
         this.setData({
-            pause
+            playStatus: true
         })
+    },
+    onPause() {
+        console.log("onPause")
+        this.setData({
+            playStatus: false
+        })
+    },
+    onEnded() {
+        console.log("onEnded")
+        this.setData({
+                playStatus: false
+            })
+            // 记录时间
+        const backgroundAudioManager = wx.getBackgroundAudioManager()
+        let time = backgroundAudioManager.currentTime
+        this.postReadTime(this.data.pid, time, 5)
+        app.globalData.playAudio = ''
+
+    },
+    onStop() {
+        console.log("onStop")
+        wx.removeStorageSync('playAudio');
     },
     onTimeUpdate() {
         const backgroundAudioManager = wx.getBackgroundAudioManager()
@@ -416,9 +519,13 @@ Page({
         if (s > -1) {
             let min = Math.floor(s / 60) % 60;
             let sec = Math.floor(s) % 60
-            if (min < 10) { t += '0' }
+            if (min < 10) {
+                t += '0'
+            }
             t += min + ':'
-            if (sec < 10) { t += '0' }
+            if (sec < 10) {
+                t += '0'
+            }
             t += sec
         }
         return t
@@ -426,9 +533,6 @@ Page({
     // 点击章节
     onClickCell(e) {
         console.log(e)
-    },
-    bindMore() {
-        console.log("更多作者信息")
     },
     // 商品详情(单品详情)
     proDetail(pid, callback) {
@@ -503,7 +607,9 @@ Page({
     postOrderSubmit(e, orderType, callback) {
         let that = this
         let postorderType = orderType ? orderType : 0
-        let { product } = this.data
+        let {
+            product
+        } = this.data
             // 判断金币不足
         if (this.data.gold < product.gold && postorderType == 0) {
             this.setData({
@@ -615,6 +721,7 @@ Page({
         //     that.orderBargain(res.data.orderId, 1) // 砍第一刀
         // })
     },
+    // 是否发起砍价
     getIsCutting(pid) {
         return new Promise((resolve, reject) => {
             postAjax({
@@ -734,5 +841,37 @@ Page({
 
             })
         }
+    },
+    // appid：appid,
+    // advertId：任务对象ID（旧广告id）,
+    // advertIconUrl：任务图标（旧广告图标,）
+    // advertDescribe: 任务描述（旧广告描述）,
+    // durationSecond：任务时长（秒）（新参数）, 
+    // type：任务类型（默认1）：1 - 广告（游戏）；5 - 福利商品（音频）；,
+    // 提交记录时间
+    postReadTime(pid, second, type) {
+        postAjax({
+            url: "interfaceAction",
+            method: 'POST',
+            data: {
+                interId: '20102',
+                version: 2,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'task-games-duration',
+                params: {
+                    advertId: pid,
+                    durationSecond: second,
+                    advertIconUrl: "",
+                    advertDescribe: "",
+                    type: type
+                }
+            },
+        }).then((res) => {
+            if (res.data.status == "00") {
+                // resolve(res);
+            } else {
+                // reject(res.data.resultMsg)
+            }
+        })
     }
 })

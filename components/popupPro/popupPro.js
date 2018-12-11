@@ -68,9 +68,6 @@ Component({
         },
         // 领会员
         onMemCard() {
-            // wx.switchTab({
-            //     url: '/pages/my/my'
-            // })
             this.triggerEvent('onMemCard');
         },
         // 去书架

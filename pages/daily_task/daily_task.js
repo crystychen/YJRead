@@ -7,6 +7,9 @@ import {
     postAjaxS
 } from '../../utils/ajax.js';
 const app = getApp()
+var runTime = Date.now(); //启动时间
+const aldstat = require('../../utils/sdk/ald-stat.js');
+
 
 Page({
 
@@ -32,6 +35,7 @@ Page({
                 })
             }
         })
+        app.globalData.undone = false
     },
 
     /**
@@ -70,6 +74,9 @@ Page({
             }
 
         });
+        app.aldstat.sendEvent('每日任务页加载时间', {
+            time: Date.now() - runTime
+        })
     },
     /**
      * 生命周期函数--监听页面卸载
@@ -109,23 +116,52 @@ Page({
             console.log(res)
             let {
                 shareurl,
-                shareartid
+                shareartid,
+                id
             } = res.target.dataset;
             let target_id = res.target.id;
             if (target_id === 'item-share') {
+                // app.userShareRecord(4, id)
+                // setTimeout(function() {
+                //     that.getTasksList()
+                // }, 2000)
                 return {
                     title: that.data.shareData[0][1],
-                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterUserId=${userId}&inviterType=4&shareurl=${shareurl}&shareartid=${shareartid}`,
+                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterUserId=${userId}&inviterType=4&inviterObjId=${id}&shareurl=${shareurl}&shareartid=${shareartid}`,
                     imageUrl: that.data.shareData[0][3],
                 }
             }
+            if (target_id === 'item-invite') {
+                return {
+                    title: that.data.shareData[0][1],
+                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterUserId=${userId}&inviterType=4&inviterObjId=${id}&shareurl=${shareurl}&shareartid=${shareartid}`,
+                    imageUrl: that.data.shareData[0][3],
+                }
+            }
+
         }
+        return {
+            title: that.data.shareData[0][1],
+            path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterUserId=${userId}&inviterType=4&shareurl=${shareurl}&shareartid=${shareartid}`,
+            imageUrl: that.data.shareData[0][3],
+        }
+    },
+    toShareDetail(e) {
+        let {
+            id
+        } = e.currentTarget.dataset
+        wx.navigateTo({
+            url: `/pages/share_detail/share_detail?inviterObjId=${id}`
+        })
+
     },
     // 授权用户登录
     onGotUserInfo: function(e) {
         var that = this
         console.log(e)
-        let { id } = e.currentTarget.dataset
+        let {
+            id
+        } = e.currentTarget.dataset
         if (!e.detail.userInfo) {
             return;
         }
@@ -162,14 +198,31 @@ Page({
                 let taskdata = res.data.infos;
                 let dailyTasks = []
                 let onceTasks = []
+                let isToReceive = ""
                 taskdata.map(function(element, index, array) {
                     // 类型处理(单次2与每日1)
+                    // 处理时长
+                    if (element[13]) {
+                        let min = Math.floor(element[13] / 60)
+                        element[13] = min + "分钟"
+                    }
+                    // 判断是否有可领取任务
+                    if (element[10] == 0 && element[4] >= element[3]) {
+                        let obj = {}
+                        obj.taskid = element[0]
+                        obj.award = element[8] || element[9];
+                        isToReceive = obj
+                    }
                     switch (element[12]) {
                         case 1:
-                            dailyTasks.push(element)
+                            if (element[1] != 1) {
+                                dailyTasks.push(element)
+                            }
                             break;
                         case 2:
+                            // if (element[1] != 1) {
                             onceTasks.push(element)
+                                // }
                             break;
                         default:
                             console.log("default");
@@ -179,7 +232,8 @@ Page({
 
                 that.setData({
                     dailyTasks,
-                    onceTasks
+                    onceTasks,
+                    isToReceive
                 })
             }
         })
@@ -234,7 +288,10 @@ Page({
         })
     },
     toRead() {
-        wx.switchTab({
+        wx.navigateBack({
+            delta: 1
+        })
+        wx.redirectTo({
             url: '/pages/reading/reading'
         })
     },
@@ -403,9 +460,65 @@ Page({
         })
     },
     toShopMall() {
-        console.log("quduihua")
-        wx.switchTab({
+        wx.navigateBack({
+            delta: 1
+        })
+        wx.redirectTo({
             url: '/pages/shopMall/shopMall'
         })
-    }
+    },
+    // 领取
+    onReceive: function(e, obj) {
+        let that = this,
+            taskId, award;
+
+        if (!!e) {
+            // app.postFormId(e.detail.formId); // 提交formId
+            taskId = e.currentTarget.dataset.taskid
+            award = e.currentTarget.dataset.award;
+            // award = award.replace("/\+/g", "")
+            wx.showToast({
+                title: `获得${award}书签`,
+                icon: 'none',
+                success: function() {}
+            })
+        }
+        if (!!obj) {
+            taskId = obj.taskid;
+            award = obj.award;
+            // award = award.replace("/\+/g", "");
+            wx.showModal({
+                title: '',
+                content: `任务完成，获得${award}书签`,
+                showCancel: false
+            })
+        }
+        wx.request({
+            url: app.globalData.url + "interfaceAction",
+            method: 'POST',
+            data: {
+                interId: '20102',
+                version: 2,
+                authKey: wx.getStorageSync('authKey'),
+                method: 'task-finish',
+                params: {
+                    taskId: taskId,
+                    channelId: app.globalData.channelId
+                }
+            },
+            success: res => {
+                if (res.data.status == "00") {
+
+                    that.getTasksList();
+                    app.getAccount();
+                    that.getSignInfo(function(res) {}); // 签到信息
+
+                } else {
+                    utils.alert(res.data.resultMsg)
+                }
+            },
+            fail: res => {}
+        })
+
+    },
 })
