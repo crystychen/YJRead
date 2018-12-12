@@ -20,9 +20,10 @@ Page({
         // page: 1,
         size: 20,
         // bannerImg: "/images/mall-top-bcg.png",
-        currentTab: 0,
         atAddrObj: {},
-        groupObj: {}
+        groupObj: {},
+        currentTab: 0,
+        currentbottomBar: 1
     },
 
     /**
@@ -104,7 +105,9 @@ Page({
      */
     onShow: function() {
         var that = this;
-
+        this.setData({
+            currentbottomBar: 1
+        })
         app.visitorLogin(function(obj) {
             // 商品
             // that.pList();
@@ -113,13 +116,6 @@ Page({
             app.getShareData(4); // 转发语分享路径
             app.getTasksList() // 是否可领取任务
 
-            // app.getShareData(20, function(res) { // 换购书签说明(其他广告位置)
-            //     console.log()
-            //     that.setData({
-            //         ruleDesc: res.data.infos[0]
-            //     })
-            // })
-            // that.getAddList(); // 我的地址列表
             app.getUserInfo([wx.getStorageSync('authLevel'), wx.getStorageSync('userInfo')]).then(function(uinfo) {
                 that.setData({
                     authLevel: wx.getStorageSync("authLevel"),
@@ -551,7 +547,7 @@ Page({
                             fail: function(fail) {
                                 console.log('fail')
                                     //取消支付或者为支付失败去到待付款订单列表
-                                wx.redirectTo({
+                                wx.navigateTo({
                                         url: '/pages/my/orderlist/orderlist?state=1&postState=1'
                                     })
                                     // reject(fail);
@@ -714,16 +710,17 @@ Page({
                 let {
                     bookTypes
                 } = res.data;
+
                 that.setData({
-                        bookTypes,
-                        // bookTypeId: that.data.bookTypeId || bookTypes[0][0]
-                        bookTypeId: bookTypes[0][0],
-                        groupObj: {},
-                        currentTab: 0,
-                        navScrollLeft: 0
-                    })
-                    // that.pList(that.data.bookTypeId) // 默認第一分組的內容列表
-                that.pList(bookTypes[0][0]) // 默認第一分組的內容列表
+                    bookTypes,
+                    bookTypeId: that.data.bookTypeId || bookTypes[0][0]
+                        // bookTypeId: bookTypes[0][0],
+                        // groupObj: {},
+                        // currentTab: 0,
+                        // navScrollLeft: 0
+                })
+                that.pList(that.data.bookTypeId) // 默認第一分組的內容列表
+                    // that.pList(bookTypes[0][0]) // 默認第一分組的內容列表
             }
         })
     },
@@ -805,5 +802,29 @@ Page({
             return element
         })
         return products
+    },
+    // 底部导航
+    toTabMy() {
+        wx.switchTab({
+            url: '/pages/my/my'
+        })
+    },
+    toTabIndex() {
+        wx.switchTab({
+            url: '/pages/index/index'
+        })
+    },
+    toTabShopMall() {
+        wx.switchTab({
+            url: '/pages/shopMall/shopMall'
+        })
+    },
+    toTabReading() {
+        wx.switchTab({
+            url: '/pages/reading/reading'
+        })
+    },
+    onChangeTab() {
+
     }
 })

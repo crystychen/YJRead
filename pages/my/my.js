@@ -17,7 +17,9 @@ Page({
         viewCount: 0,
         validViewCount: 0,
         todaygold: 0,
-        isVip: false
+        isVip: false,
+        currentTab: 3
+
     },
 
     /**
@@ -39,6 +41,9 @@ Page({
      */
     onShow: function() {
         let that = this
+        this.setData({
+            currentTab: 3
+        })
         app.loginGetUserInfo(function(uinfo) {
             that.setData({
                 userInfo: uinfo,
@@ -239,5 +244,28 @@ Page({
         this.setData({
             isMenCard: true
         })
+    },
+    toTabMy() {
+        wx.switchTab({
+            url: '/pages/my/my'
+        })
+    },
+    toTabIndex() {
+        wx.switchTab({
+            url: '/pages/index/index'
+        })
+    },
+    toTabShopMall() {
+        wx.switchTab({
+            url: '/pages/shopMall/shopMall'
+        })
+    },
+    toTabReading() {
+        wx.switchTab({
+            url: '/pages/reading/reading'
+        })
+    },
+    onChangeTab() {
+
     }
 })

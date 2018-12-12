@@ -21,7 +21,7 @@
         <view class="title">{{book.bookName}}</view>
         <view class="author">{{book.author}}</view>
         <!-- 章节滚动 -->
-        <view class="row center" hover-class="none" hover-stop-propagation="false" style="visibility: {{playStatus?'visible':'hidden'}}">
+        <view class="row center" hover-class="none" hover-stop-propagation="false" style="visibility: {{playStatus?'visible':'visible'}}">
           <view class="tag" wx:if="{{!book.isBuy && !isVip && currentAudio.isAudition}}">试听</view>
           <view class="desc">
             <i-notice-bar loop="{{playStatus}}" backgroundcolor="#fff" color="#ccc">
@@ -44,14 +44,17 @@
           <view class="play-icon" bindtap="switchPlayStatus">
             <view class="icon-wrap">
               <block wx:if="{{playStatus === true}}">
-                <view class="icon">
-                  <view class="suspend"></view>
-                </view>
+                <image class="icon" src='/images/play.png'>
+                  <!-- <view class="suspend"></view> -->
+                </image>
               </block>
               <block wx:else>
-                <view class="icon">
+                <!-- <view class="icon">
                   <view class="cart"></view>
-                </view>
+                </view> -->
+                <image class="icon" src='/images/stop.png'>
+                  <!-- <view class="suspend"></view> -->
+                </image>
               </block>
             </view>
           </view>
@@ -72,9 +75,9 @@
       </view>
     </block>
   </view>
-  <view class="tab-content">
+  <view class="tab-content {{!book.isBuy && !isVip?'':'none-btn'}}">
     <view class="" hidden="{{currentTabKey == 1?false:true}}">
-      <view class="accordion-group-wrap" wx:if="{{book.anchors.length}}">
+      <!-- <view class="accordion-group-wrap" wx:if="{{book.anchors.length}}">
         <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
           <wux-media wux-class-body="media-body" wux-class-desc="{{anchorClass}}" thumb="{{book.anchors[0].anchorHeadImg}}" thumb-style="border-radius: 300rpx" title="{{book.anchors[0].anchorName}}" label="{{book.anchors[0].anchorIntro}}">
             <view class="btn-wrap center-right" slot>
@@ -84,7 +87,7 @@
             </view>
           </wux-media>
         </view>
-      </view>
+      </view> -->
       <view class="accordion-group-wrap">
         <view class="group-title">关于本书</view>
         <view class="wxParse">
@@ -95,6 +98,17 @@
         <view class="group-title">本书金句子</view>
         <view class="wxParse">
           <template is="wxParse" data="{{wxParseData:goldWord.nodes}}" />
+        </view>
+      </view>
+      <view class="accordion-group-wrap" wx:if="{{book.anchors.length}}">
+        <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
+          <wux-media wux-class-body="media-body" wux-class-desc="{{anchorClass}}" thumb="{{book.anchors[0].anchorHeadImg}}" thumb-style="border-radius: 300rpx" title="{{book.anchors[0].anchorName}}" label="{{book.anchors[0].anchorIntro}}">
+            <view class="btn-wrap center-right" slot>
+              <view class="sm-btn btn active" wx:if="{{anchorClass=='ellipsis'}}" bindtap="bindAnchorsMore">
+                更多
+              </view>
+            </view>
+          </wux-media>
         </view>
       </view>
     </view>
@@ -136,7 +150,7 @@
       <button open-type="share" id="free-share"></button>
       分享立刻解锁
     </view>
-    <view class="btn large-btn active" wx:else >
+    <view class="btn large-btn active" wx:else>
       <!-- <button open-type="share" id="free-share"></button> -->
       <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
       <text bindtap="showBoard" style="width: 100%;height: 100%;display: block">书签换书</text>
@@ -171,8 +185,8 @@
 <!-- 弹出兑换方式面板 -->
 <view class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closeConfirmModal" hidden="{{!confirmModal}}"></view>
 <view class='modal' catchtouchmove="preventTouchMove" hidden="{{!confirmModal}}">
-  <view class="vertical-item" data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
-    <image class="img" src='{{item.thumbImg}}'></image>
+  <view class="vertical-item">
+    <image class="img" src='{{product.swiperImgs[0]}}'></image>
     <view class='info'>
       <view class='title'>{{book.bookName}}</view>
       <view style="color: #CECED6;height: 50rpx;" wx:if="{{book.author}}">{{item.author}}</view>
@@ -195,13 +209,13 @@
     </view>
   </wux-cell>
   <wux-radio-group name="a" value="{{valueRadio}}" title="" bind:change="onChangeRadio">
-    <wux-radio color="calm" title="" value="2">
+    <wux-radio color="#3772fb" title="" value="2">
       <view slot class="slot-cell">
-        <view class="cell-title">邀好友助力，立免20书签</view>
+        <view class="cell-title">邀好友助力，立免{{product.gold}}书签</view>
         <view class="tag">推荐</view>
       </view>
     </wux-radio>
-    <wux-radio color="calm" disabled="{{gold < product.gold?true:false}}" title="" value="0">
+    <wux-radio color="#3772fb" disabled="{{gold < product.gold?true:false}}" title="" value="0">
       <view slot class="slot-cell">
         <view class="cell-title {{gold < product.gold?'disabled':'' }}" wx:if="{{gold < product.gold }}">
           {{product.gold}}书签换书(书签不足)

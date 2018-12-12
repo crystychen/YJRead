@@ -9,7 +9,11 @@ text, view {
 .line-through {
   text-decoration: line-through;
 }
-
+/* 自定义底部导航容器padding */
+.container {
+  padding-bottom: 100rpx;
+  box-sizing: border-box;  
+}
 /* 滚动条 */
 
 ::-webkit-scrollbar {
@@ -43,6 +47,7 @@ text, view {
 .bar-icon {
   width: 44rpx;
   height: 44rpx;
+  box-sizing: border-box;
 }
 
 /* 居中 */

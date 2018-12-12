@@ -35,7 +35,7 @@ Page({
                 })
             }
         })
-        app.globalData.undone = false
+        app.globalData.undone = true
     },
 
     /**
@@ -288,10 +288,10 @@ Page({
         })
     },
     toRead() {
-        wx.navigateBack({
-            delta: 1
-        })
-        wx.redirectTo({
+        // wx.navigateBack({
+        //     delta: 1
+        // })
+        wx.switchTab({
             url: '/pages/reading/reading'
         })
     },
@@ -463,7 +463,7 @@ Page({
         wx.navigateBack({
             delta: 1
         })
-        wx.redirectTo({
+        wx.switchTab({
             url: '/pages/shopMall/shopMall'
         })
     },

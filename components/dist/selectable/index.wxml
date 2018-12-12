@@ -1,15 +1,17 @@
 <label class="wux-class wux-selectable {{ inputChecked ? 'wux-selectable--checked' : '' }} {{ disabled ? 'wux-selectable--disabled' : '' }}" bindtap="onChange" style="{{ wrapStyle }}">
-    <block wx:if="{{ type === 'checkbox' }}">
-    	<checkbox value="{{ value }}" checked="{{ inputChecked }}" color="{{ inputColor }}" disabled="{{ disabled }}" class="wux-input-class wux-selectable__input" />
-    	<icon class="wux-selectable__icon" type="{{ inputChecked ? 'success' : 'circle' }}" size="23" color="{{ !disabled ? inputColor : '#666' }}" />
-    </block>
-    <block wx:elif="{{ type === 'radio' }}">
-    	<radio value="{{ value }}" checked="{{ inputChecked }}" color="{{ inputColor }}" disabled="{{ disabled }}" class="wux-input-class wux-selectable__input" />
-        <icon class="wux-selectable__icon" type="success_no_circle" size="16" color="{{ !disabled ? inputColor : '#666' }}" hidden="{{ !inputChecked }}" />
-    </block>
-    <block wx:else>
-    	<slot name="icon-on" wx:if="{{ inputChecked }}"></slot>
-    	<slot name="icon-off" wx:else></slot>
-    </block>
-    <slot></slot>
+  <block wx:if="{{ type === 'checkbox' }}">
+    <checkbox value="{{ value }}" checked="{{ inputChecked }}" color="{{ inputColor }}" disabled="{{ disabled }}" class="wux-input-class wux-selectable__input" />
+    <icon class="wux-selectable__icon" type="{{ inputChecked ? 'success' : 'circle' }}" size="23" color="{{ !disabled ? inputColor : '#666' }}" />
+  </block>
+  <block wx:elif="{{ type === 'radio' }}">
+    <radio value="{{ value }}" checked="{{ inputChecked }}" color="{{ inputColor }}" disabled="{{ disabled }}" class="wux-input-class wux-selectable__input" />
+    <!-- <icon class="wux-selectable__icon" type="success" size="16" color="{{ !disabled ? inputColor : '#666' }}" hidden="{{ !inputChecked }}" /> -->
+    <icon class="wux-selectable__icon" type="success" size="16" color="{{ !disabled ? inputColor : '#666' }}" wx:if="{{ inputChecked }}" />
+    <icon class="wux-selectable__icon disabled" size='16' color="{{ !disabled ? inputColor : '#666' }}" wx:else  ></icon>
+  </block>
+  <block wx:else>
+    <slot name="icon-on" wx:if="{{ inputChecked }}"></slot>
+    <slot name="icon-off" wx:else></slot>
+  </block>
+  <slot></slot>
 </label>

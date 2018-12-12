@@ -28,7 +28,7 @@
 
 .wux-tabbar-item__title {
   font-size: 24rpx;
-  margin: 6rpx 0 0;
+  /* margin: 6rpx 0 0; */
   line-height: 1;
   text-align: center;
 }

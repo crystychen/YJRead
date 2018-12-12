@@ -388,7 +388,7 @@ Page({
     },
     // 跳到我的中心
     toMyCenter() {
-        wx.redirectTo({
+        wx.switchTab({
             url: '/pages/my/my'
         })
     },
@@ -396,12 +396,12 @@ Page({
         return param < 10 ? '0' + param : param;
     },
     toIndex() {
-        wx.redirectTo({
+        wx.switchTab({
             url: '/pages/index/index',
         })
     },
     toAwardView() {
-        wx.redirectTo({
+        wx.switchTab({
             url: '/pages/index/index',
         })
     },

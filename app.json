@@ -21,8 +21,37 @@
         "navigationBarTitleText": "汗牛书屋",
         "navigationBarTextStyle": "black"
     },
+    "tabBar": {
+        "color": "#9FA0A5",
+        "selectedColor": "#3E74F5",
+        "list": [{
+                "pagePath": "pages/index/index",
+                "text": "福利",
+                "iconPath": "images/welfare.png",
+                "selectedIconPath": "images/welfare_active.png"
+            },
+            {
+                "pagePath": "pages/shopMall/shopMall",
+                "text": "书城",
+                "iconPath": "images/books.png",
+                "selectedIconPath": "images/books_active.png"
+            },
+            {
+                "pagePath": "pages/reading/reading",
+                "text": "阅读",
+                "iconPath": "images/read.png",
+                "selectedIconPath": "images/read_active.png"
+            },
+            {
+                "pagePath": "pages/my/my",
+                "text": "我的",
+                "iconPath": "images/my.png",
+                "selectedIconPath": "images/my_active.png"
+            }
+        ]
+    },
     "requiredBackgroundModes": [
-      "audio"
+        "audio"
     ],
     "navigateToMiniProgramAppIdList": [
         "wx9ddb22fc5fee2755",

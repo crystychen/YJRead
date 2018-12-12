@@ -6,6 +6,10 @@ import {
     postAjaxS
 } from '../../utils/ajax.js';
 const utils = require('../../utils/util.js');
+import {
+    $wuxBackdrop
+} from '../../components/dist/index'
+
 const app = getApp()
 var runTime = Date.now(); //启动时间
 const aldstat = require('../../utils/sdk/ald-stat.js');
@@ -19,19 +23,27 @@ Page({
         hasMoreData: true,
         loadingImgHidden: true,
         passTipschecked: true,
+        currentbottomBar: 2
+
     },
     onLoad: function(options) {
         let that = this
         console.log(options)
         wx.getSystemInfo({
-            success: (res) => {
-                this.setData({
-                    pixelRatio: res.pixelRatio,
-                    windowHeight: res.windowHeight,
-                    windowWidth: res.windowWidth
-                })
-            }
-        })
+                success: (res) => {
+                    this.setData({
+                        pixelRatio: res.pixelRatio,
+                        windowHeight: res.windowHeight,
+                        windowWidth: res.windowWidth
+                    })
+                }
+            })
+            // wx.showLoading({ //期间为了显示效果可以添加一个过度的弹出框提示“加载中”  
+            //     title: '加载中',
+            //     icon: 'loading',
+            // });
+            // this.$wuxBackdrop = $wuxBackdrop()
+            // this.$wuxBackdrop.retain()
         this.setData({
                 isTaskTips: app.globalData.isTaskTips,
                 isReAwardTips: app.globalData.isReAwardTips
@@ -81,6 +93,9 @@ Page({
     },
     onShow: function() {
         let that = this
+        this.setData({
+            currentbottomBar: 2
+        })
         app.visitorLogin(function(uinfo) {
                 that.setData({
                     authLevel: wx.getStorageSync("authLevel"),
@@ -90,6 +105,9 @@ Page({
                 app.getShareData(4); // 转发语
                 that.getGroup(); // 文章分組
                 app.getTasksList() // 是否可领取任务
+
+                // wx.hideLoading();
+                // that.$wuxBackdrop.release()
 
                 app.getUserInfo([wx.getStorageSync('authLevel'), wx.getStorageSync('userInfo')]).then(function(uinfo) {
                     that.setData({
@@ -569,34 +587,29 @@ Page({
             isMenCard: true
         })
     },
-    // 缓存已领取过的广告Id
-    saveReceiveAds(advert) {
-        let adverts = []
-        if (wx.getStorageSync("receiveAds")) {
-            let {
-                adverts,
-                beginTime,
-                overTime
-            } = wx.getStorageSync("receiveAds")
-            adverts.push(advert)
-            adverts = Array.from(new Set(adverts)); // 去重         
-            wx.setStorageSync("receiveAds", {
-                adverts,
-                beginTime,
-                overTime
-            })
-        } else {
-            let nowTime = utils.formatDate(new Date());
-            let overTime = new Date()
-            overTime.setDate(new Date().getDate() + 1); // 日期加上一天
-            overTime = utils.formatDate(overTime)
-            adverts.push(advert)
-            wx.setStorageSync("receiveAds", {
-                adverts,
-                beginTime: nowTime,
-                overTime: overTime
-            })
-        }
+    // 底部导航
+    toTabMy() {
+        wx.switchTab({
+            url: '/pages/my/my'
+        })
+    },
+    toTabIndex() {
+        wx.switchTab({
+            url: '/pages/index/index'
+        })
+    },
+    toTabShopMall() {
+        wx.switchTab({
+            url: '/pages/shopMall/shopMall'
+        })
+    },
+    toTabReading() {
+        wx.switchTab({
+            url: '/pages/reading/reading'
+        })
+    },
+    onChangeTab() {
+
     }
 
 })

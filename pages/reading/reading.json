@@ -8,7 +8,8 @@
         "wux-icon": "../../components/dist/icon/index",
         "wux-badge": "../../components/dist/badge/index",
         "wux-tabbar": "../../components/dist/tabbar/index",
-        "wux-tabbar-item": "../../components/dist/tabbar-item/index"
+        "wux-tabbar-item": "../../components/dist/tabbar-item/index",
+        "wux-backdrop": "../../components/dist/backdrop/index"
     },
     "enablePullDownRefresh": true,
     "backgroundTextStyle": "dark"

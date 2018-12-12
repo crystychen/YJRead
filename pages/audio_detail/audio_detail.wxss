@@ -2,11 +2,11 @@
 
 @import "/wxParse/wxParse.wxss";
 .container {
-    background: #F6F6F6;
+    background: #ffffff;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    padding-bottom: 100rpx;
+    padding-bottom: 0
 }
 
 
@@ -24,6 +24,7 @@
     position: relative;
     background: #ffffff;
     padding: 30rpx 0;
+    padding-bottom: 40rpx;
 }
 
 
@@ -126,6 +127,7 @@
 .title-container .author {
     color: #A6A09F;
     margin: 10rpx 0;
+    font-size: 24rpx;
 }
 
 .audio-infos .desc {
@@ -133,6 +135,7 @@
     text-align: center;
     margin: 10rpx 0;
     width: 600rpx;
+    font-size: 26rpx;
 }
 
 .slider-container {
@@ -166,7 +169,7 @@
 }
 
 .play-icon {
-    width: 200rpx;
+    width: 240rpx;
     height: 150rpx;
     display: flex;
     flex-direction: row;
@@ -175,26 +178,26 @@
 }
 
 .icon-wrap {
-    width: 120rpx;
-    background: #ffffff;
-    height: 120rpx;
-    border-radius: 50%;
+    /* width: 120rpx; */
+    /* background: #ffffff; */
+    /* height: 120rpx;
+    border-radius: 50%; */
     /* box-shadow: 0px 0px 25rpx #dddee1; */
-    box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233);
-    display: flex;
+    /* box-shadow: 0rpx 4rpx 20rpx 0rpx rgba(0, 0, 0,0.2); */
+    /* display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
 }
 
 .icon-wrap .icon {
-    width: 110rpx;
-    height: 110rpx;
+    width: 160rpx;
+    height: 160rpx;
     margin: 0;
     padding: 0;
     /* background: #1264FE; */
-    background: linear-gradient(to right, #792EF3, #262DFC);
-    border-radius: 50%;
+    /* background: linear-gradient(to right, #792EF3, #262DFC); */
+    /* border-radius: 50%; */
     position: relative;
 }
 
@@ -229,7 +232,7 @@
 
 .chapter {
     /* margin: 30rpx 0; */
-    background: #fff;
+    /* background: #fff; */
 }
 
 .cell-group_hd {
@@ -246,7 +249,7 @@
 
 .cell-group_bd {
     position: relative;
-    background-color: #fff
+    /* background-color: #fff */
 }
 
 .cell-group_bd:after {
@@ -279,7 +282,7 @@
     text-align: inherit;
     padding: 20rpx 30rpx;
     position: relative;
-    background: #fff;
+    /* background: #fff; */
     /* margin-left: 30rpx; */
     /* border-bottom: 1rpx solid #E6E6E6; */
 }
@@ -345,17 +348,18 @@
 
 .clock {
     margin: 0 10rpx;
-    color: #E5E5E2;
+    color: #a5a5ac;
+    font-size:26rpx;
 }
 
 .tag {
     font-family: Monospaced Number, Chinese Quote, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
-    font-size: 28rpx;
-    line-height: 1.5;
+    /* font-size: 28rpx;
+    line-height: 1.5; */
     color: #1193EE;
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
+    /* padding: 0; */
     display: inline-block;
     line-height: 30rpx;
     height: 34rpx;
@@ -386,6 +390,8 @@
 .media-wrap {
     margin: 0rpx auto;
     background: #ffffff;
+    border-radius: 10rpx;
+    box-shadow:0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);   
 }
 
 .media-body {
@@ -430,29 +436,37 @@
     margin: 30rpx 0;
     padding: 10rpx 30rpx;
     padding-bottom: 30rpx;
-    background: #fff;
+    /* background: #fff; */
 }
 
 .accordion-group-wrap:first-child {
     margin-top: 0;
 }
 
-
+.tab-content {
+  padding-bottom: 100rpx;  
+  background: #F6F6F6
+}
+.tab-content.none-btn {
+  padding-bottom: 0rpx;    
+}
 /* 导航tab */
 
 .nav {
-    height: 90rpx;
+    height: 110rpx;
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    line-height: 90rpx;
-    background: #fff;
+    line-height: 110rpx;
+    background: #F6F6F6;
     white-space: nowrap;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     border-bottom: 1rpx solid #E6E6E6;
+    border-top-left-radius: 20rpx;
+    border-top-right-radius: 20rpx;
 }
 
 .nav-item {
@@ -473,7 +487,7 @@
 .slider-wrap {
     width: 80rpx;
     position: absolute;
-    bottom: 0;
+    bottom: 2rpx;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -481,8 +495,10 @@
 .navbar_slider {
     background: #000;
     height: 8rpx;
-    width: 80rpx;
+    width: 40rpx;
     margin: 0 auto;
+    border-radius: 4rpx;
+
 }
 
 
@@ -557,7 +573,7 @@
     height: 110rpx;
     margin: 0;
     padding: 0;
-    background: #1264FE;
+    /* background: #1264FE; */
     border-radius: 50%;
     position: relative;
 }
@@ -640,13 +656,14 @@
 }
 
 
-/* 显示两行字 */
+/* 显示yi行字 */
 
 .ellipsis {
+    font-size: 24rpx !important;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     padding-top: 10rpx;
     -webkit-box-orient: vertical
 }
@@ -720,7 +737,7 @@
 .vertical-item .info .desc {
     font-size: 28rpx;
     color: #a5a5ac;
-    height: 70rpx;
+    height: 100rpx;
     overflow: hidden;
     display: -webkit-box;
     white-space: initial;

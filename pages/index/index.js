@@ -26,6 +26,10 @@ Page({
     onLoad: function(options) {
         let that = this
         console.log(options)
+            // wx.showLoading({ //期间为了显示效果可以添加一个过度的弹出框提示“加载中”  
+            //     title: '加载中',
+            //     icon: 'loading',
+            // });
         wx.getSystemInfo({
                 success: (res) => {
                     this.setData({
@@ -34,6 +38,13 @@ Page({
                         windowWidth: res.windowWidth
                     })
                 }
+            })
+            // wx.setTabBarBadge({
+            //         index: 0,
+
+        //     })
+        wx.showTabBarRedDot({
+                index: 0
             })
             // this.setData({
             //         isTaskTips: app.globalData.isTaskTips,
@@ -56,7 +67,7 @@ Page({
         }
         if (!!options.inviterObjId) {
             that.setData({
-                inviterObjId: options.inviterObjId
+                inviterObjId: options.inviterObjId || ""
             })
         }
         if (!!options.shareurl && !!options.shareartid) {
@@ -87,6 +98,9 @@ Page({
     },
     onShow: function() {
         let that = this
+        this.setData({
+            currentTab: 0
+        })
         app.visitorLogin(function(uinfo) {
                 that.setData({
                         authLevel: wx.getStorageSync("authLevel"),
@@ -98,11 +112,8 @@ Page({
                 }
 
                 that.pList();
-                app.getTasksList(function() {
-                        that.setData({
-                            undone: app.globalData.undone || true
-                        })
-                    }) // 是否可领取任务
+                app.getTasksList(function() {}) // 是否可领取任务
+                    // wx.hideLoading();
 
                 app.getUserInfo([wx.getStorageSync('authLevel'), wx.getStorageSync('userInfo')]).then(function(uinfo) {
                     that.setData({
@@ -521,7 +532,7 @@ Page({
         })
     },
     toShopMall() {
-        wx.redirectTo({
+        wx.switchTab({
             url: "/pages/shopMall/shopMall"
         })
     },
@@ -598,11 +609,27 @@ Page({
         })
     },
     // 底部导航
-    // onChangeTab(e) {
-    //   console.log(e.detail.key)
-    //   wx.redirectTo({
+    toTabMy() {
+        wx.switchTab({
+            url: '/pages/my/my'
+        })
+    },
+    toTabIndex() {
+        wx.switchTab({
+            url: '/pages/index/index'
+        })
+    },
+    toTabShopMall() {
+        wx.switchTab({
+            url: '/pages/shopMall/shopMall'
+        })
+    },
+    toTabReading() {
+        wx.switchTab({
+            url: '/pages/reading/reading'
+        })
+    },
+    onChangeTab() {
 
-    //   })
-
-    // }
+    }
 })

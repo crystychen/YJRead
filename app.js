@@ -22,11 +22,14 @@ App({
         unionId: '', // 邀请初始化
         isTaskTips: true,
         isReAwardTips: true,
+        undone: false
     },
     /**
      * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
      */
     onLaunch: function() {
+        //隐藏系统tabbar
+        wx.hideTabBar();
         // 检查线上版本更新
         const updateManager = wx.getUpdateManager()
         updateManager.onCheckForUpdate(function(res) {
@@ -55,6 +58,8 @@ App({
 
     },
     onShow: function(options) {
+        //隐藏系统tabbar
+        wx.hideTabBar();
         // 记录小程序启动时长
         this.aldstat.sendEvent('小程序的启动时长', {
             time: Date.now() - runTime
@@ -474,7 +479,7 @@ App({
                 let dailyTasks = []
                 let onceTasks = []
                 let isToReceive = false
-                let undone = false
+                let undone = ""
                 taskdata.map(function(element, index, array) {
                     // 判断是否有可领取任务
                     if (element[10] == 0 && element[4] >= element[3]) {
@@ -484,10 +489,15 @@ App({
                         isToReceive = true
                     }
                     if (element[4] < element[3]) {
-                        undone = true
+                        undone = false
                     }
                     return element;
                 });
+                console.log(app.globalData.undone)
+                if (app.globalData.undone) {
+                    undone = true
+                }
+                console.log(undone)
                 currPage.setData({
                     isToReceive,
                     undone

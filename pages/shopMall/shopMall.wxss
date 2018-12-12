@@ -301,9 +301,9 @@
 }
 
 .vertical-item .info .desc {
-    font-size: 28rpx;
+    font-size: 26rpx;
     color: #a5a5ac;
-    height: 70rpx;
+    height: 74rpx;
     overflow: hidden;
     display: -webkit-box;
     white-space: initial;

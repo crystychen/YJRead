@@ -63,7 +63,7 @@ Component({
             })
         },
         toMyCenter() {
-            wx.redirectTo({
+            wx.switchTab({
                 url: '/pages/my/my'
             })
         },

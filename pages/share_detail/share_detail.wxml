@@ -1,5 +1,5 @@
 <!-- pages/share_detail/share_detail.wxml -->
-<view class="container" style="height: {{windowHeight}}px">
+<view class="container" >
   <view class="main-title">{{gtitle}}</view>
   <view class="sec-title">每周仅限领取一本</view>
   <view class="books-list">
@@ -8,7 +8,7 @@
         <view class="book" data-pid="{{item[0]}}" catch:tap="toAudioDetail">
           <image class="book-img" src="{{item[5]}}"></image>
           <view class="book-name">{{item[1]}}</view>
-          <view class="book-author">作者</view>
+          <view class="book-author">{{item[15]}}</view>
           <view class="book-price line-through">原价: {{item[7]}}</view>
           <view class="btn-container" hover-class="none" hover-stop-propagation="false" style="position: relative">
             <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo" catch:tap="preventDefault"></button>

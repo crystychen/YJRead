@@ -238,7 +238,7 @@ Page({
                         })
                     }, 2000)
 
-                    that.bookDetail(that.data.bookId).then(() => {
+                    that.bookDetail(that.data.bookId).then((res) => {
                         let sections = res.book.sections.map((element, index) => {
                             element.sectionSec = utils.formatSeconds(element.sectionSec)
                             return element
