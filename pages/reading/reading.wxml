@@ -14,6 +14,7 @@
   <!-- 非会员 hidden="{{isVip}}" -->
   <view class="card-wrap">
     <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
+      <button class="openbtn" wx:if='{{authLevel != 2}}' open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
       <wux-media thumb="https://soure.chudianad.com/static/welfare/product/thumbImg/201811161207227287.jpg" thumb-style="" title="汗牛书屋7天畅听卡" label="全场书籍免费无限听">
         <view class="time">{{VipEndTime?VipEndTime+'  到期':'已过期'}}</view>
         <view class="btn-wrap center-right" slot>
@@ -63,24 +64,24 @@
   <!-- bindchange="onChangeTab" -->
   <wux-tabbar current="{{currentbottomBar}}" controlled bindchange="onChangeTab" position="bottom">
     <!-- <navigator open-type='redirect' url="/pages/index/index"> -->
-      <wux-tabbar-item title="福利" bindclick="toTabIndex">
-        <wux-badge slot="icon-on">
-          <image class="bar-icon" src="/images/welfare.png"></image>
-        </wux-badge>
-        <wux-badge slot="icon-off">
-          <image class="bar-icon" src="/images/welfare_active.png"></image>
-        </wux-badge>
-      </wux-tabbar-item>
+    <wux-tabbar-item title="福利" bindclick="toTabIndex">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/welfare.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/welfare_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
     <!-- </navigator> -->
     <!-- <navigator open-type='redirect' url="/pages/shopMall/shopMall"> -->
-      <wux-tabbar-item title="书城" bindclick="toTabShopMall">
-        <wux-badge slot="icon-on">
-          <image class="bar-icon" src="/images/books.png"></image>
-        </wux-badge>
-        <wux-badge slot="icon-off">
-          <image class="bar-icon" src="/images/books_active.png"></image>
-        </wux-badge>
-      </wux-tabbar-item>
+    <wux-tabbar-item title="书城" bindclick="toTabShopMall">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/books.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/books_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
     <!-- </navigator> -->
     <wux-tabbar-item title="阅读" bindclick="toTabReading">
       <wux-badge slot="icon-on">
@@ -91,14 +92,14 @@
       </wux-badge>
     </wux-tabbar-item>
     <!-- <navigator open-type='redirect' url="/pages/my/my"> -->
-      <wux-tabbar-item title="我的" bindclick="toTabMy">
-        <wux-badge dot="{{isToReceive || !undone}}" slot="icon-on">
-          <image class="bar-icon" src="/images/my.png"></image>
-        </wux-badge>
-        <wux-badge dot="{{isToReceive || !undone}}" slot="icon-off">
-          <image class="bar-icon" src="/images/my_active.png"></image>
-        </wux-badge>
-      </wux-tabbar-item>
+    <wux-tabbar-item title="我的" bindclick="toTabMy">
+      <wux-badge dot="{{isToReceive || !undone}}" slot="icon-on">
+        <image class="bar-icon" src="/images/my.png"></image>
+      </wux-badge>
+      <wux-badge dot="{{isToReceive || !undone}}" slot="icon-off">
+        <image class="bar-icon" src="/images/my_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
     <!-- </navigator> -->
   </wux-tabbar>
 </view>

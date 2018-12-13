@@ -97,14 +97,21 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function() {
-
+        wx.hideTabBar({
+            fail: function() {
+                setTimeout(function() { // 做了个延时重试一次，作为保底。
+                    wx.hideTabBar()
+                }, 500)
+            }
+        })
     },
-
     /**
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
         var that = this;
+        wx.hideTabBar()
+
         this.setData({
             currentbottomBar: 1
         })

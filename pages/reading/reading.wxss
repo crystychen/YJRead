@@ -34,6 +34,7 @@
     border-radius: 10rpx;
     width: 690rpx;
     box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233);
+    position: relative;
 }
 
 

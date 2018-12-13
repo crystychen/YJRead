@@ -374,28 +374,7 @@ Page({
                     },
                     complete: res => {
                         console.log(res)
-                        if (res.errMsg == 'shareAppMessage:ok') {
-                            //分享为按钮转发
-                            // if (_this.data.shareBtn) {
-                            //     //判断是否分享到群
-                            //     if (res.hasOwnProperty('shareTickets')) {
-                            //         console.log(res.shareTickets[0]);
-                            //         //分享到群
-                            //         _this.data.isshare = 1;
-                            //     } else {
-                            //         // 分享到个人
-                            //         _this.data.isshare = 0;
-                            //     }
-                            // }
-                            // wx.showToast({
-                            //     title: '分享成功',
-                            // })
-                            // that.postOrder(pid)
-                        } else {
-                            // wx.showToast({
-                            //     title: '分享失败',
-                            // })
-                        }
+                        if (res.errMsg == 'shareAppMessage:ok') {} else {}
                     }
                 }
             }

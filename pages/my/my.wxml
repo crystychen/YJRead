@@ -39,7 +39,7 @@
   <view class="card-wrap">
     <view class="media-wrap" slot="body" hover-class="none" hover-stop-propagation="false">
       <wux-media thumb="https://soure.chudianad.com/static/welfare/product/thumbImg/201811161207227287.jpg" thumb-style="" title="汗牛书屋7天畅听卡" label="全场书籍免费无限听">
-        <view class="time">{{VipEndTime?VipEndTime+'  到期':'已过期'}}</view>
+        <view class="time" wx:if="{{isVip}}">{{VipEndTime?VipEndTime+'  到期':'已过期'}}</view>
         <view class="btn-wrap center-right" data-appid="{{item.appid}}" data-path="{{item.path}}" slot>
           <view class="btn disabled" wx:if="{{isVip}}">已领取</view>
           <view class="btn active" wx:else bindtap="bindReceive">领取</view>

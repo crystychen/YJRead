@@ -91,8 +91,19 @@ Page({
     onUnload() {
         wx.removeStorageSync('timeStart');
     },
+    onReady: function() {
+        wx.hideTabBar({
+            fail: function() {
+                setTimeout(function() { // 做了个延时重试一次，作为保底。
+                    wx.hideTabBar()
+                }, 500)
+            }
+        })
+    },
     onShow: function() {
         let that = this
+        wx.hideTabBar()
+
         this.setData({
             currentbottomBar: 2
         })
@@ -156,6 +167,30 @@ Page({
         this.setData({
             readTips: false
         })
+    },
+    // 授权用户登录
+    onGotUserInfo: function(e) {
+        var that = this
+        console.log(e)
+        let {
+            id
+        } = e.currentTarget.dataset
+        if (!e.detail.userInfo) {
+            return;
+        }
+        app.globalData.iv = e.detail.iv; //先放app的全局变量，然后在其他方法解密
+        app.globalData.encryptedData = e.detail.encryptedData; //先放app的全局变量，然后在其他方法解密
+
+        app.uploadUserInfo(function(uinfo) {
+            // uinfo后台返回来的
+            app.globalData.fromauth = 1;
+            console.log("后台返回的unifo:", uinfo)
+            that.setData({
+                userInfo: uinfo,
+                authLevel: wx.getStorageSync('authLevel')
+            });
+
+        });
     },
     // 授权获取从授权组件传用户信息
     getUserInfofromCom: function(e) {

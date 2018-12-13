@@ -95,9 +95,19 @@ Page({
         app.aldstat.sendEvent('首页初次渲染完成时间', {
             time: Date.now() - runTime
         })
+        wx.hideTabBar({
+            fail: function() {
+                setTimeout(function() { // 做了个延时重试一次，作为保底。
+                    wx.hideTabBar()
+                }, 500)
+            }
+        })
     },
     onShow: function() {
         let that = this
+
+        wx.hideTabBar()
+
         this.setData({
             currentTab: 0
         })

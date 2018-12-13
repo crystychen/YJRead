@@ -127,14 +127,14 @@ Page({
                 // }, 2000)
                 return {
                     title: that.data.shareData[0][1],
-                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterUserId=${userId}&inviterType=4&inviterObjId=${id}&shareurl=${shareurl}&shareartid=${shareartid}`,
+                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterUserId=${userId}&inviterType=4&inviterObjId=${id}`,
                     imageUrl: that.data.shareData[0][3],
                 }
             }
             if (target_id === 'item-invite') {
                 return {
                     title: that.data.shareData[0][1],
-                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterUserId=${userId}&inviterType=4&inviterObjId=${id}&shareurl=${shareurl}&shareartid=${shareartid}`,
+                    path: `${that.data.shareData[0][4] || "/pages/index/index"}?unionId=${unionId}&cid=${channelId}&inviterUserId=${userId}&inviterType=4&inviterObjId=${id}`,
                     imageUrl: that.data.shareData[0][3],
                 }
             }
