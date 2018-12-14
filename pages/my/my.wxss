@@ -1,275 +1,283 @@
 /* pages/my/my.wxss */
 
 page {
-  background: #f5f5f5;
-  height: 100%;
+    background: #f5f5f5;
+    height: 100%;
 }
 
 .container {
-  position: relative;
-  overflow: hidden;
-  height: 100%;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
 }
+
 
 /* 个人信息卡start */
 
 .user-infos-wrap {
-  /* width: 100%; *//* height: 480rpx; */
-  box-sizing: border-box;
-  /* margin: 30rpx; */
-  margin-bottom: 20rpx;
-  /* background: linear-gradient(to bottom, #e2c699, #faf8f6); */
+    /* width: 100%; */
+    /* height: 480rpx; */
+    box-sizing: border-box;
+    /* margin: 30rpx; */
+    margin-bottom: 20rpx;
+    /* background: linear-gradient(to bottom, #e2c699, #faf8f6); */
 }
 
 .user-infos {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* background-color: #fff; */
-  border-radius: 10rpx;
-  padding: 30rpx;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: #fff; */
+    border-radius: 10rpx;
+    padding: 30rpx;
 }
 
 .img-bcg {
-  position: absolute;
-  top: 120rpx;
-  width: 700rpx;
-  /* height: 278rpx; */
-  height: 240rpx;
-  z-index: -1;
-  border-radius: 10rpx;
-  box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
+    position: absolute;
+    top: 120rpx;
+    width: 700rpx;
+    /* height: 278rpx; */
+    height: 240rpx;
+    z-index: -1;
+    border-radius: 10rpx;
+    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
 }
 
 .openbtn {
-  display: flex;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 100%;
-  width: 100%;
-  z-index: 2;
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 100%;
+    width: 100%;
+    z-index: 2;
 }
 
 .header_img_wrap {
-  /* height: 130rpx;
+    /* height: 130rpx;
     width: 130rpx; */
-  position: relative;
-  border-radius: 50%;
-  /* overflow: hidden; */
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border: 6rpx solid #fff;
+    position: relative;
+    border-radius: 50%;
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 6rpx solid #fff;
 }
 
-.header_img_wrap > .img {
-  height: 130rpx;
-  width: 130rpx;
-  border-radius: 50%;
-  overflow: hidden;
-  z-index: 1;
-  background: #ccc;
+.header_img_wrap>.img {
+    height: 130rpx;
+    width: 130rpx;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 1;
+    background: #ccc;
 }
 
 .header_img_wrap .vip {
-  width: 50rpx;
-  height: 50rpx;
-  line-height: 50rpx;
-  position: absolute;
-  right: -6rpx;
-  bottom: -4rpx;
-  z-index: 1;
-  /* background: #FEAC43; */
-  color: #fff;
-  /* border-radius: 50%; */
-  text-align: center;
+    width: 50rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    position: absolute;
+    right: -6rpx;
+    bottom: -4rpx;
+    z-index: 1;
+    /* background: #FEAC43; */
+    color: #fff;
+    /* border-radius: 50%; */
+    text-align: center;
 }
 
 .vip .img {
-  width: 100%;
-  height: 100%;
-  border-radius: 0 backgrou;
+    width: 100%;
+    height: 100%;
+    border-radius: 0 backgrou;
 }
 
 .user-name {
-  font-weight: bold;
-  font-size: 30rpx;
-  height: 40rpx;
-  margin: 20rpx 0;
-  width: 100%;
-  text-align: center;
-  margin-bottom: 30rpx;
+    font-weight: bold;
+    font-size: 30rpx;
+    height: 40rpx;
+    margin: 20rpx 0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30rpx;
 }
 
 .num {
-  color: #fc9b4d;
-  font-weight: bold;
-  padding: 0 8rpx;
+    color: #fc9b4d;
+    font-weight: bold;
+    padding: 0 8rpx;
 }
 
 .infos-desc {
-  margin-left: 10rpx;
-  display: inline-block;
-  color: #8e8e93;
+    margin-left: 10rpx;
+    display: inline-block;
+    color: #8e8e93;
 }
 
 .num-row {
-  width: 100%;
-  /* margin-top: 40rpx; */
+    width: 100%;
+    /* margin-top: 40rpx; */
 }
 
 .num-item {
-  width: 33%;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
+    width: 33%;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .num-item>text:first-child {
-  color: #333;
-  font-weight: bold;
-  font-size: 34rpx;
+    color: #333;
+    font-weight: bold;
+    font-size: 34rpx;
 }
 
 .num-item>text:last-child {
-  color: #c7c7cb;
+    color: #c7c7cb;
 }
 
+
 /* 个人卡end */
+
 
 /* 列表媒体对象start */
 
 .card-wrap {
-  padding: 0 30rpx;
-  /* margin-top: 30rpx; */
+    padding: 0 30rpx;
+    position: relative;
+    /* margin-top: 30rpx; */
 }
 
 .media-wrap .btn {
-  border-radius: 50rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  width: 130rpx;
-  font-size: 30rpx;
-  position: relative;
+    border-radius: 50rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    width: 130rpx;
+    font-size: 30rpx;
+    position: relative;
 }
 
 .media-wrap {
-  margin: 0rpx auto;
-  border-radius: 10rpx;
-  /* width: 90%; */
-  width: 690rpx;
-  background: #fff;
-  box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
+    margin: 0rpx auto;
+    border-radius: 10rpx;
+    /* width: 90%; */
+    width: 690rpx;
+    background: #fff;
+    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
 }
+
 
 /* 媒体对象自定义内容 */
 
 .center-right {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .btn-wrap {
-  padding-right: 30rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    padding-right: 30rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .time {
-  color: rgb(136, 136, 136);
-  font-size: 24rpx;
-  margin-top: 10rpx;
+    color: rgb(136, 136, 136);
+    font-size: 24rpx;
+    margin-top: 10rpx;
 }
 
+
 /* 列表媒体对象end */
+
 
 /* menu */
 
 .menu-wrap {
-  /* width: 100%; */
-  box-sizing: border-box;
-  margin: 30rpx;
-  /* overflow: hidden; */
+    /* width: 100%; */
+    box-sizing: border-box;
+    margin: 30rpx;
+    /* overflow: hidden; */
 }
 
 .menu {
-  background-color: #fff;
-  border-radius: 10rpx;
-  box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
-  position: relative
+    background-color: #fff;
+    border-radius: 10rpx;
+    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
+    position: relative
 }
 
 .menu-item {
-  height: 100rpx;
-  line-height: 100rpx;
-  display: flex;
-  /* margin: 0 20rpx; */
-  margin-right: 0;
-  flex-direction: row;
-  align-items: center;
-  position: relative;
-  /* border-bottom: 1rpx solid #f2f2f2; */
-  padding: 0 20rpx;
-  box-sizing: border-box;
+    height: 100rpx;
+    line-height: 100rpx;
+    display: flex;
+    /* margin: 0 20rpx; */
+    margin-right: 0;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    /* border-bottom: 1rpx solid #f2f2f2; */
+    padding: 0 20rpx;
+    box-sizing: border-box;
 }
 
 .menu-item .img {
-  width: 36rpx;
-  height: 36rpx;
+    width: 36rpx;
+    height: 36rpx;
 }
 
 .menu-item .right {
-  position: absolute;
-  right: 20rpx;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 100rpx;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    position: absolute;
+    right: 20rpx;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 100rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .menu-item .badge {
-  margin-right: 20rpx;
+    margin-right: 20rpx;
 }
 
 .menu-item .cart {
-  width: 18rpx;
-  height: 18rpx;
-  border-top: 4rpx solid #8e8e93;
-  border-right: 4rpx solid #8e8e93;
-  transform: rotate(45deg);
+    width: 18rpx;
+    height: 18rpx;
+    border-top: 4rpx solid #8e8e93;
+    border-right: 4rpx solid #8e8e93;
+    transform: rotate(45deg);
 }
 
 .menu-item .menu-title {
-  color: #424242;
-  font-size: 32rpx;
-  margin: 0 20rpx;
+    color: #424242;
+    font-size: 32rpx;
+    margin: 0 20rpx;
 }
 
 .menu-item .desc {
-  color: #c5c5c5;
-  position: absolute;
-  right: 30rpx;
+    color: #c5c5c5;
+    position: absolute;
+    right: 30rpx;
 }
 
 .btn-session {
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-  position: absolute;
-  right: 0;
-  top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .collectNum {
-  color: #c7c7cb;
-  padding: 0 6rpx;
+    color: #c7c7cb;
+    padding: 0 6rpx;
 }

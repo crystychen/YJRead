@@ -18,8 +18,10 @@ Page({
         validViewCount: 0,
         todaygold: 0,
         isVip: false,
-        currentTab: 3
-
+        userVip: false,
+        currentTab: 3,
+        gold: 0,
+        ordernum: 0
     },
 
     /**
@@ -65,6 +67,15 @@ Page({
             if (wx.getStorageSync('authLevel') == 2) {
                 app.getAccount();
                 that.getTodayNumber(); // 今日数量
+                app.getUserVipList().then(res => {
+                    console.log(res)
+                    let length = res.data.infos.length
+                    if (length) {
+                        that.setData({
+                            userVip: true
+                        })
+                    }
+                })
                 app.getUserVip().then((res) => {
                     let VipEndTime = "",
                         overDate = "";

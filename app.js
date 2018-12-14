@@ -412,6 +412,7 @@ App({
             fail: res => {}
         })
     },
+    // 用户行为记录
     userAction(id, action_type) {
         postAjax({
             url: 'interfaceAction',
@@ -430,7 +431,7 @@ App({
             if (res.data.status == '00') {}
         })
     },
-    // 会员
+    // 会员信息
     getUserVip: function() {
         let app = this
         return new Promise(function(resolve, reject) {
@@ -459,7 +460,31 @@ App({
             })
         })
     },
-    // 获取任务列表
+    // 获取会员列表
+    getUserVipList() {
+        let app = this
+        return new Promise(function(resolve, reject) {
+            postAjax({
+                url: 'interfaceAction',
+                data: {
+                    interId: '20005',
+                    version: 1,
+                    authKey: wx.getStorageSync('authKey'),
+                    method: 'user-vip-list',
+                    params: {
+                        channelId: app.globalData.channelId
+                    }
+                }
+            }).then((res) => {
+                if (res.data.status == '00') {
+                    resolve(res)
+                } else {
+                    reject(res.data.resultMsg);
+                }
+            })
+        })
+    },
+    // 获取任务列表(判断是否有可领取任务及未完成的任务)
     getTasksList(callback) {
         let app = this
         postAjax({
@@ -476,8 +501,6 @@ App({
                 let currPage = pages[pages.length - 1]; //获取当前页面
 
                 let taskdata = res.data.infos;
-                let dailyTasks = []
-                let onceTasks = []
                 let isToReceive = false
                 let undone = ""
                 taskdata.map(function(element, index, array) {
@@ -505,5 +528,5 @@ App({
                 callback && callback()
             }
         })
-    },
+    }
 })

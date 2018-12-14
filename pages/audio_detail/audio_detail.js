@@ -64,33 +64,33 @@ Page({
                 })
 
                 // 获取背景音频信息
-                if (app.globalData.playAudio) {
-                    // console.log(wx.getStorageSync('playAudio').bookid)
-                    if (bookId == app.globalData.playAudio.bookid) {
+                // if (app.globalData.playAudio) {
+                //     // console.log(wx.getStorageSync('playAudio').bookid)
+                //     if (bookId == app.globalData.playAudio.bookid) {
 
-                        console.log(that.data.playStatus, 'playStatus')
+                //         console.log(that.data.playStatus, 'playStatus')
 
-                        const backgroundAudioManager = wx.getBackgroundAudioManager()
-                        console.log(backgroundAudioManager, 'backgroundAudioManager')
-                        console.log(backgroundAudioManager.paused, 'paused')
-                            // if (backgroundAudioManager.paused != 'undefined' && !backgroundAudioManager.paused) {
-                            //     that.setData({
-                            //         playStatus: true
-                            //     })
-                            // }
-                        that.setData({
-                            sectionName: app.globalData.playAudio.sectionName,
-                            playStatus: !backgroundAudioManager.paused,
-                            // duration: this.stotime(backgroundAudioManager.duration),
-                            // currentPosition: this.stotime(backgroundAudioManager.currentTime),
-                        })
-                        backgroundAudioManager.onPlay(that.onPlay) // 监听背景音频播放事件
-                        backgroundAudioManager.onPause(that.onPause) // 监听背景音频暂停事件
-                        backgroundAudioManager.onTimeUpdate(that.onTimeUpdate) // 监听背景音频播放进度更新事件
-                        backgroundAudioManager.onEnded(that.onEnded) // 监听背景音频自然播放结束事件
-                        backgroundAudioManager.onStop(that.onStop)
-                    }
-                }
+                //         const backgroundAudioManager = wx.getBackgroundAudioManager()
+                //         console.log(backgroundAudioManager, 'backgroundAudioManager')
+                //         console.log(backgroundAudioManager.paused, 'paused')
+                //             // if (backgroundAudioManager.paused != 'undefined' && !backgroundAudioManager.paused) {
+                //             //     that.setData({
+                //             //         playStatus: true
+                //             //     })
+                //             // }
+                //         that.setData({
+                //             sectionName: app.globalData.playAudio.sectionName,
+                //             playStatus: !backgroundAudioManager.paused,
+                //             // duration: this.stotime(backgroundAudioManager.duration),
+                //             // currentPosition: this.stotime(backgroundAudioManager.currentTime),
+                //         })
+                //         backgroundAudioManager.onPlay(that.onPlay) // 监听背景音频播放事件
+                //         backgroundAudioManager.onPause(that.onPause) // 监听背景音频暂停事件
+                //         backgroundAudioManager.onTimeUpdate(that.onTimeUpdate) // 监听背景音频播放进度更新事件
+                //         backgroundAudioManager.onEnded(that.onEnded) // 监听背景音频自然播放结束事件
+                //         backgroundAudioManager.onStop(that.onStop)
+                //     }
+                // }
                 that.bookDetail(bookId).then((res) => {
                     // console.log("图书详情", res)
                     WxParse.wxParse('about', 'html', res.book.about, that, 5);
@@ -108,6 +108,29 @@ Page({
                         audioList,
                         currentAudio: audioList[0] || ""
                     })
+                    if (app.globalData.playAudio) {
+                        // console.log(wx.getStorageSync('playAudio').bookid)
+                        if (bookId == app.globalData.playAudio.bookid) {
+
+                            console.log(that.data.playStatus, 'playStatus')
+
+                            const backgroundAudioManager = wx.getBackgroundAudioManager()
+                            console.log(backgroundAudioManager, 'backgroundAudioManager')
+                            console.log(backgroundAudioManager.paused, 'paused')
+
+                            that.setData({
+                                sectionName: app.globalData.playAudio.sectionName,
+                                playStatus: !backgroundAudioManager.paused,
+                                currentAudio: app.globalData.playAudio,
+                                audioIndex: app.globalData.audioIndex
+                            })
+                            backgroundAudioManager.onPlay(that.onPlay) // 监听背景音频播放事件
+                            backgroundAudioManager.onPause(that.onPause) // 监听背景音频暂停事件
+                            backgroundAudioManager.onTimeUpdate(that.onTimeUpdate) // 监听背景音频播放进度更新事件
+                            backgroundAudioManager.onEnded(that.onEnded) // 监听背景音频自然播放结束事件
+                            backgroundAudioManager.onStop(that.onStop)
+                        }
+                    }
                 })
             })
             app.getShareData(4); // 转发语
@@ -173,16 +196,7 @@ Page({
      * 页面滚动
      */
     onPageScroll: function(e) {
-        // console.log(e); //{scrollTop:99}
-        // if (e.scrollTop >= 400) {
-        //     this.setData({
-        //         isShowFloat: true
-        //     })
-        // } else if (e.scrollTop < 400) {
-        //     this.setData({
-        //         isShowFloat: false
-        //     })
-        // }
+
     },
     // 授权用户登录
     onGotUserInfo: function(e) {
@@ -269,17 +283,7 @@ Page({
                         console.log(res)
                         if (res.errMsg == 'shareAppMessage:ok') {
                             //分享为按钮转发
-                            // if (_this.data.shareBtn) {
-                            //     //判断是否分享到群
-                            //     if (res.hasOwnProperty('shareTickets')) {
-                            //         console.log(res.shareTickets[0]);
-                            //         //分享到群
-                            //         _this.data.isshare = 1;
-                            //     } else {
-                            //         // 分享到个人
-                            //         _this.data.isshare = 0;
-                            //     }
-                            // }
+
                             console.log("分享成功")
                                 // that.postOrderSubmit()
                         } else {
@@ -338,23 +342,14 @@ Page({
         })
         let that = this
         setTimeout(() => {
-                // if (that.data.playStatus === true) {
-                that.beginPlay()
-                    // }
-            }, 1000)
-            // wx.setStorageSync('audioIndex', audioIndexNow)
-            // wx.setStorageSync('playAudio', {
-            //     bookid: that.data.bookId,
-            //     pid: that.data.pid,
-            //     sectionName: audioList[audioIndex].sectionName,
-            //     audioIndex: audioIndexNow
-            // })
-        app.globalData.audioIndex = audioIndexNow
+            that.beginPlay()
+        }, 1000)
 
+        app.globalData.audioIndex = audioIndexNow
         app.globalData.playAudio = {
             bookid: that.data.bookId,
             pid: that.data.pid,
-            sectionName: audioList[audioIndex].sectionName,
+            sectionName: this.data.audioList[audioIndexNow].sectionName,
             audioIndex: audioIndexNow
         }
     },
@@ -377,23 +372,16 @@ Page({
         })
         let that = this
         setTimeout(() => {
-                // if (that.data.playStatus === true) {
-                that.beginPlay()
-                    // }
-            }, 1000)
-            // wx.setStorageSync('audioIndex', audioIndexNow)
-            // wx.setStorageSync('playAudio', {
-            //     bookid: that.data.bookId,
-            //     pid: that.data.pid,
-            //     sectionName: audioList[audioIndex].sectionName,
-            //     audioIndex: audioIndexNow
-            // })
-        app.globalData.audioIndex = audioIndexNow
+            // if (that.data.playStatus === true) {
+            that.beginPlay()
+                // }
+        }, 1000)
 
+        app.globalData.audioIndex = audioIndexNow
         app.globalData.playAudio = {
             bookid: that.data.bookId,
             pid: that.data.pid,
-            sectionName: audioList[audioIndex].sectionName,
+            sectionName: this.data.audioList[audioIndexNow].sectionName,
             audioIndex: audioIndexNow
         }
     },
@@ -426,7 +414,6 @@ Page({
                 }
             } else {
                 console.log("播放下一首222")
-                backgroundAudioManager.current
                 this.beginPlay()
             }
 
@@ -434,12 +421,7 @@ Page({
                 playStatus: true
             })
         }
-        // if (backgroundAudioManager.paused) {
-        //     backgroundAudioManager.play()
-        //     this.setData({ playStatus: true })
-        // }else {
-        //   this.beginPlay()
-        // }
+
     },
     beginPlay(e) {
         let {
@@ -647,14 +629,6 @@ Page({
                         })
                     })
                 } else {
-                    // if (orderType != 2) {
-                    //     // 兑换成功
-                    //     setTimeout(function() {
-                    //         that.setData({
-                    //             successModal: true
-                    //         })
-                    //     }, 1000)
-                    // }
                     callback && callback(res)
                 }
                 // callback && callback(res)
@@ -712,14 +686,6 @@ Page({
                 })
             }
         })
-
-        // this.postOrderSubmit([], 2, (res) => {
-        //     console.log("砍价发起", res)
-        //     wx.navigateTo({
-        //         url: `/pages/cut_down/cut_down?orderid=${res.data.orderId}`
-        //     })
-        //     that.orderBargain(res.data.orderId, 1) // 砍第一刀
-        // })
     },
     // 是否发起砍价
     getIsCutting(pid) {
@@ -842,12 +808,6 @@ Page({
             })
         }
     },
-    // appid：appid,
-    // advertId：任务对象ID（旧广告id）,
-    // advertIconUrl：任务图标（旧广告图标,）
-    // advertDescribe: 任务描述（旧广告描述）,
-    // durationSecond：任务时长（秒）（新参数）, 
-    // type：任务类型（默认1）：1 - 广告（游戏）；5 - 福利商品（音频）；,
     // 提交记录时间
     postReadTime(pid, second, type) {
         postAjax({

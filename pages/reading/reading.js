@@ -127,6 +127,14 @@ Page({
                     })
 
                     if (wx.getStorageSync("authLevel") == 2) {
+                        app.getUserVipList().then(res => {
+                            let length = res.data.infos.length
+                            if (length) {
+                                that.setData({
+                                    userVip: true
+                                })
+                            }
+                        })
                         app.getUserVip().then((res) => {
                             let VipEndTime = "",
                                 overDate = "";
