@@ -1,6 +1,7 @@
 {
     "pages": [
         "pages/index/index",
+        "pages/welcome/welcome",        
         "pages/article_detail/article_detail",
         "pages/daily_task/daily_task",
         "pages/my/my",

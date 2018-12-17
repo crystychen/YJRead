@@ -25,6 +25,8 @@ Page({
 
     onLoad: function(options) {
         let that = this
+        wx.hideTabBar()
+
         console.log(options)
             // wx.showLoading({ //期间为了显示效果可以添加一个过度的弹出框提示“加载中”  
             //     title: '加载中',
@@ -601,16 +603,6 @@ Page({
                     })
 
                 } else {
-                    // 兑换成功提示加入书架
-                    // wx.showToast({
-                    //     title: '已放入书架',
-                    //     icon: "none",
-                    //     success: (res) => {
-                    //         // wx.navigateTo({
-                    //         //     url: '/pages/orderlist/orderlist',
-                    //         // })
-                    //     }
-                    // })
                     callback && callback(res)
                 }
             } else {
@@ -641,5 +633,11 @@ Page({
     },
     onChangeTab() {
 
+    },
+    // 提交模板formId
+    formSubmitFormId(e) {
+        console.log(e)
+        app.postFormId(e.detail.formId);
+        console.log(e.detail.formId)
     }
 })

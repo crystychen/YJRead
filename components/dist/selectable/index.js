@@ -40,6 +40,7 @@ Component({
                 })
             },
         },
+        
         controlled: {
             type: Boolean,
             value: false,
@@ -47,7 +48,7 @@ Component({
         wrapStyle: {
             type: String,
             value: '',
-        },
+        }
     },
     data: {
         inputChecked: false,

@@ -1,0 +1,33 @@
+<!-- pages/welcome/welcome.wxml -->
+<view class="container">
+  <view class="title">
+    欢迎来到
+    <view class="name">汗牛书屋</view>
+  </view>
+  <text class="tip">您已获得免费听书特权, 请选择您感兴趣的内容</text>
+  <!-- 选项列表 -->
+  <view class="checkbox-group">
+<checkbox-group bindchange="checkboxChange">
+    <!-- <label class="checkbox" wx:for="{{items}}">
+        <checkbox value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+    </label> -->
+    <label class="checkbox" >
+        <checkbox class="checkbox_input" value="" checked="true" />
+        <view class="checkbox_content">
+            <text>文学</text>
+            <image class="checkbox_icon"  ></image>
+        </view>
+    </label>
+    <label class="checkbox" >
+        <checkbox class="checkbox_input" value="" checked="{{false}}" />
+           <view class="checkbox_content">
+            <text>历史</text>
+            <image class="checkbox_icon"  ></image>
+        </view>
+    </label>
+</checkbox-group>
+  </view>
+  <view class="btn-contaier">
+    <view class="btn large-btn active">确定</view>
+  </view>
+</view>

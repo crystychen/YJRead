@@ -1,6 +1,6 @@
 <!-- pages/reading/reading.wxml -->
 <!-- <wux-backdrop id="wux-backdrop" /> -->
-<view class="container">
+<view class="container" >
   <scroll-view id="awardId" scroll-x="true" class="nav" scroll-left="{{navScrollLeft}}" scroll-with-animation="{{true}}">
     <block wx:for="{{contentGroupList}}" wx:for-index="idx" wx:for-item="navItem" wx:key="idx">
       <view class="nav-item {{currentTab == idx?'active':''}}" data-current="{{idx}}" data-postgroupid="{{navItem[0]}}" bindtap="switchNav">
@@ -39,11 +39,9 @@
                 <view class='icon-wrap' data-id="{{item[0]}}" data-iscollected="{{item[10]}}" catchtap='{{isDeal?"preventBubble":"toggleCollect"}}'>
                   <block wx:if="{{item[10] == 0}}">
                     <image class='xs_icon' src="/images/star-icon.png"></image>
-                    <!-- <text>16</text> -->
                   </block>
                   <block wx:else>
                     <image class='xs_icon' src="/images/star-icon-collected.png"></image>
-                    <!-- <text>17</text> -->
                   </block>
                 </view>
                 <view class='share' data-shareurl="{{item[8]}}" data-shareArtid="{{item[0]}}" catchtap="showShareBoard">

@@ -38,7 +38,7 @@ page {
 
 .container {
   background: #f6f6f6;
-  /* padding-bottom: 0; */
+  padding-bottom: 0;
   overflow-y: hidden;
   height: 100%;
   position: relative;

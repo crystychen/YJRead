@@ -1,0 +1,124 @@
+/* pages/welcome/welcome.wxss */
+
+/* checkbox */
+
+.checkbox {
+  position: relative;
+  width: 100rpx;
+  height: 100rpx;
+  background: #ccc;
+  display: inline-block;
+  margin: 20rpx;
+}
+
+.checkbox_input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  border: 0 none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkbox_icon {
+  display: inline-block;
+  font-size: 0;
+  vertical-align: middle;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-left: 10rpx;
+  margin-right: 10rpx;
+  width: 40rpx;
+  height: 40rpx;
+}
+.checkbox_icon.checked {
+  background: #000;
+}
+.checkbox_content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkbox_content > text {
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.container {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 30rpx;
+  /* height: 60rpx;
+    line-height: 60rpx; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.name {
+  position: relative;
+  padding: 0 12rpx;
+  margin: 0 20rpx;
+  /* height: 60rpx */
+}
+
+.name::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4rpx;
+  height: 16rpx;
+  width: 6rpx;
+  /* background: #000; */
+  border-top: 4rpx solid #000;
+  border-left: 4rpx solid #000;
+}
+
+.name::after {
+  content: "";
+  position: absolute;
+  bottom: 4rpx;
+  right: 0;
+  height: 16rpx;
+  width: 6rpx;
+  border-bottom: 4rpx solid #000;
+  border-right: 4rpx solid #000;
+}
+
+.tip {
+  font-size: 24rpx;
+  margin: 20rpx 0;
+}
+
+.large-btn {
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 30rpx;
+  border-radius: 50rpx;
+  width: 460rpx;
+  box-shadow: 0rpx 4rpx 14rpx 0rpx rgba(0, 0, 0, 0.3);
+  position: relative;
+  margin: 20rpx auto;
+}

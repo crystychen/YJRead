@@ -43,7 +43,12 @@
         <view class="time" wx:if="{{userVip}}">{{VipEndTime?VipEndTime+'  到期':'已过期'}}</view>
         <view class="btn-wrap center-right" data-appid="{{item.appid}}" data-path="{{item.path}}" slot>
           <view class="btn disabled" wx:if="{{isVip}}">已领取</view>
-          <view class="btn active" wx:else bindtap="bindReceive">领取</view>
+          <view class="btn active" wx:else bindtap="bindReceive">
+            领取
+            <form bindsubmit="formSubmitFormId" class="formId" report-submit="true ">
+              <button formType="submit" ></button>
+            </form>
+          </view>
         </view>
       </wux-media>
     </view>

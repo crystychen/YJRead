@@ -2,12 +2,6 @@
 <import src="../../wxParse/wxParse.wxml" />
 <view class="container">
   <view class="audio-wrap">
-    <!-- 背景图,高斯模糊 -->
-    <!-- <view class="bcg">
-      <image class="" src="/images/hebe.jpg" mode="scaleToFill" lazy-load="false" binderror="" bindload=""></image>
-    </view> -->
-    <!-- 灰色蒙层 -->
-    <!-- <view class="bcg-gray"></view> -->
     <!-- play层 -->
     <view class="audio-infos">
       <!-- 旋转图 -->
@@ -25,7 +19,7 @@
           <view class="tag" wx:if="{{!book.isBuy && !isVip && currentAudio.isAudition}}">试听</view>
           <view class="desc">
             <i-notice-bar loop="{{playStatus}}" backgroundcolor="#fff" color="#ccc">
-              {{currentAudio.sectionName || sectionName}} {{currentAudio.sectionName || sectionName}}
+              {{currentAudio.sectionName}} {{currentAudio.sectionName}}
             </i-notice-bar>
           </view>
         </view>
@@ -121,17 +115,25 @@
                 <image class="cell_thumb" src="{{ thumb }}" />
               </block>
             </view>
-            <view class="cell_bd">{{item.sectionName}}</view>
+            <view class="cell_bd}}">{{item.sectionName}}</view>
             <view class="cell_desc">
               <view class="cell-lock">
-                <block wx:if="{{item.sectionUrl && item.isAudition}}">
+                <block wx:if="{{item.sectionUrl && item.isAudition && !book.isBuy && !isVip }}">
                   <!-- <wux-tag color="#1193FE"></wux-tag> -->
                   <view class="tag">试听</view>
                 </block>
                 <block wx:elif="{{!item.sectionUrl && !item.isAudition }}">
                   <image class="xs_icon" src="/images/lock.png"></image>
                 </block>
-                <block wx:else></block>
+                <block wx:elif="{{audioIndex != index }}">
+                  <text class="tag">第{{index+1}}章</text>
+                </block>
+                <block wx:elif="{{audioIndex == 0 && !playStatus }}">
+                  <text class="tag">第{{index+1}}章</text>
+                </block>
+                <block wx:if="{{audioIndex ==  index && playStatus}}">
+                  <image class="xs_icon playing-icon" src="/images/playing-icon.png"></image>
+                </block>
               </view>
               <view class="clock-wrap">
                 <image class="xs_icon" src="/images/clock.png"></image>

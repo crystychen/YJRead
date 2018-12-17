@@ -1,0 +1,6 @@
+{
+    "usingComponents": {
+        "wux-radio-group": "../../components/dist/radio-group/index",
+        "wux-radio": "../../components/dist/radio/index"
+    }
+}

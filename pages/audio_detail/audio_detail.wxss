@@ -9,6 +9,16 @@
     padding-bottom: 0
 }
 
+.text.active {
+    color: #3772fb;
+}
+
+.playing-icon {
+    width: 50rpx;
+    height: 50rpx;
+    margin-left: 20rpx;
+}
+
 
 /* .btn.active {
     background: #1393FC;
@@ -175,6 +185,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 .icon-wrap {
@@ -188,6 +199,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center; */
+    overflow: hidden
 }
 
 .icon-wrap .icon {
@@ -272,7 +284,7 @@
 }
 
 .cell {
-    padding: 0;
+    /* padding: 0; */
     margin: 0;
     border-radius: 0;
     color: inherit;
@@ -282,6 +294,7 @@
     text-align: inherit;
     padding: 20rpx 30rpx;
     position: relative;
+    box-sizing: border-box;
     /* background: #fff; */
     /* margin-left: 30rpx; */
     /* border-bottom: 1rpx solid #E6E6E6; */
@@ -329,6 +342,10 @@
     flex: 1
 }
 
+.cell_bd.active {
+    color: #3772fb;
+}
+
 .cell_desc {
     display: flex;
     flex-direction: row;
@@ -349,7 +366,7 @@
 .clock {
     margin: 0 10rpx;
     color: #a5a5ac;
-    font-size:26rpx;
+    font-size: 26rpx;
 }
 
 .tag {
@@ -391,7 +408,7 @@
     margin: 0rpx auto;
     background: #ffffff;
     border-radius: 10rpx;
-    box-shadow:0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);   
+    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(96, 96, 96, 0.2);
 }
 
 .media-body {
@@ -444,12 +461,15 @@
 }
 
 .tab-content {
-  padding-bottom: 100rpx;  
-  background: #F6F6F6
+    padding-bottom: 100rpx;
+    background: #F6F6F6
 }
+
 .tab-content.none-btn {
-  padding-bottom: 0rpx;    
+    padding-bottom: 0rpx;
 }
+
+
 /* 导航tab */
 
 .nav {
@@ -498,7 +518,6 @@
     width: 40rpx;
     margin: 0 auto;
     border-radius: 4rpx;
-
 }
 
 
@@ -606,6 +625,8 @@
 
 
 /* 按钮 */
+
+
 /* 
 .share-btn {
     width: 100rpx;

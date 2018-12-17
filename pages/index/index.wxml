@@ -1,7 +1,8 @@
 <!-- index.wxml -->
 <import src="../../wxParse/wxParse.wxml" />
 <view class="container" style="height: {{windowHeight}}px;">
-  <scroll-view scroll-y="true" style="height: {{windowHeight}}px;" scroll-with-animation="true" bindscrolltolower="loadMoreData" scroll-into-view="{{toView}}">
+  <!-- <scroll-view scroll-y="true" style="height: {{windowHeight}}px;" scroll-with-animation="true" bindscrolltolower="loadMoreData" scroll-into-view="{{toView}}"> -->
+    <view style="height: {{windowHeight}}px;" >
     <!-- 轮播图 -->
     <view class='banner-wrap' wx:if="{{bannerData.length}}">
       <swiper class='banner' indicator-dots="{{false}}" autoplay="{{false}}" previous-margin="60rpx" next-margin="60rpx" circular='{{false}}' bindchange="onSwiperChange" bindanimationfinish="onSwiperAnimationFinish">
@@ -28,9 +29,11 @@
                 <view class="btn-container">
                   <view class="btn large-btn" hover-class="none" hover-stop-propagation="false">
                     <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
-                    <view class="btn large-btn active" style="" data-id="{{book.id}}" data-isbuy="{{book.isBuy}}" bindtap="bindClickCard">
-                      点击收听
-                    </view>
+                    <form bindsubmit="formSubmitFormId" style="margin: 0 auto;" report-submit="true ">
+                      <button formType="submit" data-id="{{book.id}}" data-isbuy="{{book.isBuy}}" bindtap="bindClickCard">
+                        <view class="btn large-btn active" style="">点击收听</view>
+                      </button>
+                    </form>
                   </view>
                   <!-- <view class="btn large-btn active" data-id="{{book.id}}" wx:else bindtap="bindClickCard">
                     点击收听
@@ -78,9 +81,13 @@
                   </view>
                 </view>
                 <view class="btn-container free-card">
-                  <view class="btn large-btn active" data-gtitle="{{item.name}}" data-groupid="{{item.id}}" catchtap="toShareDetail">
-                    查看更多
-                  </view>
+                  <form bindsubmit="formSubmitFormId" style="margin: 0 auto;" report-submit="true ">
+                    <button formType="submit" data-gtitle="{{item.name}}" data-groupid="{{item.id}}" catchtap="toShareDetail">
+                      <view class="btn large-btn active" >
+                        查看更多
+                      </view>
+                    </button>
+                  </form>
                 </view>
               </view>
             </swiper-item>
@@ -88,11 +95,12 @@
         </block>
       </swiper>
     </view>
-  </scroll-view>
+  <!-- </scroll-view> -->
+  </view>
   <!-- bindchange="onChangeTab" -->
-  <wux-tabbar  current="{{currentTab}}" controlled bindchange="onChangeTab" position="bottom">
+  <wux-tabbar current="{{currentTab}}" controlled bindchange="onChangeTab" position="bottom">
     <!-- <navigator> -->
-    <wux-tabbar-item title="福利" bindclick="toTabIndex" >
+    <wux-tabbar-item title="福利" bindclick="toTabIndex">
       <wux-badge slot="icon-on">
         <image class="bar-icon" src="/images/welfare.png"></image>
       </wux-badge>
@@ -102,34 +110,34 @@
     </wux-tabbar-item>
     <!-- </navigator> -->
     <!-- <navigator open-type='redirect' url="/pages/shopMall/shopMall"> -->
-      <wux-tabbar-item title="书城" bindclick="toTabShopMall">
-        <wux-badge slot="icon-on">
-          <image class="bar-icon" src="/images/books.png"></image>
-        </wux-badge>
-        <wux-badge slot="icon-off">
-          <image class="bar-icon" src="/images/books_active.png"></image>
-        </wux-badge>
-      </wux-tabbar-item>
+    <wux-tabbar-item title="书城" bindclick="toTabShopMall">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/books.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/books_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
     <!-- </navigator> -->
     <!-- <navigator open-type='redirect' url="/pages/reading/reading"> -->
-      <wux-tabbar-item title="阅读" bindclick="toTabReading">
-        <wux-badge slot="icon-on">
-          <image class="bar-icon" src="/images/read.png"></image>
-        </wux-badge>
-        <wux-badge slot="icon-off">
-          <image class="bar-icon" src="/images/read_active.png"></image>
-        </wux-badge>
-      </wux-tabbar-item>
+    <wux-tabbar-item title="阅读" bindclick="toTabReading">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/read.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/read_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
     <!-- </navigator> -->
     <!-- <navigator open-type='redirect' url="/pages/my/my"> -->
-      <wux-tabbar-item title="我的" bindclick="toTabMy">
-        <wux-badge dot="{{isToReceive || !undone}}" slot="icon-on">
-          <image class="bar-icon" src="/images/my.png"></image>
-        </wux-badge>
-        <wux-badge dot="{{isToReceive || !undone}}" slot="icon-off">
-          <image class="bar-icon" src="/images/my_active.png"></image>
-        </wux-badge>
-      </wux-tabbar-item>
+    <wux-tabbar-item title="我的" bindclick="toTabMy">
+      <wux-badge dot="{{isToReceive || !undone}}" slot="icon-on">
+        <image class="bar-icon" src="/images/my.png"></image>
+      </wux-badge>
+      <wux-badge dot="{{isToReceive || !undone}}" slot="icon-off">
+        <image class="bar-icon" src="/images/my_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
     <!-- </navigator> -->
   </wux-tabbar>
 </view>
