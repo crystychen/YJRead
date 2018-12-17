@@ -2,60 +2,60 @@
 
 /* checkbox */
 
+.checkbox-group {
+  width: 54%;
+  margin: 90rpx auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 .checkbox {
   position: relative;
-  width: 100rpx;
-  height: 100rpx;
-  background: #ccc;
-  display: inline-block;
-  margin: 20rpx;
-}
-
-.checkbox_input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  border: 0 none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  display: flex;
+  width: 160rpx;
+  height: 160rpx;
+  background: #f8f8f8;
+  display: inline-flex;
   flex-direction: row;
   align-items: center;
-}
-
-.checkbox_icon {
-  display: inline-block;
-  font-size: 0;
-  vertical-align: middle;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin-left: 10rpx;
-  margin-right: 10rpx;
-  width: 40rpx;
-  height: 40rpx;
-}
-.checkbox_icon.checked {
-  background: #000;
-}
-.checkbox_content {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.checkbox_content > text {
-  width: 100%;
-  display: block;
   text-align: center;
+  justify-content: center;
+  margin: 20rpx;
+  border-radius: 10rpx;
+}
+checkbox .wx-checkbox-input {
+  border-radius: 50%; /* 圆角 */
+  width: 40rpx; /* 背景的宽 */
+  height: 40rpx; /* 背景的高 */
+  border: none;
+  background: transparent;
+  position: absolute;
+  bottom: -12rpx;
+  right: -12rpx;
+}
+
+/* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */
+checkbox .wx-checkbox-input.wx-checkbox-input-checked {
+  background: linear-gradient(to bottom right, #7c42f2, #4966f9);
+  border: 1rpx solid #0a3ec9;
+  color: #fff;
+}
+
+/* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
+
+checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
+  border-radius: 50%; /* 圆角 */
+  width: 40rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+  height: 40rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+  line-height: 40rpx;
+  text-align: center;
+  font-size: 30rpx; /* 对勾大小 30rpx */
+  color: #fff; /* 对勾颜色 白色 */
+  background: transparent;
+  transform: translate(-50%, -50%) scale(1);
+  -webkit-transform: translate(-50%, -50%) scale(1);
 }
 
 .container {
@@ -64,6 +64,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 60rpx;
 }
 
 .title {
@@ -80,7 +81,7 @@
   position: relative;
   padding: 0 12rpx;
   margin: 0 20rpx;
-  /* height: 60rpx */
+  font-size: 32rpx;
 }
 
 .name::before {
@@ -121,4 +122,81 @@
   box-shadow: 0rpx 4rpx 14rpx 0rpx rgba(0, 0, 0, 0.3);
   position: relative;
   margin: 20rpx auto;
+}
+
+/* modal */
+.modal-mask {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    overflow: hidden;
+    z-index: 1000;
+    color: #fff;
+}
+
+.modal {
+    position: fixed;
+    top: 40rpx;
+    left: 50%;
+    transform: translate(-50%);
+    width: 610rpx;
+    height: 1050rpx;
+    z-index: 1001;
+    border-radius: 20rpx;
+    background: #fff;
+    overflow: hidden
+}
+
+.close {
+    position: absolute;
+    right: 20rpx;
+    top: 10rpx;
+    text-align: center;
+    font-weight: bold;
+    z-index: 1;
+    font-size: 36rpx;
+    color: #fff;
+}
+
+.close::before {
+    content: "\2716";
+}
+.modal-header {
+  width: 100%;
+  height: 160rpx;
+  background: #24418D;
+  color: #fff;
+  position: relative;
+  /* border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx; */
+  overflow: hidden
+}
+.header-name {
+    height: 160rpx;
+    line-height: 160rpx;
+    width: 100%;
+    padding: 0 20rpx;
+    box-sizing: border-box;
+    font-size: 32rpx;
+    font-weight: bold;
+}
+.modal-header .img {
+  width: 100%;
+  height: 160rpx;
+  /* background: #fff */
+  background: #24418D;  
+  position: absolute;
+  top: 0
+}
+.modal .btn-container {
+  position: absolute;
+  bottom: 0
+}
+.modal .btn-container .btn {
+  border-bottom-left-radius: 20rpx;
+  border-bottom-right-radius: 20rpx;
 }

@@ -5,14 +5,54 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    
+    checkItems: [
+      { 
+        value: 'cul',
+        text: "文学",
+        checked: 'true'
+      },
+      {
+        value: 'his',
+        text: "历史",
+        checked: false
+      },
+      {
+        value: 'science',
+        text: "科普",
+        checked: true
+      },
+      {
+        value: 'story',
+        text: "传记",
+        checked: true
+      },
+      {
+        value: 'business',
+        text: "商业",
+        checked: true
+      },
+      {
+        value: 'emotions',
+        text: "亲子",
+        checked: true
+      }
+    ]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let radioValue = []
+    this.data.checkItems.map((element, index, array) => {
+      if (element.checked) {
+          radioValue.push(element.value)
+      }
+    })
+    this.setData({
+      radioValue
+    })
   },
 
   /**
@@ -62,5 +102,23 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  // 复选框变化
+  checkboxChange(e) {
+    console.log(e)
+    let value = e.detail.value
+    this.setData({
+      radioValue: value
+    })
+  },
+  closeModal() {
+    this.setData({
+      recmenPopup: false
+    })
+  },
+  onConfirm () {
+    this.setData({
+      recmenPopup: true
+    })
   }
 })

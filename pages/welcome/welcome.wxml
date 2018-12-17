@@ -7,27 +7,35 @@
   <text class="tip">您已获得免费听书特权, 请选择您感兴趣的内容</text>
   <!-- 选项列表 -->
   <view class="checkbox-group">
-<checkbox-group bindchange="checkboxChange">
-    <!-- <label class="checkbox" wx:for="{{items}}">
+    <checkbox-group bindchange="checkboxChange">
+      <!-- <label class="checkbox" wx:for="{{items}}">
         <checkbox value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
     </label> -->
-    <label class="checkbox" >
-        <checkbox class="checkbox_input" value="" checked="true" />
-        <view class="checkbox_content">
-            <text>文学</text>
-            <image class="checkbox_icon"  ></image>
-        </view>
-    </label>
-    <label class="checkbox" >
-        <checkbox class="checkbox_input" value="" checked="{{false}}" />
-           <view class="checkbox_content">
-            <text>历史</text>
-            <image class="checkbox_icon"  ></image>
-        </view>
-    </label>
-</checkbox-group>
+      <label class="checkbox" wx:for="{{checkItems}}" wx:key="index">
+        <checkbox class="checkbox_input {{item.checked?'checked':''}}" value="{{item.value}}" checked="{{item.checked}}" />{{item.text}}
+      </label>
+    </checkbox-group>
   </view>
   <view class="btn-contaier">
-    <view class="btn large-btn active">确定</view>
+    <view class="btn large-btn active" bindtap="onConfirm">确定</view>
+  </view>
+</view>
+
+<!-- mdoal -->
+<view class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closeModal" hidden="{{!recmenPopup}}"></view>
+<view class='modal' catchtouchmove="preventTouchMove" hidden="{{!recmenPopup}}">
+  <view bindtap="closeModal" class="mid_icon close"></view>
+  <view class='modal-header'>
+    <text class='header-name'>Hi, 小精灵</text>
+    <image class="img" src=''></image>
+  </view>
+  <!-- <image class="bcgImg" src="/images/popupbcg.png"></image> -->
+  <view class='modal-content'>
+  <scroll-view scroll-y="true" style="height: 800rpx;" scroll-with-animation="true" bindscrolltolower="loadMoreData" scroll-into-view="{{toView}}">
+
+  </scroll-view>
+  </view>
+  <view class='btn-container'>
+    <button class='btn active' bindtap="">限时免费收听</button>
   </view>
 </view>
