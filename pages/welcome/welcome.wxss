@@ -25,10 +25,14 @@
   margin: 20rpx;
   border-radius: 10rpx;
 }
+
 checkbox .wx-checkbox-input {
-  border-radius: 50%; /* 圆角 */
-  width: 40rpx; /* 背景的宽 */
-  height: 40rpx; /* 背景的高 */
+  border-radius: 50%;
+  /* 圆角 */
+  width: 40rpx;
+  /* 背景的宽 */
+  height: 40rpx;
+  /* 背景的高 */
   border: none;
   background: transparent;
   position: absolute;
@@ -37,6 +41,7 @@ checkbox .wx-checkbox-input {
 }
 
 /* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */
+
 checkbox .wx-checkbox-input.wx-checkbox-input-checked {
   background: linear-gradient(to bottom right, #7c42f2, #4966f9);
   border: 1rpx solid #0a3ec9;
@@ -46,13 +51,18 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked {
 /* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
 
 checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
-  border-radius: 50%; /* 圆角 */
-  width: 40rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
-  height: 40rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+  border-radius: 50%;
+  /* 圆角 */
+  width: 40rpx;
+  /* 选中后对勾大小，不要超过背景的尺寸 */
+  height: 40rpx;
+  /* 选中后对勾大小，不要超过背景的尺寸 */
   line-height: 40rpx;
   text-align: center;
-  font-size: 30rpx; /* 对勾大小 30rpx */
-  color: #fff; /* 对勾颜色 白色 */
+  font-size: 30rpx;
+  /* 对勾大小 30rpx */
+  color: #fff;
+  /* 对勾颜色 白色 */
   background: transparent;
   transform: translate(-50%, -50%) scale(1);
   -webkit-transform: translate(-50%, -50%) scale(1);
@@ -125,78 +135,159 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
 }
 
 /* modal */
+
 .modal-mask {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 1;
-    overflow: hidden;
-    z-index: 1000;
-    color: #fff;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 1;
+  overflow: hidden;
+  z-index: 1000;
+  color: #fff;
 }
 
 .modal {
-    position: fixed;
-    top: 40rpx;
-    left: 50%;
-    transform: translate(-50%);
-    width: 610rpx;
-    height: 1050rpx;
-    z-index: 1001;
-    border-radius: 20rpx;
-    background: #fff;
-    overflow: hidden
+  position: fixed;
+  top: 40rpx;
+  left: 50%;
+  transform: translate(-50%);
+  width: 610rpx;
+  height: 1050rpx;
+  z-index: 1001;
+  border-radius: 20rpx;
+  background: #fff;
+  overflow: hidden;
 }
 
 .close {
-    position: absolute;
-    right: 20rpx;
-    top: 10rpx;
-    text-align: center;
-    font-weight: bold;
-    z-index: 1;
-    font-size: 36rpx;
-    color: #fff;
+  position: absolute;
+  right: 20rpx;
+  top: 10rpx;
+  text-align: center;
+  font-weight: bold;
+  z-index: 1;
+  font-size: 36rpx;
+  color: #fff;
 }
 
 .close::before {
-    content: "\2716";
+  content: "\2716";
 }
+
 .modal-header {
   width: 100%;
   height: 160rpx;
-  background: #24418D;
+  background: #24418d;
   color: #fff;
   position: relative;
   /* border-top-left-radius: 20rpx;
   border-top-right-radius: 20rpx; */
-  overflow: hidden
+  overflow: hidden;
 }
+
 .header-name {
-    height: 160rpx;
-    line-height: 160rpx;
-    width: 100%;
-    padding: 0 20rpx;
-    box-sizing: border-box;
-    font-size: 32rpx;
-    font-weight: bold;
+  height: 160rpx;
+  line-height: 160rpx;
+  width: 100%;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  font-size: 32rpx;
+  font-weight: bold;
 }
+
 .modal-header .img {
   width: 100%;
   height: 160rpx;
   /* background: #fff */
-  background: #24418D;  
+  background: #24418d;
   position: absolute;
-  top: 0
+  top: 0;
 }
+
 .modal .btn-container {
   position: absolute;
-  bottom: 0
+  bottom: 0;
 }
+
 .modal .btn-container .btn {
   border-bottom-left-radius: 20rpx;
   border-bottom-right-radius: 20rpx;
+}
+
+/* vertical item */
+
+.vertical-item {
+  position: relative;
+  /* width: 100%; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 30rpx 0 30rpx 0;
+  border-bottom: 1rpx solid #e5e5e5;
+  margin: 0 20rpx;
+}
+
+.vertical-item:first-child {
+  /* padding-top: 10rpx; */
+}
+
+.vertical-item:last-child {
+  border: none;
+}
+
+.vertical-item .info {
+  position: relative;
+  /* height: 246rpx; */
+  height: 166rpx;
+  width: 460rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-left: 20rpx;
+}
+
+.vertical-item .info .title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #000;
+  /* margin-bottom: 30rpx; */
+}
+
+.vertical-item .img {
+  width: 120rpx;
+  height: 166rpx;
+  /* width: 140rpx;
+  height: 180rpx; */
+  border-radius: 10rpx;
+  box-shadow: 0rpx 0rpx 10rpx 0rpx #eee9e5;
+}
+
+.vertical-item .infos-desc {
+  display: inline-block;
+  color: #c5c5c5;
+  /* height: 74rpx; */
+  overflow: hidden;
+  display: -webkit-box;
+  white-space: initial;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.vertical-item .item-btn {
+  position: absolute;
+  right: 0;
+  width: 130rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  background: #ebf1ff;
+  color: #3871fe;
+  border-radius: 50rpx;
+  box-sizing: border-box;
+
 }
