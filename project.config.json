@@ -96,7 +96,7 @@
 					"id": 9,
 					"name": "音频详情",
 					"pathName": "pages/audio_detail/audio_detail",
-					"query": "pid=2756"
+					"query": "pid=1546"
 				},
 				{
 					"id": -1,

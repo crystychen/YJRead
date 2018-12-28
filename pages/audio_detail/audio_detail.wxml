@@ -17,6 +17,7 @@
         <!-- 章节滚动 -->
         <view class="row center" hover-class="none" hover-stop-propagation="false" style="visibility: {{playStatus?'visible':'visible'}}">
           <view class="tag" wx:if="{{!book.isBuy && !isVip && currentAudio.isAudition}}">试听</view>
+          <view class="tag" wx:else>第{{audioIndex+1}}章</view>
           <view class="desc">
             <i-notice-bar loop="{{playStatus}}" backgroundcolor="#fff" color="#ccc">
               {{currentAudio.sectionName}} {{currentAudio.sectionName}}
@@ -39,15 +40,10 @@
             <view class="icon-wrap">
               <block wx:if="{{playStatus === true}}">
                 <image class="icon" src='/images/play.png'>
-                  <!-- <view class="suspend"></view> -->
                 </image>
               </block>
               <block wx:else>
-                <!-- <view class="icon">
-                  <view class="cart"></view>
-                </view> -->
                 <image class="icon" src='/images/stop.png'>
-                  <!-- <view class="suspend"></view> -->
                 </image>
               </block>
             </view>
@@ -107,21 +103,26 @@
             <view class="cell_bd}}">{{item.sectionName}}</view>
             <view class="cell_desc">
               <view class="cell-lock">
-                <block wx:if="{{item.sectionUrl && item.isAudition && !book.isBuy && !isVip }}">
-                  <!-- <wux-tag color="#1193FE"></wux-tag> -->
+                <block wx:if="{{item.sectionUrl && item.isAudition && !book.isBuy && !isVip && !playStatus && !pause  }}">
                   <view class="tag">试听</view>
                 </block>
+                <!-- <block wx:elif="{{item.sectionUrl && item.isAudition && !book.isBuy && !isVip && audio  }}">
+                  <view class="tag">试听</view>
+                </block> -->
                 <block wx:elif="{{!item.sectionUrl && !item.isAudition }}">
                   <image class="xs_icon" src="/images/lock.png"></image>
                 </block>
-                <block wx:elif="{{audioIndex != index }}">
+                <block wx:elif="{{audioIndex != index && book.isBuy || isVip}}">
                   <text class="tag">第{{index+1}}章</text>
                 </block>
-                <block wx:elif="{{audioIndex == 0 && !playStatus }}">
+                <block wx:elif="{{audioIndex == 0 && !playStatus && !pause }}">
                   <text class="tag">第{{index+1}}章</text>
                 </block>
                 <block wx:if="{{audioIndex ==  index && playStatus}}">
                   <image class="xs_icon playing-icon" src="/images/playing-icon.png"></image>
+                </block>
+                <block wx:elif="{{audioIndex ==  index && pause}}">
+                  <image class="xs_icon playing-icon" src="/images/pause.png"></image>
                 </block>
               </view>
               <view class="clock-wrap">
@@ -136,37 +137,18 @@
   </view>
   <!-- wx:if="{{!book.isBuy && !isVip}}" -->
   <view class="btn-container fixed bottom" wx:if="{{!book.isBuy && !isVip}}">
-    <view class="btn large-btn active" wx:if="{{product.gold == 0}}" bindtap="">
+    <view class="btn large-btn active" wx:if="{{product.welfareType == 2}}" bindtap="">
       <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
       <button open-type="share" id="free-share"></button>
       分享立刻解锁
     </view>
+    <view wx:elif="{{product.welfareType == 1}}"></view>
     <view class="btn large-btn active" wx:else>
-      <!-- <button open-type="share" id="free-share"></button> -->
       <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
       <text bindtap="showBoard" style="width: 100%;height: 100%;display: block">书签换书</text>
     </view>
   </view>
 </view>
-<!-- 播放器小窗口 -->
-<!-- <view class="float-board" wx:if="{{!book.isBuy && !isVip}}">
-  <block wx:if="{{currentAudio}}">
-    <view class="bcg"></view>
-    <view class="wrap">
-      <view class="float-icon-wrap" bindtap="switchPlayStatus">
-        <view class="float-suspend" wx:if="{{playStatus === true}}"></view>
-        <view class="float-cart" wx:else></view>
-      </view>
-      <view class="play-info">
-        <view class="play-title">{{currentAudio.sectionName}}</view>
-        <view class="row">
-          <text class="">{{currentAudio.sectionSec}}</text>
-          <view class="tag" wx:if="currentAudio.isAudition">试听</view>
-        </view>
-      </view>
-    </view>
-  </block>
-</view> -->
 <!-- 领取会员卡 -->
 <popupMemCard modal-hidden="{{isMenCard}}"></popupMemCard>
 <!-- 书签不足 -->

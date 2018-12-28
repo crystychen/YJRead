@@ -33,18 +33,14 @@ Page({
             //     icon: 'loading',
             // });
         wx.getSystemInfo({
-                success: (res) => {
-                    this.setData({
-                        pixelRatio: res.pixelRatio,
-                        windowHeight: res.windowHeight,
-                        windowWidth: res.windowWidth
-                    })
-                }
-            })
-            // wx.setTabBarBadge({
-            //         index: 0,
-
-        //     })
+            success: (res) => {
+                this.setData({
+                    pixelRatio: res.pixelRatio,
+                    windowHeight: res.windowHeight,
+                    windowWidth: res.windowWidth
+                })
+            }
+        })
         wx.showTabBarRedDot({
                 index: 0
             })
