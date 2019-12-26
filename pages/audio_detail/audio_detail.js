@@ -36,9 +36,22 @@ Page({
         ],
         currentTabKey: "1",
         anchorClass: "ellipsis",
-        valueRadio: 2
+        valueRadio: 2,
+        setInter: ''
     },
-
+    startSetInter: function() {
+        let that = this;
+        //将计时器赋值给setInter
+        that.data.setInter = setInterval(
+            function() {
+                var numVal = app.globalData.postSecond + 1;
+                app.globalData.postSecond = numVal
+                console.log('setInterval==' + numVal);
+            }, 1000);
+    },
+    endSetInter: function() {
+        clearInterval(this.data.setInter)
+    },
     /**
      * 生命周期函数--监听页面加载
      */
@@ -52,10 +65,10 @@ Page({
                 authLevel: wx.getStorageSync('authLevel')
             });
             app.getShareData(4); // 转发语            
-
-            // 是否传有书本Id
+            that.getFreeTime().then()
+                // 是否传有书本Id
             if (!!options.bookId) {
-                this.setData({
+                that.setData({
                     bookId: options.bookId
                 })
                 that.bookDetail(options.bookId).then((res) => {
@@ -65,9 +78,14 @@ Page({
                         element.sectionSec = utils.formatSeconds(element.sectionSec)
                         return element
                     })
-                    let audioList = sections.filter((element) => {
-                        return element.sectionUrl != "";
-                    })
+                    let audioList
+                    if (app.globalData.freeSec <= 0) {
+                        audioList = sections.filter((element) => {
+                            return element.sectionUrl != "";
+                        })
+                    } else {
+                        audioList = sections
+                    }
                     that.setData({
                         book: res.book,
                         sections,
@@ -75,25 +93,14 @@ Page({
                         currentAudio: audioList[0] || ""
                     })
                     if (app.globalData.playAudio) {
-
                         if (bookId == app.globalData.playAudio.bookid) {
-                            let sliderValue = bgMusic.currentTime / bgMusic.duration * 100
-                            that.setData({
-                                playStatus: !bgMusic.paused,
-                                currentAudio: app.globalData.playAudio,
-                                sliderValue: sliderValue,
-                                audioIndex: app.globalData.audioIndex,
-                                duration: that.stotime(bgMusic.duration),
-                                currentPosition: that.stotime(bgMusic.currentTime)
-
-                            })
+                            that.SlideBar()
                         }
                     }
                 })
             } else {
                 // 先通过pid获取商品详情拿到图书bookid,再获取图书明细 
                 that.proDetail(pid).then((res) => {
-                    // console.log(res)
                     let {
                         bookId
                     } = res.product
@@ -120,9 +127,14 @@ Page({
                                         element.sectionSec = utils.formatSeconds(element.sectionSec)
                                         return element
                                     })
-                                    let audioList = sections.filter((element) => {
-                                        return element.sectionUrl != "";
-                                    })
+                                    let audioList
+                                    if (app.globalData.freeSec <= 0) {
+                                        audioList = sections.filter((element) => {
+                                            return element.sectionUrl != "";
+                                        })
+                                    } else {
+                                        audioList = sections
+                                    }
                                     that.setData({
                                         book: res.book,
                                         sections,
@@ -137,12 +149,18 @@ Page({
                         WxParse.wxParse('about', 'html', res.book.about, that, 5);
                         WxParse.wxParse('goldWord', 'html', res.book.goldWord, that, 5);
                         let sections = res.book.sections.map((element, index) => {
-                            element.sectionSec = utils.formatSeconds(element.sectionSec)
-                            return element
-                        })
-                        let audioList = sections.filter((element) => {
-                            return element.sectionUrl != "";
-                        })
+                                element.sectionSec = utils.formatSeconds(element.sectionSec)
+                                return element
+                            })
+                            // let audioList = sections
+                        let audioList
+                        if (app.globalData.freeSec <= 0) {
+                            audioList = sections.filter((element) => {
+                                return element.sectionUrl != "";
+                            })
+                        } else {
+                            audioList = sections
+                        }
                         that.setData({
                             book: res.book,
                             sections,
@@ -150,22 +168,9 @@ Page({
                             currentAudio: audioList[0] || ""
                         })
                         if (app.globalData.playAudio) {
-
                             if (bookId == app.globalData.playAudio.bookid) {
                                 console.log(that.data.playStatus, 'playStatus')
-
-                                // let sliderValue = bgMusic.currentTime / bgMusic.duration * 100
                                 that.SlideBar()
-                                    // that.setData({
-                                    //         playStatus: !bgMusic.paused,
-                                    //         currentAudio: app.globalData.playAudio,
-                                    //         sliderValue: sliderValue,
-                                    //         audioIndex: app.globalData.audioIndex,
-                                    //         duration: that.stotime(bgMusic.duration),
-                                    //         currentPosition: that.stotime(bgMusic.currentTime)
-
-                                //     })
-
                             }
                         }
                     })
@@ -181,7 +186,6 @@ Page({
                     })
                 })
             }
-
         });
 
     },
@@ -277,6 +281,8 @@ Page({
             let {
                 pid
             } = res.target.dataset;
+            app.userShareRecord(0)
+            setTimeout(that.getFreeTime, 1000)
 
             let target_id = res.target.id;
             if (target_id === 'free-share') {
@@ -291,12 +297,20 @@ Page({
 
                     that.bookDetail(that.data.bookId).then((res) => {
                         let sections = res.book.sections.map((element, index) => {
-                            element.sectionSec = utils.formatSeconds(element.sectionSec)
-                            return element
-                        })
-                        let audioList = sections.filter((element) => {
-                            return element.sectionUrl != "";
-                        })
+                                element.sectionSec = utils.formatSeconds(element.sectionSec)
+                                return element
+                            })
+                            // let audioList = sections.filter((element) => {
+                            //     return element.sectionUrl2;
+                            // })
+                        let audioList
+                        if (app.globalData.freeSec <= 0) {
+                            audioList = sections.filter((element) => {
+                                return element.sectionUrl != "";
+                            })
+                        } else {
+                            audioList = sections
+                        }
                         that.setData({
                             book: res.book,
                             sections,
@@ -320,9 +334,7 @@ Page({
                         console.log(res)
                         if (res.errMsg == 'shareAppMessage:ok') {
                             //分享为按钮转发
-
                             console.log("分享成功")
-                                // that.postOrderSubmit()
                         } else {
                             console.log("分享失败")
                         }
@@ -340,7 +352,19 @@ Page({
                     }
                 }
             }
+            return {
+                title: that.data.shareData[0][1],
+                path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&inviterUserId=${userId}`,
+                imageUrl: that.data.shareData[0][3],
+                complete: res => {
+                    console.log(res)
+                    if (res.errMsg == 'shareAppMessage:ok') {}
+                }
+            }
         }
+
+        app.userShareRecord(0)
+        setTimeout(that.getFreeTime, 1000)
         return {
             title: that.data.shareData[0][1],
             path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&unionId=${unionId}&inviterType=0`,
@@ -350,6 +374,8 @@ Page({
     // 调用更新进度条
     SlideBar: function() {
         var that = this;
+        var bgMusic = wx.getBackgroundAudioManager();
+
         // if (bgMusic.onCanplay) {  是否在播放
         that.setData({
             playStatus: !bgMusic.paused,
@@ -357,22 +383,45 @@ Page({
             currentAudio: app.globalData.playAudio,
             audioIndex: app.globalData.audioIndex
         })
-        that.onTimeUpdate() // 更新进度条
+        bgMusic.onPlay(that.onPlay)
+        bgMusic.onPause(that.onPause)
+        bgMusic.onEnded(that.onEnded)
+        bgMusic.onTimeUpdate(that.onTimeUpdate)
+        bgMusic.onStop(that.onStop)
+            // that.onTimeUpdate() // 更新进度条
     },
     // 播放器操作
     bindSliderchange: function(e) {
         // clearInterval(this.data.timer)
-        let that = this
         let value = e.detail.value
         console.log(e.detail.value)
         this.setData({
             sliderValue: value
         })
+        const bgMusic = wx.getBackgroundAudioManager()
         let currentTime = (value / 100) * bgMusic.duration
         bgMusic.seek(currentTime)
     },
-    bindTapPrev: function() {
+    bindTapPrev: function(e) {
         console.log('bindTapPrev')
+        let that = this
+        if (!!e) {
+            // 记录时间
+            // let time = bgMusic.currentTime
+            // console.log("提交时间", time)
+            // this.postReadTime(this.data.pid, time, 5)
+            // this.getFreeTime().then()
+            if (app.globalData.freeSec > 0 && !this.data.book.isBuy && !this.data.isVip) {
+                let time = app.globalData.postStartTime
+                this.getListenTime(time).then(function(res) {
+                    console.log("提交的时间秒数: ", res)
+                    that.postReadTime(that.data.pid, res.second, 5)
+                    that.getFreeTime().then()
+                })
+                app.globalData.postStartTime = 0
+            }
+            app.globalData.playAudio = ''
+        }
         let length = this.data.audioList.length
         let audioIndexPrev = this.data.audioIndex
         let audioIndexNow = audioIndexPrev
@@ -388,7 +437,6 @@ Page({
             currentPosition: 0,
             duration: this.data.audioList[audioIndexNow].sectionSec
         })
-        let that = this
         setTimeout(() => {
             that.beginPlay()
         }, 1000)
@@ -399,11 +447,27 @@ Page({
             pid: that.data.pid,
             sectionName: this.data.audioList[audioIndexNow].sectionName,
             audioIndex: audioIndexNow,
-            isAudition: this.data.audioList[audioIndexNow].isAudition
+            isAudition: this.data.audioList[audioIndexNow].isAudition,
+            isBuy: that.data.book.isBuy
         }
     },
-    bindTapNext: function() {
+    bindTapNext: function(e) {
         console.log('bindTapNext')
+        let that = this
+
+        if (!!e) {
+            if (app.globalData.freeSec > 0 && !this.data.book.isBuy && !this.data.isVip) {
+                // 记录时间提交
+                let time = app.globalData.postStartTime
+                this.getListenTime(time).then(function(res) {
+                    console.log("提交的时间秒数: ", res)
+                    that.postReadTime(that.data.pid, res.second, 5)
+                    that.getFreeTime().then()
+                })
+                app.globalData.postStartTime = 0
+            }
+            app.globalData.playAudio = ''
+        }
         let length = this.data.audioList.length
         let audioIndexPrev = this.data.audioIndex
         let audioIndexNow = audioIndexPrev
@@ -419,7 +483,6 @@ Page({
             currentPosition: 0,
             duration: this.data.audioList[audioIndexNow].sectionSec,
         })
-        let that = this
         setTimeout(() => {
             // if (that.data.playStatus === true) {
             that.beginPlay()
@@ -432,11 +495,28 @@ Page({
             pid: that.data.pid,
             sectionName: this.data.audioList[audioIndexNow].sectionName,
             audioIndex: audioIndexNow,
-            isAudition: this.data.audioList[audioIndexNow].isAudition
+            isAudition: this.data.audioList[audioIndexNow].isAudition,
+            isBuy: that.data.book.isBuy
         }
     },
     switchPlayStatus: function() {
-        console.log('switchPlayStatus')
+        let that = this
+            // 首次提示剩余时间
+        if (!app.globalData.firstFreeTips && !this.data.book.isBuy && !this.data.isVip) {
+            this.setData({
+                firstfreeTimeModal: true
+            })
+            app.globalData.firstFreeTips = true
+                // return;
+        }
+        // 判断剩余时间
+        if (app.globalData.freeMin <= 0 && !this.data.book.isBuy && !this.data.isVip && !this.data.audioList) {
+            this.setData({
+                isfreeTimeModal: true
+            })
+            return;
+        }
+        const bgMusic = wx.getBackgroundAudioManager()
         if (this.data.playStatus) {
             bgMusic.pause()
             this.setData({
@@ -451,11 +531,20 @@ Page({
                         bgMusic.play()
                     }
                 } else {
-                    console.log("播放新的")
-                        // const bgMusic = wx.getbgMusic()
-                    let time = bgMusic.currentTime
-                    console.log("播放的时间", time)
-                    this.postReadTime(app.globalData.playAudio.pid, time, 5)
+                    console.log("播放新的书籍音频")
+                        // let time = bgMusic.currentTime
+                        // this.postReadTime(app.globalData.playAudio.pid, time, 5)
+                        // this.getFreeTime().then()
+                    if (app.globalData.freeSec > 0 && !app.globalData.playAudio.isBuy && !this.data.isVip) {
+                        // 提交听书时间
+                        let time = app.globalData.postStartTime
+                        this.getListenTime(time).then(function(res) {
+                            console.log("提交时间秒: ", res)
+                            that.postReadTime(app.globalData.playAudio.pid, time, 5)
+                            that.getFreeTime().then()
+                        })
+                        app.globalData.postStartTime = 0
+                    }
                     this.beginPlay()
                 }
             } else {
@@ -475,6 +564,15 @@ Page({
             pause
         } = this.data
         let that = this
+            // 首次提示剩余时间
+        if (!app.globalData.firstFreeTips && !this.data.book.isBuy && !this.data.isVip) {
+            this.setData({
+                firstfreeTimeModal: true
+            })
+            app.globalData.firstFreeTips = true
+                // return;
+        }
+        const bgMusic = wx.getBackgroundAudioManager();
         if (!!e) {
             let index = e.currentTarget.dataset.index
             if (audioIndex == index) {
@@ -484,8 +582,30 @@ Page({
                     bgMusic.play()
                     return;
                 }
+            } else {
+                audioIndex = e.currentTarget.dataset.index;
             }
-            audioIndex = e.currentTarget.dataset.index;
+            // 提交已播放的时间
+            let time = bgMusic.currentTime
+            if (!!time) {
+                // console.log("提交时间", time)
+                // this.postReadTime(this.data.pid, time, 5)
+                // this.getFreeTime().then()
+                // app.globalData.playAudio = ''
+                // audioIndex = e.currentTarget.dataset.index;
+
+                if (app.globalData.freeSec > 0 && !this.data.book.isBuy && !this.data.isVip) {
+                    // 记录时间提交
+                    let time = app.globalData.postStartTime
+                    this.getListenTime(time).then(function(res) {
+                        console.log("提交时间秒: ", res)
+                        that.postReadTime(that.data.pid, res.second, 5)
+                        that.getFreeTime().then()
+                    })
+                    app.globalData.postStartTime = 0
+                }
+
+            }
         }
         this.setData({
             playStatus: true,
@@ -493,7 +613,9 @@ Page({
             audioIndex: audioIndex
         })
 
-        bgMusic.src = audioList[audioIndex].sectionUrl
+        this.postReadTime(this.data.pid, 0, 5)
+
+        bgMusic.src = audioList[audioIndex].sectionUrl2
         bgMusic.title = audioList[audioIndex].sectionName
         bgMusic.play();
         bgMusic.onPlay(that.onPlay)
@@ -508,7 +630,8 @@ Page({
             pid: that.data.pid,
             sectionName: audioList[audioIndex].sectionName,
             audioIndex: audioIndex,
-            isAudition: audioList[audioIndex].isAudition
+            isAudition: audioList[audioIndex].isAudition,
+            isBuy: that.data.book.isBuy
         }
     },
     onPlay() {
@@ -516,38 +639,85 @@ Page({
         this.setData({
             playStatus: true
         })
+        if (app.globalData.freeSec > 0 && !this.data.book.isBuy && !this.data.isVip) {
+            let startTime = new Date().getTime();
+            app.globalData.postStartTime = startTime
+        }
     },
     onPause() {
         console.log("onPause")
+        let that = this
         this.setData({
             playStatus: false,
             pause: true
         })
+        if (app.globalData.freeSec > 0 && !this.data.book.isBuy && !this.data.isVip) {
+            // 记录时间提交
+            let time = app.globalData.postStartTime
+            this.getListenTime(time).then(function(res) {
+                console.log("提交秒数: ", res)
+                that.postReadTime(that.data.pid, res.second, 5)
+                that.getFreeTime().then()
+            })
+            app.globalData.postStartTime = 0
+        }
     },
     onEnded() {
         console.log("onEnded")
+        let that = this
         this.setData({
                 playStatus: false,
                 pause: false
             })
             // 记录时间
-        let time = bgMusic.currentTime
-        this.postReadTime(this.data.pid, time, 5)
+            // const bgMusic = wx.getBackgroundAudioManager()
+
+        // let time = app.globalData.postSecond
+        // console.log("提交时间", time)
+        // app.globalData.postSecond = 0
+        // this.postReadTime(this.data.pid, time, 5)
+        // 提交
+        let time = app.globalData.postStartTime
+        console.log("开始的时间戳", time)
+        this.getListenTime(time).then(function(res) {
+            console.log("提交的时间秒数: ", res)
+            that.postReadTime(that.data.pid, res.second, 5)
+            that.getFreeTime().then()
+        })
+        app.globalData.postStartTime = 0
+
         app.globalData.playAudio = ''
-            // 自动播放下一首
+            // 判断剩余时间
+        if (app.globalData.freeMin <= 0 && !this.data.book.isBuy && !this.data.isVip && !this.data.audioList) {
+            this.setData({
+                isfreeTimeModal: true
+            })
+            return;
+        }
+        // 自动播放下一首
         this.bindTapNext()
     },
     onStop() {
         console.log("onStop")
-        wx.removeStorageSync('playAudio');
+            // wx.removeStorageSync('playAudio');
     },
     onTimeUpdate() {
+        const bgMusic = wx.getBackgroundAudioManager()
         let sliderValue = bgMusic.currentTime / bgMusic.duration * 100
         this.setData({
             currentPosition: this.stotime(bgMusic.currentTime),
             sliderValue: sliderValue,
             duration: this.stotime(bgMusic.duration)
         })
+
+        if (app.globalData.freeSec <= 0 && !this.data.book.isBuy && !this.data.isVip) {
+            if (!this.data.currentAudio.isAudition) {
+                this.setData({
+                    firstfreeTimeModal: true
+                })
+                bgMusic.pause()
+            }
+        }
     },
     stotime: function(s) {
         let t = ''
@@ -698,9 +868,9 @@ Page({
             isMenCard: true
         })
     },
-    // 书架页面
+    // 书屋页面
     toBookShelf() {
-        console.log("书架页面")
+        // console.log("书屋页面")
         wx.navigateTo({
             url: "/pages/orderlist/orderlist"
         })
@@ -802,20 +972,17 @@ Page({
     showBoard() {
         let that = this
         that.getIsCutting(that.data.pid).then((res) => {
-                if (res.data.orderNo) {
-                    wx.navigateTo({
-                        url: `/pages/cut_down/cut_down?orderid=${res.data.orderNo}`
-                    })
-                    return;
-                } else {
-                    that.setData({
-                        confirmModal: true
-                    })
-                }
-            })
-            // this.setData({
-            //     confirmModal: true
-            // })
+            if (res.data.orderNo) {
+                wx.navigateTo({
+                    url: `/pages/cut_down/cut_down?orderid=${res.data.orderNo}`
+                })
+                return;
+            } else {
+                that.setData({
+                    confirmModal: true
+                })
+            }
+        })
     },
     // 切换兑换方式
     onChangeRadio(e) {
@@ -847,8 +1014,10 @@ Page({
                         element.sectionSec = utils.formatSeconds(element.sectionSec)
                         return element
                     })
+
                     let audioList = sections.filter((element) => {
-                        return element.sectionUrl != "";
+                        // return element.sectionUrl != "";
+                        return element.sectionUrl2;
                     })
                     that.setData({
                         book: res.book,
@@ -886,5 +1055,73 @@ Page({
                 // reject(res.data.resultMsg)
             }
         })
-    }
+    },
+    // 剩余免费听书时间
+    getFreeTime() {
+        let that = this
+        return new Promise((resolve, reject) => {
+            postAjax({
+                url: "interSyncAction",
+                method: 'POST',
+                data: {
+                    interId: '20400',
+                    version: 1,
+                    authKey: wx.getStorageSync('authKey'),
+                    method: 'book-surplus',
+                    params: {
+
+                    }
+                },
+            }).then((res) => {
+                if (res.data.status == "00") {
+                    let s = res.data.second > 0 ? res.data.second : 0
+                    let min = Number(Math.floor(s / 60)) + Number((s % 60 / 60).toFixed(2))
+                    console.log(min)
+                    that.setData({
+                        freeSec: s,
+                        freeMin: min
+                    })
+                    app.globalData.freeSec = s
+                    app.globalData.freeMin = min
+                    resolve(res.data);
+                } else {
+                    reject(res.data.resultMsg)
+                }
+            })
+        })
+    },
+    showfreeTimeModal() {
+        this.setData({
+            isfreeTimeModal: true
+        })
+    },
+    // 开通会员卡提示
+    openMenCard() {
+        this.setData({
+            isMenCard: true
+        })
+    },
+    //  分享记录
+    shareRecord() {
+        app.userShareRecord(0)
+    },
+    getListenTime(startTime) {
+        return new Promise((resolve, reject) => {
+            let endTime = new Date().getTime();
+            let url = wx.getStorageSync('timeStart').url;
+            var dateDiff = endTime - startTime; //时间差的毫秒数
+            var dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000)); //计算出相差天数
+            var leave1 = dateDiff % (24 * 3600 * 1000) //计算天数后剩余的毫秒数
+            var hours = Math.floor(leave1 / (3600 * 1000)) //计算出小时数
+            var leave2 = leave1 % (3600 * 1000) //计算小时数后剩余的毫秒数
+            var remainMinutes = Math.floor(leave2 / (60 * 1000)) //计算相差分钟数
+            let remainSecond = Math.floor(leave2 % 60); //计算剩余的秒数
+            let minutes = dayDiff * 24 * 60 + hours * 60 + remainMinutes
+            console.log("小时后剩余分钟数", remainMinutes)
+            let second = Math.floor(dateDiff / 1000) // 秒数
+            console.log("second", second)
+            console.log("minutes", minutes)
+            resolve({ second })
+        })
+    } 
 })

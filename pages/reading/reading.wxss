@@ -1,12 +1,11 @@
 /* pages/reading/reading.wxss */
 
 .container {
-    width: 100%;
-    height: 100%;
-    background: #FBFBFB;
-    padding-top: 100rpx;
+  width: 100%;
+  height: 100%;
+  background: #fbfbfb;
+  padding-top: 100rpx;
 }
-
 
 /* ::-webkit-scrollbar {
     width: 0;
@@ -15,193 +14,187 @@
 } */
 
 .card-wrap {
-    padding: 10rpx 0;
+  padding: 10rpx 0;
 }
-
 
 /* 列表媒体对象start */
 
 .sm-btn {
-    width: 130rpx;
-    height: 60rpx;
-    line-height: 60rpx;
-    border-radius: 30rpx;
-    font-size: 30rpx;
+  width: 130rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-radius: 30rpx;
+  font-size: 30rpx;
 }
 
 .media-wrap {
-    margin: 20rpx auto;
-    border-radius: 10rpx;
-    width: 690rpx;
-    box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233);
-    position: relative;
+  margin: 20rpx auto;
+  border-radius: 10rpx;
+  width: 690rpx;
+  box-shadow: 0rpx 0rpx 30rpx 10rpx rgb(233, 233, 233);
+  position: relative;
 }
-
 
 /* 媒体对象自定义内容 */
 
 .center-right {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .btn-wrap {
-    padding-right: 30rpx;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  padding-right: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .time {
-    color: rgb(136, 136, 136);
-    font-size: 24rpx;
-    margin-top: 10rpx;
+  color: rgb(136, 136, 136);
+  font-size: 24rpx;
+  margin-top: 10rpx;
 }
 
-
 /* 列表媒体对象end */
-
 
 /* 横向滚动 */
 
 .nav {
-    height: 90rpx;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-    line-height: 90rpx;
-    background: #fff;
-    font-size: 32rpx;
-    white-space: nowrap;
-    position: fixed;
-    top: 0;
-    z-index: 1;
-    box-shadow: 0rpx 0rpx 30rpx 0rpx rgba(96, 96, 96, 0.2);
-    /* border-bottom: 1rpx solid #e6e6e6; */
+  height: 90rpx;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  line-height: 90rpx;
+  background: #fff;
+  font-size: 32rpx;
+  white-space: nowrap;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  box-shadow: 0rpx 0rpx 30rpx 0rpx rgba(96, 96, 96, 0.2);
+  /* border-bottom: 1rpx solid #e6e6e6; */
 }
 
 .nav-item {
-    width: 18%;
-    /* width: 23%; */
-    display: inline-block;
-    text-align: center;
-    /* border-bottom: 1rpx solid #cf9e73; */
-    position: relative;
-    font-size: 30rpx;
-    color: #c0c0c0;
+  padding: 0 30rpx;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  font-size: 30rpx;
+  color: #c0c0c0;
 }
 
 .nav-item.active {
-    color: #3772FB;
-    /* font-weight: bold; */
+  color: #3772fb;
+  font-size: 34rpx;
+  /* font-weight: bold; */
 }
 
 .slider-wrap {
-    width: 80rpx;
-    position: absolute;
-    bottom: 6rpx;
-    left: 50%;
-    transform: translateX(-50%);
+  width: 80rpx;
+  position: absolute;
+  bottom: 6rpx;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .navbar_slider {
-    background: #3772FB;
-    height: 8rpx;
-    width: 38rpx;
-    margin: 0 auto;
-    border-radius: 50rpx;
+  background: #3772fb;
+  height: 8rpx;
+  width: 38rpx;
+  margin: 0 auto;
+  border-radius: 50rpx;
 }
-
 
 /* 内容 */
 
 .tab-content {
-    overflow-y: scroll;
-    background: #ffffff;
+  overflow-y: scroll;
+  background: #fff;
 }
 
 .media-item-wrap {
-    height: 100%;
-    box-sizing: border-box;
-    border-bottom: 1rpx solid #e7e7e7;
+  height: 100%;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #e7e7e7;
 }
 
 .media-item {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 30rpx;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 30rpx;
+  justify-content: space-between;
 }
 
 .media-item .item-img {
-    width: 180rpx;
-    height: 180rpx;
-    background: #ccc;
-    border-radius: 10rpx;
+  width: 180rpx;
+  height: 180rpx;
+  background: #ccc;
+  border-radius: 10rpx;
 }
 
 .item-infos {
-    width: 72%;
-    height: 182rpx;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    justify-content: space-between;
+  width: 72%;
+  height: 182rpx;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-between;
 }
 
 .infos-title {
-    font-size: 32rpx;
+  font-size: 32rpx;
 }
 
 .icon-wrap {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0 18rpx;
-    position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 18rpx;
+  position: relative;
 }
 
 .icon-wrap>text {
-    color: #9fa0a5;
-    margin-left: 10rpx;
+  color: #9fa0a5;
+  margin-left: 10rpx;
 }
 
 .eye-icon {
-    width: 34rpx;
+  width: 34rpx;
 }
 
 .row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
 }
 
 .row.between {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .oper-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    /* position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* position: absolute;
     left: 10rpx;
     bottom: 0; */
 }
 
 .share {
-    /* position: absolute;
+  /* position: absolute;
     right: 10rpx;
     bottom: 0; */
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0 40rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 40rpx;
 }

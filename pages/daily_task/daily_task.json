@@ -5,6 +5,7 @@
         "popup": "../../components/popup/popup",
         "share-poster": "../../components/share-poster/share-poster",
         "share-board": "../../components/share-board/share-board",
-        "wux-cell": "../../components/dist/cell/index"
+        "wux-cell": "../../components/dist/cell/index",
+        "nav-topbar": "/components/navTopbar/index"
     }
 }

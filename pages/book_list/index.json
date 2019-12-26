@@ -1,0 +1,7 @@
+{
+    "navigationBarTitleText": "",
+    "usingComponents": {
+        "nav-topbar": "/components/navTopbar/index",
+        "wux-divider": "../../components/dist/divider/index"
+    }
+}

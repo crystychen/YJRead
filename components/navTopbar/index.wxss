@@ -1,0 +1,71 @@
+.icon-back {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.hh-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 99;
+}
+
+.hh-title {
+  width: 100%;
+  font-size: 38rpx;
+  text-align: center;
+  color: #000;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.navbar-action-wrap {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.navbar-action-group {
+  border: 1px solid #e8e8e8;
+  border-radius: 20px;
+  overflow: hidden;
+  position: absolute;
+  left: 20rpx;
+}
+
+.navbar-action_item {
+  padding: 8rpx 0;
+  width: 80rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.navbar-action_item:last-child::before {
+  content: "";
+  border: 1rpx solid #ccc;
+  height: 38rpx;
+  position: absolute;
+  left: -2rpx;
+}
+
+.navbar-action_item:first-child::before {
+  content: "";
+  border: none;
+}

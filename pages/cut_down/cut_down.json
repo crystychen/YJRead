@@ -2,7 +2,7 @@
     "usingComponents": {
         "wux-media": "../../components/dist/media/index",
         "wux-progress": "../../components/dist/progress/index",
-        "popupPro": "../../components/popupPro/popupPro"
-
+        "popupPro": "../../components/popupPro/popupPro",
+        "nav-topbar": "/components/navTopbar/index"
     }
 }

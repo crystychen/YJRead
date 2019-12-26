@@ -1,4 +1,5 @@
 <!-- pages/my/my.wxml -->
+<nav-topbar title="汗牛书屋"></nav-topbar>
 <view class='container'>
   <view class='user-infos-wrap'>
     <view class='user-infos'>
@@ -6,25 +7,16 @@
       <image class="img-bcg" src="../../images/my-bcg.png"></image>
       <view class='header_img_wrap'>
         <image class="img" src='{{userInfo && userInfo.avatarUrl? userInfo.avatarUrl:"/images/nologinuser.png"}}'></image>
-        <!-- wx:if="{{isVip}}" -->
         <view class="vip" wx:if="{{isVip}}">
           <image class="img" src="/images/vip.png"></image>
         </view>
       </view>
       <text class='user-name'>{{userInfo.nickName? userInfo.nickName:"点击头像立即登录" }}</text>
-      <!-- <view class='row center'>
-        <image class="sm_icon" src='/images/bookMark_active.png'></image>
-        <view class='infos-desc'>
-          <text>已有</text>
-          <text class="num">{{gold}}</text>
-          <text>张书签</text>
-        </view>
-      </view> -->
       <view class='row num-row'>
-        <view class="num-item" bindtap="toOrderList">
+        <!-- <view class="num-item" bindtap="toOrderList">
           <text>{{ordernum}}</text>
-          <text>书架</text>
-        </view>
+          <text>书屋</text>
+        </view> -->
         <view class="num-item">
           <text>{{gold}}</text>
           <text>书签</text>
@@ -82,17 +74,6 @@
   </view>
   <!-- bindchange="onChangeTab" -->
   <wux-tabbar current="{{currentTab}}" controlled bindchange="onChangeTab" position="bottom">
-    <!-- <navigator open-type='redirect' url="/pages/index/index"> -->
-    <wux-tabbar-item title="福利" bindclick="toTabIndex">
-      <wux-badge slot="icon-on">
-        <image class="bar-icon" src="/images/welfare.png"></image>
-      </wux-badge>
-      <wux-badge slot="icon-off">
-        <image class="bar-icon" src="/images/welfare_active.png"></image>
-      </wux-badge>
-    </wux-tabbar-item>
-    <!-- </navigator> -->
-    <!-- <navigator open-type='redirect' url="/pages/shopMall/shopMall"> -->
     <wux-tabbar-item title="书城" bindclick="toTabShopMall">
       <wux-badge slot="icon-on">
         <image class="bar-icon" src="/images/books.png"></image>
@@ -101,8 +82,14 @@
         <image class="bar-icon" src="/images/books_active.png"></image>
       </wux-badge>
     </wux-tabbar-item>
-    <!-- </navigator> -->
-    <!-- <navigator open-type='redirect' url="/pages/reading/reading"> -->
+        <wux-tabbar-item title="书屋" bindclick="toTabBookShelf">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/bookshelf.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/bookshelf_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
     <wux-tabbar-item title="阅读" bindclick="toTabReading">
       <wux-badge slot="icon-on">
         <image class="bar-icon" src="/images/read.png"></image>

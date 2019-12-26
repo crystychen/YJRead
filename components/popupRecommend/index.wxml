@@ -1,0 +1,31 @@
+<!-- components/popup/popup.wxml -->
+<view class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closeModal" hidden="{{!modalHidden}}"></view>
+<view class='modal' style="top: {{navHeight+30}}rpx" catchtouchmove="preventTouchMove" hidden="{{!modalHidden}}">
+  <view bindtap="closeModal" class="mid_icon close"></view>
+  <view class='modal-header'>
+    <text class='header-name'>Hi, {{userInfo.nickName}}</text>
+    <view class='header-tip'>来，屋里坐，一起听听书的声音</view>
+    <image class="bcg-img" src=''></image>
+  </view>
+  <view class='modal-content'>
+    <scroll-view scroll-y="true" style="height: 800rpx;" scroll-with-animation="true" bindscrolltolower="loadMoreData" scroll-into-view="{{toView}}">
+      <block wx:for="{{insterPros}}" wx:key="index">
+        <view class="vertical-item">
+          <!-- 没授权 -->
+          <!-- <button class="auth-btn" wx:if='{{authLevel != 2}}' open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button> -->
+          <image class="img" src='{{item[5]}}'></image>
+          <view class='info'>
+            <view class="row">
+              <view class='title'>{{item[1]}}</view>
+              <view class="item-btn" data-id="{{item[0]}}" bindtap="freeListen">收听</view>
+            </view>
+            <rich-text class="infos-desc" nodes="{{item[2]}}"></rich-text>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+  <view class='btn-container'>
+    <button class='btn active'>根据您喜欢的内容，推荐{{insterPros.length}}本书</button>
+  </view>
+</view>

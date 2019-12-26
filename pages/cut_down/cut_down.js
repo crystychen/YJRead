@@ -455,10 +455,9 @@ Page({
             let target_id = res.target.id;
             // 好友帮砍分享
             if (target_id === 'share-cut') {
-                // path: `/pages/cut_down/cut_down?cid=${channelId}&inviterUserId=${userId}&inviterType=3&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
                 return {
                     title: that.data.shareData[0][1],
-                    path: `/pages/shopMall/shopMall?cid=${channelId}&inviterUserId=${userId}&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
+                    path: `/pages/index/index?cid=${channelId}&inviterUserId=${userId}&inviterObjId=${pid}&orderid=${that.data.orderid}&sharetime=3`,
                     imageUrl: that.data.shareData[0][3],
                     complete: res => {
                         console.log(res)
@@ -615,7 +614,7 @@ Page({
             url: "/pages/daily_task/daily_task"
         })
     },
-    // 书架页面
+    // 书屋页面
     toBookShelf() {
         wx.navigateTo({
             url: "/pages/orderlist/orderlist"

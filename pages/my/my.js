@@ -28,7 +28,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-      wx.hideTabBar()
+        wx.hideTabBar()
 
     },
 
@@ -62,7 +62,7 @@ Page({
             });
             app.getShareData(4); // 转发语
             that.getCollectList(); // 收藏数
-            that.getTotalOrder() // 书架数量
+            that.getTotalOrder() // 书屋数量
             app.getTasksList() // 是否可领取任务
 
             if (wx.getStorageSync('authLevel') == 2) {
@@ -215,7 +215,7 @@ Page({
             }
         })
     },
-    // 书架总数
+    // 书屋总数
     getTotalOrder() {
         let that = this
         postAjax({
@@ -270,14 +270,14 @@ Page({
             url: '/pages/my/my'
         })
     },
-    toTabIndex() {
+    toTabBookShelf() {
         wx.switchTab({
-            url: '/pages/index/index'
+            url: '/pages/orderlist/orderlist'
         })
     },
     toTabShopMall() {
         wx.switchTab({
-            url: '/pages/shopMall/shopMall'
+            url: '/pages/index/index'
         })
     },
     toTabReading() {

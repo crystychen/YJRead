@@ -1,3 +1,13 @@
 {
-    "navigationBarTitleText": "我的书架"
+    "navigationBarTitleText": "我的书屋",
+    "usingComponents": {
+        "wux-icon": "../../components/dist/icon/index",
+        "wux-badge": "../../components/dist/badge/index",
+        "wux-tabbar": "../../components/dist/tabbar/index",
+        "wux-tabbar-item": "../../components/dist/tabbar-item/index",
+        "wux-divider": "../../components/dist/divider/index",
+        "nav-topbar": "/components/navTopbar/index",
+        "popupMemCard": "../../components/popupMemCard/index",
+        "popupFreeTime": "/components/popupFreeTime/index"
+    }
 }

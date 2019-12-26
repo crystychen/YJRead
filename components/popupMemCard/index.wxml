@@ -1,6 +1,6 @@
 <!-- components/popup/popup.wxml -->
 <view class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closeModal" hidden="{{!modalHidden}}"></view>
-<view class='modal' catchtouchmove="preventTouchMove" hidden="{{!modalHidden}}">
+<view class='modal' style="top: {{navHeight+100}}rpx" catchtouchmove="preventTouchMove" hidden="{{!modalHidden}}">
   <image class="bcgImg" src="/images/memCardbcg.png"></image>
   <view class="modal-header"></view>
   <view class='modal-content'>

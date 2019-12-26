@@ -1,0 +1,19 @@
+<!-- components/popupFreeTime/index.wxml -->
+<view class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closeModal" hidden="{{!modalHidden}}"></view>
+<view class='modal' style="top: {{navHeight+200}}rpx" catchtouchmove="preventTouchMove" hidden="{{!modalHidden}}">
+  <image class="bcgImg" src="/images/freeTimeBcg.png"></image>  
+  <view class='modal-content'>
+    <view class="modal-header">
+      <view class='tip'>{{modalTitle}}</view>
+      <view class="">
+        <text class="num">{{time}}</text>
+        <text class="min">分钟</text>
+      </view>
+      <view class="desc">最长连续打卡1天</view>
+    </view>
+    <view class='btn-container'>
+      <button class='btn blue share-btn' open-type="share" bindtap="shareRecord">分享额外得30分钟</button>
+      <button bindtap="openMenCardModal" class='btn orange'>开通畅听会员卡</button>
+    </view>
+  </view>
+</view>

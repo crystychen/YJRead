@@ -1,0 +1,15 @@
+<view class="i-class menu-wrap">
+  <view class="menu">
+    <view class='menu-item' bindtap='showModal'>
+      <image class="img" src='/images/freetime-icon.png'></image>
+      <view class='menu-title'>
+        今日剩余免费时长
+        <text class="time-num">{{freeMin}}</text>
+        分
+      </view>
+      <view class='right'>
+        <view class="cart"></view>
+      </view>
+    </view>
+  </view>
+</view>

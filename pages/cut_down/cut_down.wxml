@@ -1,6 +1,6 @@
 <!-- pages/cut_down/cut_down.wxml -->
-<!-- <text>pages/cut_down/cut_down.wxml</text> -->
 <!-- bargainDetails -->
+<nav-topbar title="汗牛书屋" is-show-back="{{true}}" is-show-home="{{true}}"></nav-topbar>
 <view class="container">
   <view class="" wx:if="{{sharetime == 3}}">
     <wux-media wux-class-title="media-title" thumb="{{bargainDetails[bargainDetails.length-1].headimgurl}}" thumb-style="border-radius: 50%" title="{{bargainDetails[bargainDetails.length-1].nickName}}" label="我发现了一本好书，一起来助力0元拿"></wux-media>
@@ -138,6 +138,6 @@
   </view>
 </popupPro>
 <!-- 兑换成功 -->
-<popupPro modal-hidden="{{successModal}}" modal-title="解锁成功" tips="书籍已放入【我的书架】" modal-type="success" bindonPlayNow="playNow" bindtoBookShelf="toBookShelf"></popupPro>
+<popupPro modal-hidden="{{successModal}}" modal-title="解锁成功" tips="书籍已放入【我的书屋】" modal-type="success" bindonPlayNow="playNow" bindtoBookShelf="toBookShelf"></popupPro>
 <!-- helpCutPopup成功 -->
 <popupPro modal-hidden="{{helpCutPopup}}" modal-title="帮砍成功" tips="你成功帮好友砍了{{cutGold}}标签" modal-type="helpCut" bindonConfirm="toAudioDetail" bindonCancel="toIndex"></popupPro>

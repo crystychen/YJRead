@@ -144,6 +144,5 @@ module.exports = {
     getReadTime,
     formatSeconds,
     judgeTime,
-    delHtmlTag,
-    SectionToChinese
+    delHtmlTag
 }

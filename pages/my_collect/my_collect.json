@@ -1,7 +1,8 @@
 {
-  "usingComponents": {
-    "popup": "../../components/popup/popup",
-    "share-poster": "../../components/share-poster/share-poster",
-    "share-board": "../../components/share-board/share-board"
-  }
+    "usingComponents": {
+        "popup": "../../components/popup/popup",
+        "share-poster": "../../components/share-poster/share-poster",
+        "share-board": "../../components/share-board/share-board",
+        "nav-topbar": "/components/navTopbar/index"
+    }
 }

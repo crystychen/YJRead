@@ -6,10 +6,8 @@
         "ui-card": "../../components/card/index",
         "wux-cell": "../../components/dist/cell/index",
         "wux-media": "../../components/dist/media/index",
-        "wux-icon": "../../components/dist/icon/index",
-        "wux-badge": "../../components/dist/badge/index",
-        "wux-tabbar": "../../components/dist/tabbar/index",
-        "wux-tabbar-item": "../../components/dist/tabbar-item/index"
+        "wux-divider": "../../components/dist/divider/index",
+        "nav-topbar": "/components/navTopbar/index"
     },
     "backgroundTextStyle": "dark"
 }

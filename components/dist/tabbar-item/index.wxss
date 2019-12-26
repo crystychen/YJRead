@@ -13,7 +13,7 @@
   width: 100%;
   height: 100%;
   /* color: #80848f; */
-  color: #9FA0A5;
+  color: #CDCDCD;
   padding: 6rpx 0 0;
   box-sizing: border-box;
   float: left;
@@ -67,7 +67,7 @@
 
 .wux-tabbar-item--balanced.wux-tabbar-item--current {
   /* color: #33cd5f; */
-  color: #3E74F5;
+  color: #3773FA;
 }
 
 .wux-tabbar-item--energized.wux-tabbar-item--current {

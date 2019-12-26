@@ -1,212 +1,224 @@
 /**app.wxss**/
 
-text, view {
-  font-family: "OpenSansRegular";
-  font-size: 28rpx;
-  /* color: #000; */
+
+/* 全局引入字体图标（转换为base64） */
+
+@import './style/iconfont.wxss';
+text,
+view {
+    font-family: "OpenSansRegular";
+    font-size: 28rpx;
 }
 
 .line-through {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
+
+
 /* 自定义底部导航容器padding */
+
 .container {
-  padding-bottom: 100rpx;
-  box-sizing: border-box;  
+    padding-bottom: 100rpx;
+    box-sizing: border-box;
 }
+
+
 /* 滚动条 */
 
 ::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  color: transparent;
+    width: 0;
+    height: 0;
+    color: transparent;
 }
+
 
 /* 图片大小 */
 
 .xs_icon {
-  width: 26rpx;
-  height: 26rpx;
+    width: 26rpx;
+    height: 26rpx;
 }
 
 .sm_icon {
-  width: 38rpx;
-  height: 38rpx;
+    width: 38rpx;
+    height: 38rpx;
 }
 
 .md_icon {
-  width: 50rpx;
-  height: 50rpx;
+    width: 50rpx;
+    height: 50rpx;
 }
 
 .lg_icon {
-  width: 130rpx;
-  height: 130rpx;
+    width: 130rpx;
+    height: 130rpx;
 }
 
 .bar-icon {
-  width: 44rpx;
-  height: 44rpx;
-  box-sizing: border-box;
+    width: 44rpx;
+    height: 44rpx;
+    box-sizing: border-box;
 }
+
 
 /* 居中 */
 
 .w-vertical-align-l {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .w-vertical-align-t {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .w-vertical-align-c {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
+
 
 /* 按钮 */
 
 button::after {
-  border: 0;
+    border: 0;
 }
 
 button {
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  border-radius: 0;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
 }
 
 .button-hover {
-  color: rgba(0, 0, 0, 0);
-  background-color: rgba(0, 0, 0, 0);
+    color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .btn {
-  /* width: 100%; */
-  height: 90rpx;
-  line-height: 90rpx;
-  font-size: 30rpx;
-  text-align: center;
-  /* font-weight: bold; *//* border-radius: 50rpx; */
-  box-sizing: border-box;
+    /* width: 100%; */
+    height: 90rpx;
+    line-height: 90rpx;
+    font-size: 30rpx;
+    text-align: center;
+    /* font-weight: bold; */
+    /* border-radius: 50rpx; */
+    box-sizing: border-box;
 }
 
 .btn.active {
-  /* background: linear-gradient(to right, #7B47F2, #1690FF); */
-  background: linear-gradient(to right, #9034f0, #3772fb);
-  color: #fff;
+    background: linear-gradient(to right, #9034f0, #3772fb);
+    color: #fff;
 }
 
 .btn.disabled {
-  color: #fff;
-  background: #ededed;
+    color: #fff;
+    background: #ededed;
 }
 
 .btn.border {
-  /* border: 1rpx solid #FEA90E;
+    /* border: 1rpx solid #FEA90E;
     color: #FEA90E; */
-  border: 1rpx solid #1392fd;
-  color: #1693ff;
+    border: 1rpx solid #1392fd;
+    color: #1693ff;
 }
 
 .btn.blue-bcg {
-  background: #3772fb;
-  color: #fff;
+    background: #3772fb;
+    color: #fff;
 }
 
 .btn.blue-color {
-  background: #ebf2ff;
-  color: #3772fb;
+    background: #ebf2ff;
+    color: #3772fb;
 }
 
 .btn.orange {
-  background: #fea90e;
-  color: #fff;
+    background: #fea90e;
+    color: #fff;
 }
 
 .btn.yellow {
-  background: #ffc557;
-  color: #fff;
+    background: #ffc557;
+    color: #fff;
 }
 
 .xs-btn {
-  width: 188rpx;
-  height: 63rpx;
-  line-height: 63rpx;
-  border-radius: 50rpx;
+    width: 188rpx;
+    height: 63rpx;
+    line-height: 63rpx;
+    border-radius: 50rpx;
 }
 
 .sm-btn {
-  width: 200rpx;
-  height: 90rpx;
-  line-height: 90rpx;
+    width: 200rpx;
+    height: 90rpx;
+    line-height: 90rpx;
 }
 
 .md-btn {
-  width: 80%;
-  height: 90rpx;
-  line-height: 90rpx;
+    width: 80%;
+    height: 90rpx;
+    line-height: 90rpx;
 }
 
 .lg-btn {
-  width: 100%;
-  height: 90rpx;
-  line-height: 90rpx;
-  border-radius: 0;
+    width: 100%;
+    height: 90rpx;
+    line-height: 90rpx;
+    border-radius: 0;
 }
 
 .openbtn {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  background: transparent;
-  z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: transparent;
+    z-index: 1;
 }
 
 .btn-container {
-  width: 100%;
+    width: 100%;
 }
 
 .btn-container.horizontal {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .btn-container.vertical .btn {
-  margin: 20rpx auto;
+    margin: 20rpx auto;
 }
 
 .btn-container.fixed {
-  position: fixed;
+    position: fixed;
 }
 
 .btn-container.bottom {
-  bottom: 0;
+    bottom: 0;
 }
 
 .row {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
 }
 
 .row.center {
-  justify-content: center;
+    justify-content: center;
 }
 
 .row.between {
-  justify-content: space-between;
+    justify-content: space-between;
 }

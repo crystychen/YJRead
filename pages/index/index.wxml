@@ -1,115 +1,171 @@
-<!-- index.wxml -->
-<import src="../../wxParse/wxParse.wxml" />
-<view class="container" style="height: {{windowHeight}}px;">
-  <!-- <scroll-view scroll-y="true" style="height: {{windowHeight}}px;" scroll-with-animation="true" bindscrolltolower="loadMoreData" scroll-into-view="{{toView}}"> -->
-    <view style="height: {{windowHeight}}px;" >
-    <!-- 轮播图 -->
-    <view class='banner-wrap' wx:if="{{bannerData.length}}">
-      <swiper class='banner' indicator-dots="{{false}}" autoplay="{{false}}" previous-margin="60rpx" next-margin="60rpx" circular='{{false}}' bindchange="onSwiperChange" bindanimationfinish="onSwiperAnimationFinish">
-        <block wx:for="{{bannerData}}" wx:key="">
-          <block wx:if="{{item.composeType == 3}}">
-            <swiper-item wx:for="{{item.children}}" wx:key="key" wx:for-item="book" style="padding-top: 20rpx;">
-              <view class="card-wrap">
-                <view class="card-title">
-                  <view class="quare">
-                    <view class="quare1"></view>
-                    <view class="quare2"></view>
-                  </view>
-                  {{item.name}}
+<!-- pages/index/index.wxml -->
+<view class='container' style=''>
+  <nav-topbar title="汗牛书屋"></nav-topbar>
+  <scroll-view id="awardId" scroll-x="true" class="nav" style="top: {{navHeight-2}}rpx" scroll-left="{{navScrollLeft}}" scroll-with-animation="{{true}}">
+    <block wx:for="{{bookTypes}}" wx:for-index="idx" wx:for-item="navItem" wx:key="idx">
+      <view class="nav-item {{currentTab == idx?'active':''}}" data-current="{{idx}}" data-booktypeid="{{navItem[0]}}" bindtap="switchNav">
+        {{navItem[1]}}
+        <view class="slider-wrap" wx:if="{{currentTab == idx}}">
+          <view class="navbar_slider"></view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+  <view class="tab-content">
+    <scroll-view id="" scroll-y="true" class="" style="height: {{scrollHeight-120}}px" scroll-top="{{scrollTop}}" bindscroll="scrolltoupper" bindscrolltolower="loadMoreDataBypid" scroll-with-animation="{{true}}">
+      <view id="scrollId">
+        <view wx:if="{{currentTab == 0}}">
+          <!-- 轮播图 -->
+          <view class='banner-wrap'>
+            <swiper class='banner' indicator-dots="{{true}}" autoplay="{{true}}" interval="5000" circular='{{true}}' catchtap="">
+              <block wx:for="{{banner}}" wx:key='index'>
+                <!-- 外部跳转 -->
+                <navigator wx:if="{{item[5] == 1 && item[7] !=''}}" target="miniProgram" open-type="navigate" path='{{item[4]}}' app-id='{{item[7]}}'>
+                  <swiper-item>
+                    <image class="banner-img" src="{{item[3]}}"></image>
+                  </swiper-item>
+                </navigator>
+                <!-- 内部跳转 -->
+                <navigator wx:elif="{{item[5] == 1 && item[7] ==''}}" open-type="navigate" url='{{item[4]}}'>
+                  <swiper-item>
+                    <image class="banner-img" src="{{item[3]}}"></image>
+                  </swiper-item>
+                </navigator>
+              </block>
+            </swiper>
+          </view>
+          <!-- 菜单导航 -->
+          <view class="menu-wrap">
+            <view class='menu'>
+              <view class='menu-item' bindtap="toShopMall">
+                <image class='icon' src="/images/all_nav.png"></image>
+                <text class="menu-item-text">所有分类</text>
+              </view>
+              <view class='menu-item' bindtap="">
+                <image class='icon' src="/images/invite-nav.png"></image>
+                <text class="menu-item-text">邀请好友</text>
+                <button class="share-btn" open-type="share" id=""></button>
+              </view>
+              <view class='menu-item' bindtap="toDailyTask">
+                <image class='icon' src="/images/sign-nav.png"></image>
+                <text class="menu-item-text">每日签到</text>
+              </view>
+              <view class='menu-item' bindtap="bindReceive">
+                <image class='icon' src="/images/memcard-nav.png"></image>
+                <text class="menu-item-text">7天会员卡</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <!-- 福利 -->
+        <view style='position: relative;'>
+          <view class='order_time' wx:if="{{orderText}}">
+            <view class='order_text'>{{orderText}}</view>
+          </view>
+          <block wx:for="{{HorizontalPros}}" wx:if='{{currentTab == 0}}' wx:key="index" wx:for-item="proList">
+            <view class="banner-scroll">
+              <view class='title_wrap row between'>
+                <text class='l-title'>{{proList.name}}</text>
+                <view class='r-title right-caret' data-ptitle="{{proList.name}}" data-pid="{{proList.id}}" bindtap="toBookList">
+                  全部
                 </view>
-                <view class="card-body">
-                  <view class="card-infos">
-                    <image class="img" src="{{book.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-                    <view class="title">{{book.productName}}</view>
-                    <view class="author">{{book.author}}</view>
-                    <!-- <view class="price">{{item.gold}}书签/本</view> -->
-                    <view class="desc">{{book.productIntroduction}}</view>
+              </view>
+              <scroll-view class='scroll-view' scroll-x="true">
+                <block wx:for="{{proList.children}}" wx:key="index">
+                  <view class='scroll-item' data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
+                    <view class="item-wrap">
+                      <image class='scroll-img' lazy-load="true" mode='aspectFill' src="{{item.thumbImg}}"></image>
+                      <text class="name">{{item.productName}}</text>
+                    </view>
+                  </view>
+                </block>
+              </scroll-view>
+            </view>
+            <menu-item free-min="{{freeMin}}" bindshowModal="showFreeTimeModal"></menu-item>
+          </block>
+          <block wx:for="{{products}}" wx:key="index" wx:for-item="proList">
+            <block wx:if='{{proList.composeType == 2 && currentTab == 0}}'>
+              <!-- 竖向排列 -->
+              <view class='panel-wrap vertical'>
+                <view class='title_wrap row between'>
+                  <text class='l-title'>{{proList.name}}</text>
+                  <view class='r-title right-caret' data-booktypeid="{{proList.children[0].bookTypeId}}" bindtap="switchTab">
+                    全部
                   </view>
                 </view>
-                <view class="btn-container">
-                  <view class="btn large-btn" hover-class="none" hover-stop-propagation="false">
-                    <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
-                    <form bindsubmit="formSubmitFormId" style="margin: 0 auto;" report-submit="true ">
-                      <button formType="submit" data-id="{{book.id}}" data-isbuy="{{book.isBuy}}" bindtap="bindClickCard">
-                        <view class="btn large-btn active" style="">点击收听</view>
-                      </button>
-                    </form>
-                  </view>
-                  <!-- <view class="btn large-btn active" data-id="{{book.id}}" wx:else bindtap="bindClickCard">
-                    点击收听
+                <view class='content'>
+                  <block wx:for="{{proList.children}}" wx:key="index">
+                    <view class="vertical-item" data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
+                      <!-- 没授权 -->
+                      <button class="auth-btn" wx:if='{{authLevel != 2}}' open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
+                      <image class="img" src='{{item.thumbImg}}'></image>
+                      <view class='info'>
+                        <view class='title'>{{item.productName}}</view>
+                        <!-- <view style="color: #CECED6;height: 50rpx;" wx:if="{{item.author}}">
+                    {{item.author}}
                   </view> -->
-                  <view class="link-wrap">
-                    <view class="link-item disabled" data-pid="{{book.id}}" wx:if="{{book.isBuy}}" bindtap="">
-                      放书架
-                    </view>
-                    <view class="link-item" wx:else data-pid="{{book.id}}">
-                      <text bindtap="putBookshelf" style="width: 100%;display: block">放书架</text>
-                      <button class="openbtn" wx:if='{{authLevel != 2}}' data-id="{{book.id}}" open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
-                    </view>
-                    <view class="link-item" bindtap="toShopMall">逛书城</view>
-                  </view>
-                </view>
-              </view>
-            </swiper-item>
-          </block>
-          <block wx:if="{{item.composeType == 4}}">
-            <swiper-item style="padding-top: 20rpx;">
-              <view class="card-wrap">
-                <view class="card-title">
-                  <view class="quare">
-                    <view class="quare1"></view>
-                    <view class="quare2"></view>
-                  </view>
-                  {{item.name}}
-                </view>
-                <view class="card-body">
-                  <view class="list">
-                    <view class="list-item" wx:for="{{item.children}}" wx:key="key" data-isbuy="{{true}}" data-id="{{item.id}}" catch:tap="bindClickCard">
-                      <block wx:if="{{index < 4}}">
-                        <view class="col-wrap">
-                          <image class="img" src="{{item.thumbImg}}" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
-                          <view class="label-wrap">
-                            <view class="label-bcg"></view>
-                            <view class="label">
-                              原价:
-                              <text class="">{{item.originalPrice}}书签</text>
-                            </view>
-                          </view>
-                        </view>
-                      </block>
-                    </view>
-                  </view>
-                </view>
-                <view class="btn-container free-card">
-                  <form bindsubmit="formSubmitFormId" style="margin: 0 auto;" report-submit="true ">
-                    <button formType="submit" data-gtitle="{{item.name}}" data-groupid="{{item.id}}" catchtap="toShareDetail">
-                      <view class="btn large-btn active" >
-                        查看更多
+                        <view class='desc'>{{item.productIntroduction}}</view>
+                        <!-- <view class='infos-desc' style="width: 100%;position: absolute;bottom:0rpx;">
+                    <view class="icon-wrap">
+                      <image class="img" src="/images/pause.png"></image>
+                      <view class="num" selectable="false" space="false" decode="false">
+                        {{item.gold}}
                       </view>
-                    </button>
-                  </form>
+                    </view>
+                    <image class="img" src="/images/pause.png"></image>
+                  </view> -->
+                      </view>
+                    </view>
+                  </block>
                 </view>
+                <view wx:if='{{ proList.total > proList.children.length && hasMoreData }}' class="more-btn" data-pid="{{proList.id}}" bindtap="loadMoreDataBypid">
+                  更多商品
+                </view>
+                <!-- <view class='line-board'></view> -->
               </view>
-            </swiper-item>
+            </block>
+            <block wx:if='{{currentTab != 0 }}'>
+              <!-- 竖向排列 -->
+              <!-- <view class='panel-wrap vertical'> -->
+              <view class='content'>
+                <block wx:for="{{proList.children}}" wx:key="index">
+                  <view class="vertical-item" data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap='{{item.welfareProductType == 4?"popupProduct":"toAudioDetail"}}'>
+                    <!-- 没授权 -->
+                    <button class="auth-btn" wx:if='{{authLevel != 2}}' open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
+                    <image class="img" src='{{item.thumbImg}}'></image>
+                    <view class='info'>
+                      <view class='title'>{{item.productName}}</view>
+                      <view class='desc'>{{item.productIntroduction}}</view>
+                    </view>
+                  </view>
+                </block>
+              </view>
+              <!-- </view> -->
+            </block>
           </block>
-        </block>
-      </swiper>
-    </view>
-  <!-- </scroll-view> -->
+          <!-- <block wx:if="{{currentTab != 0}}"> -->
+          <!-- <view wx:if='{{ hasMoreData }}' class="more-btn" bindtap="loadMoreDataBypid">更多商品</view> -->
+          <view wx:if='{{ !hasMoreData && currentTab != 0 }}' class="" style="text-align: center">
+            <wux-divider >
+              <view class="loadmore">
+                <!-- <view class="loading"></view> -->
+                <text class="text">已加载全部</text>
+              </view>
+            </wux-divider>
+          </view>
+          <wux-divider wx:if="{{isloading}}">
+            <view class="loadmore">
+              <view class="loading"></view>
+              <text class="text">正在加载</text>
+            </view>
+          </wux-divider>
+          <!-- </block> -->
+        </view>
+      </view>
+    </scroll-view>
   </view>
   <!-- bindchange="onChangeTab" -->
-  <wux-tabbar current="{{currentTab}}" controlled bindchange="onChangeTab" position="bottom">
-    <!-- <navigator> -->
-    <wux-tabbar-item title="福利" bindclick="toTabIndex">
-      <wux-badge slot="icon-on">
-        <image class="bar-icon" src="/images/welfare.png"></image>
-      </wux-badge>
-      <wux-badge slot="icon-off">
-        <image class="bar-icon" src="/images/welfare_active.png"></image>
-      </wux-badge>
-    </wux-tabbar-item>
-    <!-- </navigator> -->
-    <!-- <navigator open-type='redirect' url="/pages/shopMall/shopMall"> -->
+  <wux-tabbar current="{{currentbottomBar}}" controlled bindchange="onChangeTab" position="bottom">
     <wux-tabbar-item title="书城" bindclick="toTabShopMall">
       <wux-badge slot="icon-on">
         <image class="bar-icon" src="/images/books.png"></image>
@@ -118,8 +174,14 @@
         <image class="bar-icon" src="/images/books_active.png"></image>
       </wux-badge>
     </wux-tabbar-item>
-    <!-- </navigator> -->
-    <!-- <navigator open-type='redirect' url="/pages/reading/reading"> -->
+    <wux-tabbar-item title="书屋" bindclick="toTabBookShelf">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/bookshelf.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/bookshelf_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
     <wux-tabbar-item title="阅读" bindclick="toTabReading">
       <wux-badge slot="icon-on">
         <image class="bar-icon" src="/images/read.png"></image>
@@ -141,37 +203,20 @@
     <!-- </navigator> -->
   </wux-tabbar>
 </view>
-<!-- 签到面板 -->
-<signinmodal modal-hidden="{{isSignedModal}}" bindsignIn="signIn" bindgetUserInfo="getUserInfofromCom" modal-msg="{{signInfo}}" sign-days="{{signDays}}" auth-level="{{authLevel}}" is-signed="{{isSigned}}" />
-<!-- 弹窗 -->
-<!-- 签到成功 -->
-<popup modal-hidden="{{tipsModal}}" modal-title="恭喜" award="{{signAward}}" modal-type="1" bindtoView="toAwardView"></popup>
-<!-- 奖励成功 -->
-<popup modal-hidden="{{showAwardPass}}" modal-title="恭喜" award="{{passAward}}" is-checked="{{passTipschecked}}" bindtoView="toAwardView"></popup>
-<!-- 奖励失败 -->
-<popup modal-hidden="{{showAwardFail}}" modal-title="提示" tips="{{failAward}}" is-checked="{{failTipschecked}}" btn-type="2" record-read="{{recordRead}}" bindtoView="toAwardView"></popup>
-<!-- 专属海报 -->
-<share-poster modal-hidden="{{isPosterModal}}" img-url="{{shareImgUrl}}"></share-poster>
-<!-- 分享面板 -->
-<share-board modal-hidden="{{isShareBoard}}" putshareurl="{{putshareurl}}" putshareartid="{{putshareartid}}" bindshowPosterModal="showPosterModal"></share-board>
-<!-- 气泡 -->
-<!-- <view class='bubble-tips-wrap' hidden='{{istoptips}}'>
-  <view class="bubble-tips">
-    <image class='xs_icon bubble-icon' src="/images/bookMark_active.png"></image>
-  </view>
-  <view class='caret'></view>
-  <text class="bubble-tips-text" style=''>做任务赚书签</text>
-  <view class="close" style=''></view>
-</view> -->
-<!-- <block wx:for="{{bannerData}}" wx:key='index'>
-          <navigator wx:if="{{item[5] == 1 && item[7] !=''}}" target="miniProgram" open-type="navigate" path='{{item[4]}}' app-id='{{item[7]}}'>
-            <swiper-item>
-              <image class="banner-img" src="{{item[3]}}"></image>
-            </swiper-item>
-          </navigator>
-          <navigator wx:elif="{{item[5] == 1 && item[7] ==''}}" open-type="switchTab" url='{{item[4]}}'>
-            <swiper-item>
-              <image class="banner-img" src="{{item[3]}}"></image>
-            </swiper-item>
-          </navigator>
-        </block> -->
+<!-- 书签不足 -->
+<popup modal-hidden="{{EvegoldModal}}" modal-title="兑换失败" tips="你的书签数量不足" modal-type="1" bindtoView="toAwardView"></popup>
+<!-- 兑换成功 -->
+<popup modal-hidden="{{successModal}}" modal-title="兑换成功" tips="{{successTips}}" btn-type="3" modal-type="1"></popup>
+<!-- 填写地址信息 -->
+<!-- 不存在地址 -->
+<popupAddr modal-hidden="{{noaddressModal}}" modal-title="{{addressTitle}}" tips="{{addressTips}}" bindpostOrderSubmit="saveAddrCallback"></popupAddr>
+<!-- 存在地址 -->
+<popupAddr modal-hidden="{{isaddressModal}}" modal-title="{{addressTitle}}" tips="{{addressTips}}" at-addr-obj="{{atAddrObj}}" bindpostOrderSubmit="saveAddrCallback"></popupAddr>
+<!-- 单品弹窗 -->
+<popupSinProdt modal-hidden="{{popupSinProdtModal}}" share-id='shareAddPro' sin-prodt="{{sinProdtInfo}}" bindpostOrderCallback="postOrderCallback" bindtoView="toAwardView"></popupSinProdt>
+<!-- 推荐的感兴趣书籍 -->
+<popupRecommend modal-hidden="{{recmenPopup}}" userInfo="{{userInfo}}" inster-pros="{{insterPros}}" bindtoAudioDetail="freeListen"></popupRecommend>
+<!-- 免费时长剩余提醒 -->
+<popupFreeTime modal-hidden="{{firstfreeTimeModal}}" time="{{freeMin}}" modal-title="今日剩余免费时长" bindopenMenCard="bindReceive"></popupFreeTime>
+<!-- 领取会员卡 -->
+<popupMemCard modal-hidden="{{isMenCard}}"></popupMemCard>

@@ -1,0 +1,38 @@
+<!-- pages/productList/productList.wxml -->
+<nav-topbar title="汗牛书屋" is-show-back="{{true}}"></nav-topbar>
+<view class='container'>
+  <view style='position: relative;'>
+    <!-- 竖向排列 -->
+    <view class='panel-wrap vertical'>
+      <view class='title_wrap row between'>
+        <text class='l-title'>{{ptitle}}</text>
+        <!-- <text class='r-title right-caret' data-pid="{{pid}}" bindtap="toBookList">全部</text> -->
+      </view>
+      <view class='content'>
+        <block wx:for="{{detail}}" wx:key="index">
+          <view class="vertical-item" data-id="{{item[0]}}" catchtap='toAudioDetail'>
+            <button class="auth-btn" wx:if='{{authLevel != 2}}' open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
+            <image class="img" src='{{item[5]}}'></image>
+            <view class='info'>
+              <view class='title'>{{item[1]}}</view>
+              <view class='desc'>
+                <rich-text nodes="{{item[2]}}"></rich-text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <!-- <view class="load-more load-more-line all-tip" wx:if='{{ !hasMoreData }}'>
+        <view class="load-more-tip">
+          <view class="">已加载全部</view>
+        </view>
+      </view> -->
+      <wux-divider wx:if='{{ !hasMoreData }}'>
+        <view class="loadmore">
+          <!-- <view class="loading"></view> -->
+          <text class="text">已加载全部</text>
+        </view>
+      </wux-divider>
+    </view>
+  </view>
+</view>

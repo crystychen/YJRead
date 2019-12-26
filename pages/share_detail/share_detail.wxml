@@ -1,4 +1,5 @@
 <!-- pages/share_detail/share_detail.wxml -->
+<nav-topbar title="汗牛书屋" is-show-back="{{true}}"></nav-topbar>
 <view class="container" >
   <view class="main-title">{{gtitle}}</view>
   <view class="sec-title">每周仅限领取一本</view>

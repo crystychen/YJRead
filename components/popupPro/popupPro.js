@@ -70,7 +70,7 @@ Component({
         onMemCard() {
             this.triggerEvent('onMemCard');
         },
-        // 去书架
+        // 去书屋
         toBookShelf() {
             this.triggerEvent('toBookShelf');
         },

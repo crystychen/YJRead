@@ -1,61 +1,66 @@
 {
-    "pages": [
-        "pages/index/index",
-        "pages/welcome/welcome",        
-        "pages/article_detail/article_detail",
-        "pages/daily_task/daily_task",
-        "pages/my/my",
-        "pages/my_collect/my_collect",
-        "pages/wheel/wheel",
-        "pages/shopMall/shopMall",
-        "pages/reading/reading",
-        "pages/audio_detail/audio_detail",
-        "pages/share_detail/share_detail",
-        "pages/cut_down/cut_down",
-        "pages/orderlist/orderlist",
-        "pages/order_detail/order_detail",
-        "pages/logs/logs"
-    ],
-    "window": {
-        "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "汗牛书屋",
-        "navigationBarTextStyle": "black"
-    },
-    "tabBar": {
-        "color": "#9FA0A5",
-        "selectedColor": "#3E74F5",
-        "list": [{
-                "pagePath": "pages/index/index",
-                "text": "福利",
-                "iconPath": "images/welfare.png",
-                "selectedIconPath": "images/welfare_active.png"
-            },
-            {
-                "pagePath": "pages/shopMall/shopMall",
-                "text": "书城",
-                "iconPath": "images/books.png",
-                "selectedIconPath": "images/books_active.png"
-            },
-            {
-                "pagePath": "pages/reading/reading",
-                "text": "阅读",
-                "iconPath": "images/read.png",
-                "selectedIconPath": "images/read_active.png"
-            },
-            {
-                "pagePath": "pages/my/my",
-                "text": "我的",
-                "iconPath": "images/my.png",
-                "selectedIconPath": "images/my_active.png"
-            }
-        ]
-    },
-    "requiredBackgroundModes": [
-        "audio"
-    ],
-    "navigateToMiniProgramAppIdList": [
-        "wx9ddb22fc5fee2755",
-        "wxeb50022be9f0bc35"
+  "pages": [
+    "pages/index/index",
+    "pages/welcome/welcome",
+    "pages/shopMall/shopMall",
+    "pages/article_detail/article_detail",
+    "pages/daily_task/daily_task",
+    "pages/my/my",
+    "pages/my_collect/my_collect",
+    "pages/wheel/wheel",
+    "pages/reading/reading",
+    "pages/audio_detail/audio_detail",
+    "pages/share_detail/share_detail",
+    "pages/cut_down/cut_down",
+    "pages/orderlist/orderlist",
+    "pages/order_detail/order_detail",
+    "pages/book_list/index",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "汗牛书屋",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
+  },
+  "tabBar": {
+    "color": "#9FA0A5",
+    "selectedColor": "#3E74F5",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "书城",
+        "iconPath": "images/books.png",
+        "selectedIconPath": "images/books_active.png"
+      },
+      {
+        "pagePath": "pages/orderlist/orderlist",
+        "text": "书屋",
+        "iconPath": "images/bookshelf.png",
+        "selectedIconPath": "images/bookshelf_active.png"
+      },
+      {
+        "pagePath": "pages/reading/reading",
+        "text": "阅读",
+        "iconPath": "images/read.png",
+        "selectedIconPath": "images/read_active.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "images/my.png",
+        "selectedIconPath": "images/my_active.png"
+      }
     ]
+  },
+  "requiredBackgroundModes": [
+    "audio"
+  ],
+  "navigateToMiniProgramAppIdList": [
+    "wx9ddb22fc5fee2755",
+    "wxeb50022be9f0bc35"
+  ],
+  "sitemapLocation": "sitemap.json",
+  "serviceProviderTicket": "C4UceDnZNb5wWw+3ocpjKBxt9jP8HUXtD3/FsCLcADLviTMPlr5r5A/k31VqjYKX3xbO35ECEDFufWYIZUCoKYAbSUTU18wzN08="
 }

@@ -17,12 +17,14 @@ App({
         shopExtend: '', // 店铺延伸配置信息
         openOnShow: false,
         url: "https://mallapi.ejamad.com/",
-        beSyncSelf: 0, // 微信步数
-        totalStep: 0, // 总步数
         unionId: '', // 邀请初始化
-        isTaskTips: true,
-        isReAwardTips: true,
-        undone: false
+        undone: false,
+        isTaskTips: false,
+        isReAwardTips: false,
+        firstFreeTips: false,
+        freeSec: 0,
+        freeMin: 0,
+        postSecond: 0
     },
     /**
      * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
@@ -55,7 +57,6 @@ App({
                 showCancel: false
             })
         })
-
     },
     onShow: function(options) {
         //隐藏系统tabbar
@@ -64,8 +65,27 @@ App({
         this.aldstat.sendEvent('小程序的启动时长', {
             time: Date.now() - runTime
         })
-    },
+        let that = this
+            // 获取系统设备信息
+            // var that = this
+        wx.getSystemInfo({
+            success: function(res) {
+                that.globalData.statusBarHeight = res.statusBarHeight * 2
+                that.globalData.titleBarHeight = 46 * 2
+                that.globalData.navHeight = (res.statusBarHeight + 46) * 2;
+            },
+            failure() {
+                that.globalData.statusBarHeight = 0
+                that.globalData.titleBarHeight = 0
+                that.globalData.navHeight = 0
+            }
+        })
 
+        // var res = wx.getSystemInfoSync()
+        // console.log(res)
+        // that.globalData.statusBarHeight = res.statusBarHeight * 2
+
+    },
     // login
     login() {
         var app = this;

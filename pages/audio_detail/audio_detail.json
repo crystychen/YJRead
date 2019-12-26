@@ -9,6 +9,8 @@
         "popupMemCard": "../../components/popupMemCard/index",
         "wux-radio-group": "../../components/dist/radio-group/index",
         "wux-radio": "../../components/dist/radio/index",
-        "i-notice-bar": "../../components/dist/notice-bar/index"
+        "i-notice-bar": "../../components/dist/notice-bar/index",
+        "nav-topbar": "/components/navTopbar/index",
+        "popupFreeTime": "/components/popupFreeTime/index"
     }
 }

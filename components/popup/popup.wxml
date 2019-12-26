@@ -1,10 +1,6 @@
 <!-- components/popup/popup.wxml -->
 <view class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closeModal" hidden="{{!modalHidden}}"></view>
-<view class='modal' catchtouchmove="preventTouchMove" hidden="{{!modalHidden}}">
-  <!-- <view bindtap="hideModal" class="mid_icon close"></view> -->
-  <!-- <view class='modal-header'>
-    <image class="" src='/images/bookMark_active.png'></image>
-  </view> -->
+<view class='modal' style="top: {{navHeight+260}}rpx" catchtouchmove="preventTouchMove" hidden="{{!modalHidden}}">
   <image class="bcgImg" src="/images/popupbcg.png"></image>
   <view class='modal-content'>
     <text class='title'>{{modalTitle}}</text>

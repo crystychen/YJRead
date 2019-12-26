@@ -1,7 +1,7 @@
 <!-- pages/reading/reading.wxml -->
-<!-- <wux-backdrop id="wux-backdrop" /> -->
-<view class="container" >
-  <scroll-view id="awardId" scroll-x="true" class="nav" scroll-left="{{navScrollLeft}}" scroll-with-animation="{{true}}">
+<nav-topbar title="汗牛书屋"></nav-topbar>
+<view class="container">
+  <scroll-view id="awardId" scroll-x="true" class="nav" style="top: {{navHeight-2}}rpx" scroll-left="{{navScrollLeft}}" scroll-with-animation="{{true}}">
     <block wx:for="{{contentGroupList}}" wx:for-index="idx" wx:for-item="navItem" wx:key="idx">
       <view class="nav-item {{currentTab == idx?'active':''}}" data-current="{{idx}}" data-postgroupid="{{navItem[0]}}" bindtap="switchNav">
         {{navItem[1]}}
@@ -36,7 +36,7 @@
                   <image class='xs_icon eye-icon' src="/images/eye.png"></image>
                   <text>{{item[9]}}</text>
                 </view>
-                <view class='icon-wrap' data-id="{{item[0]}}" data-iscollected="{{item[10]}}" catchtap='{{isDeal?"preventBubble":"toggleCollect"}}'>
+                <view class='icon-wrap' data-id="{{item[0]}}" data-iscollected="{{item[10]}}" catchtap='toggleCollect'>
                   <block wx:if="{{item[10] == 0}}">
                     <image class='xs_icon' src="/images/star-icon.png"></image>
                   </block>
@@ -57,23 +57,20 @@
   </view>
   <!-- bindchange="onChangeTab" -->
   <wux-tabbar current="{{currentbottomBar}}" controlled bindchange="onChangeTab" position="bottom">
-    <!-- <navigator open-type='redirect' url="/pages/index/index"> -->
-    <wux-tabbar-item title="福利" bindclick="toTabIndex">
-      <wux-badge slot="icon-on">
-        <image class="bar-icon" src="/images/welfare.png"></image>
-      </wux-badge>
-      <wux-badge slot="icon-off">
-        <image class="bar-icon" src="/images/welfare_active.png"></image>
-      </wux-badge>
-    </wux-tabbar-item>
-    <!-- </navigator> -->
-    <!-- <navigator open-type='redirect' url="/pages/shopMall/shopMall"> -->
     <wux-tabbar-item title="书城" bindclick="toTabShopMall">
       <wux-badge slot="icon-on">
         <image class="bar-icon" src="/images/books.png"></image>
       </wux-badge>
       <wux-badge slot="icon-off">
         <image class="bar-icon" src="/images/books_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
+    <wux-tabbar-item title="书屋" bindclick="toTabBookShelf">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/bookshelf.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/bookshelf_active.png"></image>
       </wux-badge>
     </wux-tabbar-item>
     <!-- </navigator> -->

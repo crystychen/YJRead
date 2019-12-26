@@ -10,7 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    //navTab: ["全部订单", "待付款", "待发货", "待收货", "订单完成"],
+    // navTab: ["全部订单", "待付款", "待发货", "待收货", "订单完成"],
     navTab: [{
         tabName: "全部",
         state: 0,
@@ -47,42 +47,33 @@ Page({
     scrollTop: 0,
     scrollHeight: 100,
     state: 0,
-    isShow: true //没有更多数据标识
+    isShow: true, //没有更多数据标识
+    currentbottomBar: 1,
+    navHeight: app.globalData.navHeight
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var that = this;
-    var sliderWidth = 60;
+    let that = this;
+    let sliderWidth = 60;
     this.setData({
       currentNavtab: options.state || 0,
       state: options.postState || 0
     })
-    wx.getSystemInfo({
-      success: function(res) {
-        that.setData({
-          sliderLeft: (res.windowWidth / that.data.navTab.length - sliderWidth) / 2,
-          sliderOffset: res.windowWidth / that.data.navTab.length * that.data.currentNavtab,
-          scrollHeight: res.windowHeight
-        });
-
-      }
+    let sysres = wx.getSystemInfoSync()
+    that.setData({
+      sliderLeft: (sysres.windowWidth / that.data.navTab.length - sliderWidth) / 2,
+      sliderOffset: sysres.windowWidth / that.data.navTab.length * that.data.currentNavtab,
+      scrollHeight: sysres.windowHeight
     });
-    // let that = this
-    that.setData({ //由于getOrderList方法中的数据是concat多个，故先清除
+
+    that.setData({ //由于getBookList方法中的数据是concat多个，故先清除
       orderInfos: [],
       page: 1
     })
-    // wx.showLoading({ //期间为了显示效果可以添加一个过度的弹出框提示“加载中”  
-    //   title: '加载中',
-    //   icon: 'loading',
-    // });
-    app.visitorLogin(function(uinfo) {
-      //刷新数据
-      that.getOrderList();
-    });
+
   },
 
   /**
@@ -91,14 +82,81 @@ Page({
   onReady: function() {
 
   },
-
+  onUnload() {
+    app.globalData.openOnShowOrderlist = false
+  },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    app.aldstat.sendEvent('我的书架加载时间', {
+    app.aldstat.sendEvent('我的书屋加载时间', {
       time: Date.now() - runTime
     })
+    let that = this
+    app.loginGetUserInfo(function(uinfo) {
+      that.setData({
+        userInfo: uinfo,
+        authLevel: wx.getStorageSync('authLevel')
+      });
+      app.getShareData(4)
+      that.setData({
+        freeSec: app.globalData.freeSec,
+        freeMin: app.globalData.freeMin
+      })
+      if (wx.getStorageSync('authLevel') == 2) {
+        if (!app.globalData.openOnShowOrderlist) {
+          that.getBookList();
+          app.globalData.openOnShowOrderlist = true
+        }
+        // that.setData({
+        //   page: 1,
+        //   hasMoreData: true
+        // })
+        // that.getBookList();
+        that.getFreeTime().then()
+      }
+    });
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function(res) {
+    var that = this;
+    var {
+      unionId,
+      channelId
+    } = app.globalData;
+
+    const {
+      userId
+    } = wx.getStorageSync('userInfo');
+    if (res.from == "button") {
+      console.log(res)
+      let {
+        pid
+      } = res.target.dataset;
+      app.userShareRecord(0)
+      setTimeout(that.getFreeTime, 1000)
+      // let target_id = res.target.id;
+      return {
+        title: that.data.shareData[0][1],
+        path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&unionId=${unionId}&inviterUserId=${userId}`,
+        imageUrl: that.data.shareData[0][3],
+        complete: res => {
+          console.log(res)
+          if (res.errMsg == 'shareAppMessage:ok') {}
+        }
+      }
+    }
+
+    app.userShareRecord(0)
+    setTimeout(that.getFreeTime, 1000)
+
+    return {
+      title: that.data.shareData[0][1],
+      path: `${that.data.shareData[0][4] || "/pages/index/index"}?cid=${channelId}&unionId=${unionId}&inviterType=0`,
+      imageUrl: that.data.shareData[0][3],
+    }
   },
   //切换tab刷新数据
   switchTab: function(e) {
@@ -118,7 +176,7 @@ Page({
         icon: 'loading',
       });
       //刷新数据
-      that.getOrderList();
+      that.getBookList();
     }
   },
   //获取列表数据渲染
@@ -143,25 +201,6 @@ Page({
     }).then((res) => {
       console.log("订单列表:", res)
       if (res.data.status == "00") {
-        // if (res.data.infos.length) {
-        //   setTimeout(() => {
-        //     that.setData({
-        //       isShow: true,
-        //       orderInfos: that.data.orderInfos.concat(res.data.infos)
-        //     })
-        //     wx.hideLoading();
-        //   }, 500)
-        // } else {
-        //   setTimeout(() => {
-        //     if (that.data.orderInfos <= 0) {
-        //       that.setData({
-        //         isShow: false
-        //       })
-        //     }
-        //     wx.hideLoading();
-        //   }, 500)
-        // }
-        // let [...arr2] = arr
         let [...orderInfo] = res.data.infos.map((element, index, Array) => {
           let overTime = utils.judgeTime(element[14])
           element[15] = overTime;
@@ -176,6 +215,42 @@ Page({
       }
     })
   },
+  getBookList() {
+    let that = this
+    postAjax({
+      url: "interfaceAction",
+      // method: 'POST',
+      data: {
+        interId: '20111',
+        version: 1,
+        authKey: wx.getStorageSync('authKey'),
+        method: 'p-history-list',
+        params: {
+          // channelId: app.globalData.channelId,
+          // state: that.data.state,
+          page: that.data.page,
+          size: that.data.size
+        }
+      }
+    }).then((res) => {
+      // console.log("书屋列表:", res)
+      if (res.data.status == "00") {
+        let {
+          products
+        } = res.data
+        if (products.length < that.data.size) {
+          that.setData({
+            hasMoreData: false
+          })
+        }
+        that.setData({
+          orderInfos: products
+        })
+      } else {
+        utils.alert(res.data.resultMsg)
+      }
+    })
+  },
   //滚动触发
   scroll: function() {
     var that = this;
@@ -183,81 +258,20 @@ Page({
     // that.setData({ page: that.data.page + 1 })
     // that.getOrderList();
   },
-  //下滑加载更多
-  onReachBottom: function() {
+  //  onReachBottom || loadMoreData
+  onReachBottom() {
     var that = this;
-    console.log("下滑加载更多");
-    if (this.data.hasMoreData) {
-      that.data.page++
-        postAjax({
-          url: "interfaceAction",
-          // method: 'POST',
-          data: {
-            interId: '20321',
-            version: 1,
-            authKey: wx.getStorageSync('authKey'),
-            method: 'order-list',
-            params: {
-              channelId: app.globalData.channelId,
-              state: that.data.state,
-              page: that.data.page,
-              size: that.data.size
-            }
-          }
-        }).then((res) => {
-          console.log("订单列表:", res)
-          if (res.data.status == "00") {
-            if (res.data.infos.length <= that.data.size) {
-              let [...orderInfo] = res.data.infos.map((element, index, Array) => {
-                let overTime = utils.judgeTime(element[14])
-                element[15] = overTime;
-                return element;
-              })
-              setTimeout(() => {
-                that.setData({
-                  orderInfos: that.data.orderInfos.concat(orderInfo),
-                  hasMoreData: false
-                })
-                wx.hideLoading();
-              }, 500)
-            } else {
-              setTimeout(() => {
-                that.setData({
-                  hasMoreData: true,
-                  page: that.data.page
-                })
-                wx.hideLoading();
-              }, 500)
-            }
-          } else {
-            utils.alert(res.data.resultMsg)
-          }
-        })
-    } else {
-      wx.showToast({
-        title: '没有更多了',
-      })
-    }
-  },
-  bindscrolltolower() {
-    var that = this;
-    that.setData({
-
-    })
     console.log("下滑加载更多111");
     if (this.data.hasMoreData) {
       that.data.page++
         postAjax({
           url: "interfaceAction",
-          // method: 'POST',
           data: {
-            interId: '20321',
+            interId: '20111',
             version: 1,
             authKey: wx.getStorageSync('authKey'),
-            method: 'order-list',
+            method: 'p-history-list',
             params: {
-              channelId: app.globalData.channelId,
-              state: that.data.state,
               page: that.data.page,
               size: that.data.size
             }
@@ -265,12 +279,8 @@ Page({
         }).then((res) => {
           console.log("订单列表:", res)
           if (res.data.status == "00") {
-            if (res.data.infos.length <= that.data.size) {
-              let [...orderInfo] = res.data.infos.map((element, index, Array) => {
-                let overTime = utils.judgeTime(element[14])
-                element[15] = overTime;
-                return element;
-              })
+            let [...orderInfo] = res.data.products
+            if (res.data.products < that.data.size) {
               setTimeout(() => {
                 that.setData({
                   orderInfos: that.data.orderInfos.concat(orderInfo),
@@ -281,6 +291,7 @@ Page({
             } else {
               setTimeout(() => {
                 that.setData({
+                  orderInfos: that.data.orderInfos.concat(orderInfo),
                   hasMoreData: true,
                   page: that.data.page
                 })
@@ -294,6 +305,7 @@ Page({
     } else {
       wx.showToast({
         title: '没有更多了',
+        icon: "none"
       })
     }
   },
@@ -390,7 +402,7 @@ Page({
                 orderInfos: [], //数据源清空
                 page: 1
               })
-              that.getOrderList();
+              that.getBookList();
             },
             fail: function(fail) {
               console.log(fail)
@@ -491,7 +503,7 @@ Page({
                   page: 1
                 })
                 //刷新数据
-                that.getOrderList();
+                that.getBookList();
               }
             } else {
               utils.alert(res.data.resultMsg)
@@ -512,23 +524,89 @@ Page({
   },
   //进入详情订单
   detailOrder: function(e) {
-    // let orderid = e.currentTarget.dataset.orderid;
-    // wx.navigateTo({
-    //     url: '/pages/order_detail/order_detail?orderid=' + orderid
-    // })
+
     let {
       pid,
-      orderid,
       bookid
     } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/pages/audio_detail/audio_detail?orderid=${orderid}&pid=${pid}&bookid=${bookid}`
+      url: `/pages/audio_detail/audio_detail?pid=${pid}&bookid=${bookid}`
     })
   },
   toCutDown(e) {
     let orderid = e.currentTarget.dataset.orderid;
     wx.navigateTo({
       url: '/pages/cut_down/cut_down?orderid=' + orderid
+    })
+  },
+  // 底部导航
+  toTabMy() {
+    wx.switchTab({
+      url: '/pages/my/my'
+    })
+  },
+  toTabBookShelf() {
+    wx.switchTab({
+      url: '/pages/orderlist/orderlist'
+    })
+  },
+  toTabShopMall() {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
+  },
+  toTabReading() {
+    wx.switchTab({
+      url: '/pages/reading/reading'
+    })
+  },
+  onChangeTab() {
+
+  },
+  // 开通会员卡提示
+  openMenCard() {
+    this.setData({
+      isMenCard: true
+    })
+  },
+  // 展示剩余免费时长
+  showFreeTimeModal() {
+    this.setData({
+      firstfreeTimeModal: true
+    })
+  },
+  // 剩余免费听书时间
+  getFreeTime() {
+    let that = this
+    return new Promise((resolve, reject) => {
+      postAjax({
+        url: "interSyncAction",
+        method: 'POST',
+        data: {
+          interId: '20400',
+          version: 1,
+          authKey: wx.getStorageSync('authKey'),
+          method: 'book-surplus',
+          params: {
+
+          }
+        },
+      }).then((res) => {
+        if (res.data.status == "00") {
+          let s = res.data.second > 0 ? res.data.second : 0
+          let min = Number(Math.floor(s / 60)) + Number((s % 60 / 60).toFixed(2))
+          console.log(min)
+          that.setData({
+            freeSec: s,
+            freeMin: min
+          })
+          app.globalData.freeSec = s
+          app.globalData.freeMin = min
+          resolve(res.data);
+        } else {
+          reject(res.data.resultMsg)
+        }
+      })
     })
   }
 })

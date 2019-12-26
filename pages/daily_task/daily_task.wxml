@@ -1,5 +1,5 @@
 <!-- pages/daily_task/daily_task.wxml -->
-<!-- height: {{windowHeight}}px -->
+<nav-topbar title="汗牛书屋" is-show-back="{{true}}" ></nav-topbar>
 <view class='container' style=''>
   <!-- headbcg -->
   <view class="head-bcg"></view>
@@ -100,11 +100,7 @@
             去书城
           </view>
           <view class='btn active cell-btn' data-taskId="{{item[0]}}" data-award="{{item[8] || item[9]}}" wx:if="{{item[10] == 0 && item[4] >= item[3]}}" bindtap="onReceive">
-            <!-- <form class="" bindsubmit="onReceive" data-taskId="{{item[0]}}" data-award="{{item[8] || item[9]}}" report-submit="true"> -->
-            <!-- form-type="submit" -->
-            <!-- <button class='subtn' bindtap="onReceive">领取</button> -->
             领取
-            <!-- </form> -->
           </view>
           <view class='btn disabled cell-btn' wx:if="{{item[10] == 1}}">已领取</view>
         </view>
@@ -129,17 +125,6 @@
       </view>
     </view>
   </block>
-  <!-- <view class="wrap">
-    <view class="card-wrap">
-      <view class="cell-wrap">
-        <view>
-          <text class="cell-title">每日听书5分钟</text>
-          <text class="cell-num">+4书签</text>
-        </view>
-        <view class="btn blue-color cell-btn">去书城</view>
-      </view>
-    </view>
-  </view> -->
 </view>
 <!-- 好友邀請文章列表 -->
 <view class="modal-mask" bindtap="hideInviteList" catchtouchmove="preventTouchMove" wx:if="{{isInviteList}}"></view>
@@ -154,7 +139,6 @@
           </view>
           <view class='btn-wrap' data-shareurl="{{item[8]}}" data-shareArtid="{{item[0]}}" catchtap="showShareBoard">
             <view class='btn blue-color right-btn'>去邀請</view>
-            <!-- <button class="share-btn" open-type='share'></button> -->
           </view>
         </view>
       </block>

@@ -16,7 +16,7 @@
           重新阅读
         </button> -->
         <button class='btn active' bindtap="onPlayNow">立刻播放</button>
-        <button class='btn border' bindtap="toBookShelf">去书架</button>
+        <button class='btn border' bindtap="toBookShelf">去书屋</button>
       </block>
       <block wx:elif="{{modalType == 'sharePass'}}">
         <button class='btn active' open-type="share" data-sharetime="3" id="share-cut">

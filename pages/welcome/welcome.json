@@ -1,6 +1,7 @@
 {
-    "usingComponents": {
-        "wux-radio-group": "../../components/dist/radio-group/index",
-        "wux-radio": "../../components/dist/radio/index"
-    }
+  "usingComponents": {
+    "wux-radio-group": "../../components/dist/radio-group/index",
+    "wux-radio": "../../components/dist/radio/index",
+    "nav-topbar": "/components/navTopbar/index"
+  }
 }

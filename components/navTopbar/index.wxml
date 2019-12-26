@@ -1,0 +1,16 @@
+<view class="i-class" style="padding-top:{{navHeight}}rpx">
+  <view class="hh-header">
+    <view class="status-bar" style="height:{{statusBarHeight}}rpx"></view>
+    <view class="title-bar" style="height:{{titleBarHeight}}rpx">
+      <view class="navbar-action-wrap {{isShowHome==true?'navbar-action-group':''}}" hover-class="none" hover-stop-propagation="false">
+        <view wx:if="{{isShowBack==true}}" class='navbar-action_item nav-back' bindtap='navBack'>
+          <image class="icon-back" src="/images/reback-icon.png" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+        </view>
+        <view wx:if="{{isShowHome==true}}" class='navbar-action_item nav-home' bindtap='toIndex'>
+          <image class="icon-back" src="/images/index-icon.png" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload=""></image>
+        </view>
+      </view>
+      <view class="hh-title">{{title}}</view>
+    </view>
+  </view>
+</view>

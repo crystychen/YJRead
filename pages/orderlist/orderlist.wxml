@@ -1,46 +1,96 @@
-<!--pages/myself/allorder/allorder.wxml-->
+<!-- pages/myself/allorder/allorder.wxml -->
+<nav-topbar title="我的书屋"></nav-topbar>
 <view class="contanier">
-  <view class='content'>
-    <!--列表list组件-->
-    <scroll-view class="scrollview-list" scroll-y="true" style="height:{{scrollHeight}}px" bindscroll="scroll" bindscrolltolower="bindscrolltolower" scroll-top="{{scrollTop}}">
-      <view class='list'>
+  <view class='content' style="">
+    <view class="menu-wrap">
+      <view class="menu">
+        <view class='menu-item' bindtap='showFreeTimeModal'>
+          <image class="img" src='/images/freetime-icon.png'></image>
+          <view class='menu-title'>
+            今日剩余免费时长
+            <text class="time-num">{{freeMin}}</text> 分
+          </view>
+          <view class='right'>
+            <view class="cart"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 列表list组件 -->
+    <view class="scrollview-list" wx:if="{{orderInfos.length}}">
+      <view style='position: relative;'>
         <block wx:for="{{orderInfos}}" wx:key="{{index}}">
           <view class="list-item">
-          <!-- bindtap='{{item[2] == 12?"":"detailOrder"}}' -->
-            <view  data-orderId='{{item[1]}}'>
-              <view class="item-headerview">
-                <view class="headerview-wrap">
-                  <!-- <text class='ordercode'>订单号 : {{item[1]}}</text> -->
-                </view>
-                <!-- 根据订单状态展示不同信息 -->
-                <view class="status doing" wx:if='{{item[2] == 2 || item[2] == 4}}'>进行中</view>
-                <view class="status done" wx:elif='{{item[2] == 5}}'>已完成</view>
-                <view class="status done" wx:elif='{{item[2] == 13 || item[2] == 12 }}'>已完成</view>
-                <view class="status conment" wx:elif='{{item[2] == 14 && !item[15] }}'>砍价中</view>
-                <view class="status conment" wx:elif='{{item[2] == 14 && item[15] }}'>砍价结束</view>
-              </view>
+            <!-- bindtap='{{item[2] == 12?"":"detailOrder"}}' -->
+            <view data-pid='{{item[0]}}'>
               <view class="item-body">
                 <image class="img" src="{{item[5]}}" mode='scaleToFill' />
                 <view class="goodsinfo">
-                  <text class="goodsname">{{item[4]}}</text>
+                  <text class="goodsname">{{item[1]}}</text>
                   <view class='row'>
-                    <image class="sm_icon" src='/images/bookMark_active.png'></image>
-                    <!-- <text class="orderPrice" wx:if="{{item[7]}}"><text class="pricenum" >{{item[7]}}</text>位好友</text>
-                    <text class="orderPrice" wx:if="{{item[6]}}"><text class="pricenum" >{{item[6]}}</text>元</text> -->
-                    <text class="orderPrice">书签所需<text class="pricenum">{{item[10] || 0}}</text>张</text>
+                    <view class="author">{{item[15]}}</view>
                   </view>
-                  <view class='view-detail' wx:if="{{item[2] == 12}}">
-                    <navigator open-type='navigate' path='{{item[11]}}' app-id='{{item[12]}}'  target="miniProgram" hover-class="none" class='' style="color: #cf9f73" >前往领取></navigator>
+                  <view class='view-detail' data-pid="{{item[0]}}" data-bookid="{{item[14]}}" catchtap='detailOrder'>
+                    继续听书>
                   </view>
-                  <view wx:elif="{{item[2] == 14}}" class='view-detail' data-orderId='{{item[1]}}' catchtap='toCutDown'>查看砍价进度></view>
-                  <view wx:else class='view-detail' data-orderid='{{item[1]}}' data-pid="{{item[8]}}" data-bookid="{{item[13]}}" catchtap='detailOrder'>查看详情></view>
                 </view>
               </view>
             </view>
           </view>
         </block>
       </view>
-      <view class="nomore-tips" hidden='{{orderInfos.length}}'>暂无订单</view>
-    </scroll-view>
+      <wux-divider wx:if='{{ !hasMoreData }}'>
+        <view class="loadmore">
+          <!-- <view class="loading"></view> -->
+          <text class="text">已加载全部</text>
+        </view>
+      </wux-divider>
+      <!-- </view> -->
+    </view>
+    <view class="empty-content" style="height:{{scrollHeight-navHeight}}rpx" wx:if='{{!orderInfos.length}}'>
+      <view class="nomore-tips">您的书屋是空的</view>
+      <view class="btn active" bindtap="toTabShopMall">去听书</view>
+    </view>
   </view>
+  <!-- <view style='height: 100rpx;width: 100%'></view> -->
+  <wux-tabbar current="{{currentbottomBar}}" controlled bindchange="onChangeTab" position="bottom">
+    <wux-tabbar-item title="书城" bindclick="toTabShopMall">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/books.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/books_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
+    <wux-tabbar-item title="书屋" bindclick="toTabBookShelf">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/bookshelf.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/bookshelf_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
+    <wux-tabbar-item title="阅读" bindclick="toTabReading">
+      <wux-badge slot="icon-on">
+        <image class="bar-icon" src="/images/read.png"></image>
+      </wux-badge>
+      <wux-badge slot="icon-off">
+        <image class="bar-icon" src="/images/read_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
+    <!-- <navigator open-type='redirect' url="/pages/my/my"> -->
+    <wux-tabbar-item title="我的" bindclick="toTabMy">
+      <wux-badge dot="{{isToReceive || !undone}}" slot="icon-on">
+        <image class="bar-icon" src="/images/my.png"></image>
+      </wux-badge>
+      <wux-badge dot="{{isToReceive || !undone}}" slot="icon-off">
+        <image class="bar-icon" src="/images/my_active.png"></image>
+      </wux-badge>
+    </wux-tabbar-item>
+    <!-- </navigator> -->
+  </wux-tabbar>
 </view>
+<!-- 免费时长剩余提醒 -->
+<popupFreeTime modal-hidden="{{firstfreeTimeModal}}" time="{{freeMin}}" modal-title="今日剩余免费时长" bindopenMenCard="openMenCard"></popupFreeTime>
+<!-- 领取会员卡 -->
+<popupMemCard modal-hidden="{{isMenCard}}"></popupMemCard>

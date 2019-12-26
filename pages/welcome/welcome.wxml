@@ -1,54 +1,28 @@
 <!-- pages/welcome/welcome.wxml -->
+<nav-topbar title="汗牛书屋"></nav-topbar>
 <view class="container">
-  <view class="title">
+  <view class="welcome">
     欢迎来到
     <view class="name">汗牛书屋</view>
   </view>
-  <text class="tip">您已获得免费听书特权, 请选择您感兴趣的内容</text>
+  <text class="welcome-tip">精彩只需一点，知识从此有声</text>
   <!-- 选项列表 -->
-  <view class="checkbox-group">
-    <checkbox-group bindchange="checkboxChange">
-      <!-- <label class="checkbox" wx:for="{{items}}">
-        <checkbox value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
-    </label> -->
-      <label class="checkbox" wx:for="{{checkItems}}" wx:key="index">
-        <checkbox class="checkbox_input {{item.checked?'checked':''}}" value="{{item.value}}" checked="{{item.checked}}" />
-        {{item.text}}
+  <view class="checkbox-group-wrap">
+    <checkbox-group class="checkbox-group" bindchange="checkboxChange">
+      <!-- <scroll-view scroll-y="true" style="overflow: hidden" style="height: 600rpx;" scroll-with-animation="true"> -->
+      <label class="checkbox" wx:for="{{bookTypes}}" wx:key="index">
+        <checkbox class="checkbox_input" value="{{item[0]}}" checked="{{item.checked}}" />
+        {{item[1]}}
       </label>
+      <!-- </scroll-view> -->
     </checkbox-group>
   </view>
   <view class="btn-contaier">
-    <view class="btn large-btn active" bindtap="onConfirm">确定</view>
-  </view>
-</view>
-<!-- mdoal -->
-<view class="modal-mask" catchtouchmove="preventTouchMove" bindtap="closeModal" hidden="{{!recmenPopup}}"></view>
-<view class='modal' catchtouchmove="preventTouchMove" hidden="{{!recmenPopup}}">
-  <view bindtap="closeModal" class="mid_icon close"></view>
-  <view class='modal-header'>
-    <text class='header-name'>Hi, {{userInfo.nickName}}</text>
-    <image class="img" src=''></image>
-  </view>
-  <!-- <image class="bcgImg" src="/images/popupbcg.png"></image> -->
-  <view class='modal-content'>
-    <scroll-view scroll-y="true" style="height: 800rpx;" scroll-with-animation="true" bindscrolltolower="loadMoreData" scroll-into-view="{{toView}}">
-      <block wx:for="{{products}}" wx:key="index">
-        <view class="vertical-item" data-goodsid="{{item.id}}" data-item="{{item}}" data-welftype="{{item.welfareProductType}}" data-id="{{item.id}}" catchtap=''>
-          <!-- 没授权 -->
-          <!-- <button class="auth-btn" wx:if='{{authLevel != 2}}' open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button> -->
-          <image class="img" src='https://soure.chudianad.com/static/welfare/product/thumbImg/201812071702154410.jpg'></image>
-          <view class='info'>
-            <view class="row">
-              <view class='title'>简爱</view>
-              <view class="item-btn" data-id="2753" bindtap="freeListen">收听</view>
-            </view>
-            <view class='infos-desc' style="">后宫争斗,没有胜利者 后宫争斗,没有胜利者 后宫争斗,没有胜利者 没有胜利者</view>
-          </view>
-        </view>
-      </block>
-    </scroll-view>
-  </view>
-  <view class='btn-container'>
-    <button class='btn active' >限时免费收听</button>
+    <view class="tip">请选择以上您最感兴趣的类目</view>
+    <button class="openbtn" wx:if='{{authLevel != 2}}'  open-type="getUserInfo" bindgetuserinfo="onGotUserInfo"></button>
+    <view class="large-btn" bindtap="onConfirm">
+      <i class="iconfont icon-play"></i>
+      开始听书
+    </view>
   </view>
 </view>
